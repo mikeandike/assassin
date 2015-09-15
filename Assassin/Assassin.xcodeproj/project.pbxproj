@@ -19,6 +19,7 @@
 		8C2D090D1BA72FAF00155E77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C2D090B1BA72FAF00155E77 /* LaunchScreen.storyboard */; };
 		8C2D09181BA72FAF00155E77 /* AssassinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D09171BA72FAF00155E77 /* AssassinTests.swift */; };
 		8C2D09231BA72FAF00155E77 /* AssassinUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D09221BA72FAF00155E77 /* AssassinUITests.swift */; };
+		8C5324771BA8B477001F4486 /* FirebaseNetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5324761BA8B477001F4486 /* FirebaseNetworkController.swift */; settings = {ASSET_TAGS = (); }; };
 		C25D826A85762A5AEF9D8DBE /* libPods-Assassin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A6D7C956A135243BE7CCB1 /* libPods-Assassin.a */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		8C2D091E1BA72FAF00155E77 /* AssassinUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AssassinUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C2D09221BA72FAF00155E77 /* AssassinUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssassinUITests.swift; sourceTree = "<group>"; };
 		8C2D09241BA72FAF00155E77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8C5324761BA8B477001F4486 /* FirebaseNetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseNetworkController.swift; sourceTree = "<group>"; };
 		9FC6555B544C2CADE5999B6D /* Pods-Assassin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assassin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Assassin/Pods-Assassin.release.xcconfig"; sourceTree = "<group>"; };
 		A9A6D7C956A135243BE7CCB1 /* libPods-Assassin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Assassin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -132,12 +134,8 @@
 			isa = PBXGroup;
 			children = (
 				8C2D09021BA72FAF00155E77 /* AppDelegate.swift */,
-				2C3E7EFE1BA7733300EEC113 /* LoginViewController.swift */,
-				2C3E7EFF1BA7733300EEC113 /* MapViewController.swift */,
-				2C3E7F011BA7733300EEC113 /* RegisterUserViewController.swift */,
-				2C3E7F021BA7733300EEC113 /* SettingsViewController.swift */,
-				2C3E7F0A1BA7790600EEC113 /* PersonNearbyDetailViewController.swift */,
-				2C3E7F001BA7733300EEC113 /* PersonNearbyTableViewCell.swift */,
+				8C53247C1BA8CAE2001F4486 /* View Controllers */,
+				8C53247D1BA8CAEF001F4486 /* Controllers */,
 				8C2D09061BA72FAF00155E77 /* Main.storyboard */,
 				8C2D09091BA72FAF00155E77 /* Assets.xcassets */,
 				8C2D090B1BA72FAF00155E77 /* LaunchScreen.storyboard */,
@@ -162,6 +160,59 @@
 				8C2D09241BA72FAF00155E77 /* Info.plist */,
 			);
 			path = AssassinUITests;
+			sourceTree = "<group>";
+		};
+		8C5324781BA8CA5E001F4486 /* Login/Registration View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2C3E7EFE1BA7733300EEC113 /* LoginViewController.swift */,
+				2C3E7F011BA7733300EEC113 /* RegisterUserViewController.swift */,
+			);
+			name = "Login/Registration View Controllers";
+			sourceTree = "<group>";
+		};
+		8C5324791BA8CA91001F4486 /* People Nearby Table View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2C3E7EFF1BA7733300EEC113 /* MapViewController.swift */,
+				2C3E7F001BA7733300EEC113 /* PersonNearbyTableViewCell.swift */,
+			);
+			name = "People Nearby Table View Controller";
+			sourceTree = "<group>";
+		};
+		8C53247A1BA8CAB9001F4486 /* User Detail View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2C3E7F0A1BA7790600EEC113 /* PersonNearbyDetailViewController.swift */,
+			);
+			name = "User Detail View Controller";
+			sourceTree = "<group>";
+		};
+		8C53247B1BA8CACA001F4486 /* Settings View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2C3E7F021BA7733300EEC113 /* SettingsViewController.swift */,
+			);
+			name = "Settings View Controller";
+			sourceTree = "<group>";
+		};
+		8C53247C1BA8CAE2001F4486 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8C5324781BA8CA5E001F4486 /* Login/Registration View Controllers */,
+				8C5324791BA8CA91001F4486 /* People Nearby Table View Controller */,
+				8C53247A1BA8CAB9001F4486 /* User Detail View Controller */,
+				8C53247B1BA8CACA001F4486 /* Settings View Controller */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		8C53247D1BA8CAEF001F4486 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8C5324761BA8B477001F4486 /* FirebaseNetworkController.swift */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,6 +383,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C3E7F061BA7733300EEC113 /* PersonNearbyTableViewCell.swift in Sources */,
+				8C5324771BA8B477001F4486 /* FirebaseNetworkController.swift in Sources */,
 				2C3E7F041BA7733300EEC113 /* LoginViewController.swift in Sources */,
 				2C3E7F081BA7733300EEC113 /* SettingsViewController.swift in Sources */,
 				8C2D09031BA72FAF00155E77 /* AppDelegate.swift in Sources */,
