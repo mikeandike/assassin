@@ -21,7 +21,7 @@
 		8C2D09181BA72FAF00155E77 /* AssassinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D09171BA72FAF00155E77 /* AssassinTests.swift */; };
 		8C2D09231BA72FAF00155E77 /* AssassinUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D09221BA72FAF00155E77 /* AssassinUITests.swift */; };
 		8C5324771BA8B477001F4486 /* FirebaseNetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5324761BA8B477001F4486 /* FirebaseNetworkController.swift */; settings = {ASSET_TAGS = (); }; };
-		8C5324831BA8D174001F4486 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5324821BA8D174001F4486 /* User.swift */; settings = {ASSET_TAGS = (); }; };
+		8C5324831BA8D174001F4486 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5324821BA8D174001F4486 /* Person.swift */; settings = {ASSET_TAGS = (); }; };
 		C25D826A85762A5AEF9D8DBE /* libPods-Assassin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A6D7C956A135243BE7CCB1 /* libPods-Assassin.a */; };
 /* End PBXBuildFile section */
 
@@ -64,7 +64,7 @@
 		8C2D09221BA72FAF00155E77 /* AssassinUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssassinUITests.swift; sourceTree = "<group>"; };
 		8C2D09241BA72FAF00155E77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C5324761BA8B477001F4486 /* FirebaseNetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseNetworkController.swift; sourceTree = "<group>"; };
-		8C5324821BA8D174001F4486 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		8C5324821BA8D174001F4486 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		9FC6555B544C2CADE5999B6D /* Pods-Assassin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assassin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Assassin/Pods-Assassin.release.xcconfig"; sourceTree = "<group>"; };
 		A9A6D7C956A135243BE7CCB1 /* libPods-Assassin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Assassin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -138,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				8C2D09021BA72FAF00155E77 /* AppDelegate.swift */,
+				8C5324811BA8D163001F4486 /* Model Objects */,
 				8C53247C1BA8CAE2001F4486 /* View Controllers */,
 				8C53247D1BA8CAEF001F4486 /* Controllers */,
 				8C2D09061BA72FAF00155E77 /* Main.storyboard */,
@@ -215,7 +216,6 @@
 			isa = PBXGroup;
 			children = (
 				0FE634201BAA016E008289C5 /* LocationController.swift */,
-				8C5324811BA8D163001F4486 /* Model Objects */,
 				8C5324761BA8B477001F4486 /* FirebaseNetworkController.swift */,
 			);
 			name = Controllers;
@@ -224,7 +224,7 @@
 		8C5324811BA8D163001F4486 /* Model Objects */ = {
 			isa = PBXGroup;
 			children = (
-				8C5324821BA8D174001F4486 /* User.swift */,
+				8C5324821BA8D174001F4486 /* Person.swift */,
 			);
 			name = "Model Objects";
 			sourceTree = "<group>";
@@ -401,7 +401,7 @@
 				2C3E7F041BA7733300EEC113 /* LoginViewController.swift in Sources */,
 				2C3E7F081BA7733300EEC113 /* SettingsViewController.swift in Sources */,
 				8C2D09031BA72FAF00155E77 /* AppDelegate.swift in Sources */,
-				8C5324831BA8D174001F4486 /* User.swift in Sources */,
+				8C5324831BA8D174001F4486 /* Person.swift in Sources */,
 				2C3E7F071BA7733300EEC113 /* RegisterUserViewController.swift in Sources */,
 				2C3E7F051BA7733300EEC113 /* MapViewController.swift in Sources */,
 				0FE634211BAA016E008289C5 /* LocationController.swift in Sources */,

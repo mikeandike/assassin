@@ -39,7 +39,7 @@ class LoginViewController: UIViewController {
     
     func loginUser(username : String, password: String) -> Void {
         
-        let ref = Firebase(url: FirebaseNetworkController.getBaseUrl() as String)
+        let ref = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl() as String)
         
         ref.authUser(username as String, password: password as String) {
             error, authData in

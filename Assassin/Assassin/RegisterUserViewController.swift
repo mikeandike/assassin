@@ -11,6 +11,10 @@ import Firebase
 
 class RegisterUserViewController: UIViewController {
     
+    
+    @IBOutlet weak var firstNameTextField: UITextField!
+    
+    @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmPasswordTextField: UITextField!
@@ -37,9 +41,10 @@ class RegisterUserViewController: UIViewController {
         
             warningLabel.text = ""
             
-            if let emailString = emailTextField.text, passwordString = passwordTextField.text {
+            if let emailString = emailTextField.text, passwordString = passwordTextField.text, firstNameString = firstNameTextField.text, lastNameString = lastNameTextField.text {
                 
-               registerUserWithEmailAndPassword(emailString, passwordString: passwordString)
+               registerUserWithEmailAndPassword(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString)
+                
                 
             } else {
                 
@@ -49,9 +54,11 @@ class RegisterUserViewController: UIViewController {
         }
     }
     
-    func registerUserWithEmailAndPassword(emailString: NSString, passwordString: NSString) -> Void {
+    func registerUserWithEmailAndPassword(emailString: String, passwordString: String, firstNameString: String, lastNameString: String) -> Void {
         
-        let ref = Firebase(url: FirebaseNetworkController.getBaseUrl() as String)
+        let ref = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl() as String)
+        
+        FirebaseNetworkController.sharedInstance.createPersonWithEmail(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString)
         
         ref.createUser(emailString as String, password: passwordString as String, withValueCompletionBlock: { error, result in
             
