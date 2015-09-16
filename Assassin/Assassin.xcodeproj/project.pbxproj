@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FDE24A61BA8B549005CEDFD /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FDE24A51BA8B549005CEDFD /* LocationController.swift */; settings = {ASSET_TAGS = (); }; };
+		0FDE24A81BA8B563005CEDFD /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FDE24A71BA8B563005CEDFD /* CoreLocation.framework */; };
 		2C3E7F041BA7733300EEC113 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7EFE1BA7733300EEC113 /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		2C3E7F051BA7733300EEC113 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7EFF1BA7733300EEC113 /* MapViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		2C3E7F061BA7733300EEC113 /* PersonNearbyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7F001BA7733300EEC113 /* PersonNearbyTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0FDE24A51BA8B549005CEDFD /* LocationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
+		0FDE24A71BA8B563005CEDFD /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		2C3E7EFE1BA7733300EEC113 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2C3E7EFF1BA7733300EEC113 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		2C3E7F001BA7733300EEC113 /* PersonNearbyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonNearbyTableViewCell.swift; sourceTree = "<group>"; };
@@ -68,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FDE24A81BA8B563005CEDFD /* CoreLocation.framework in Frameworks */,
 				C25D826A85762A5AEF9D8DBE /* libPods-Assassin.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,6 +106,7 @@
 		8BCD5D766A5D75F4FF00CB63 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0FDE24A71BA8B563005CEDFD /* CoreLocation.framework */,
 				A9A6D7C956A135243BE7CCB1 /* libPods-Assassin.a */,
 			);
 			name = Frameworks;
@@ -138,6 +144,7 @@
 				2C3E7F021BA7733300EEC113 /* SettingsViewController.swift */,
 				2C3E7F0A1BA7790600EEC113 /* PersonNearbyDetailViewController.swift */,
 				2C3E7F001BA7733300EEC113 /* PersonNearbyTableViewCell.swift */,
+				0FDE24A51BA8B549005CEDFD /* LocationController.swift */,
 				8C2D09061BA72FAF00155E77 /* Main.storyboard */,
 				8C2D09091BA72FAF00155E77 /* Assets.xcassets */,
 				8C2D090B1BA72FAF00155E77 /* LaunchScreen.storyboard */,
@@ -234,7 +241,7 @@
 				TargetAttributes = {
 					8C2D08FE1BA72FAE00155E77 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = Y7NU24T95U;
+						DevelopmentTeam = CX48SSGG62;
 					};
 					8C2D09121BA72FAF00155E77 = {
 						CreatedOnToolsVersion = 7.0;
@@ -331,6 +338,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FDE24A61BA8B549005CEDFD /* LocationController.swift in Sources */,
 				2C3E7F061BA7733300EEC113 /* PersonNearbyTableViewCell.swift in Sources */,
 				2C3E7F041BA7733300EEC113 /* LoginViewController.swift in Sources */,
 				2C3E7F081BA7733300EEC113 /* SettingsViewController.swift in Sources */,

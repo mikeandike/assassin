@@ -9,11 +9,17 @@
 import UIKit
 
 class LoginViewController: UIViewController {
+    
+    // *** test location controller ***
+    var locationController = LocationController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        // *** test location controller ***
+        locationController.getLocation()
     }
 
     override func didReceiveMemoryWarning() {
