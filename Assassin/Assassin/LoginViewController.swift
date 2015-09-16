@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class LoginViewController: UIViewController {
-
+    
     @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
@@ -19,6 +19,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
     }
 
     

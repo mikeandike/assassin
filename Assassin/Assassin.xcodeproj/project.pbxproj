@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FE634211BAA016E008289C5 /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE634201BAA016E008289C5 /* LocationController.swift */; settings = {ASSET_TAGS = (); }; };
 		2C3E7F041BA7733300EEC113 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7EFE1BA7733300EEC113 /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		2C3E7F051BA7733300EEC113 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7EFF1BA7733300EEC113 /* MapViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		2C3E7F061BA7733300EEC113 /* PersonNearbyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7F001BA7733300EEC113 /* PersonNearbyTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0FE634201BAA016E008289C5 /* LocationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
 		2C3E7EFE1BA7733300EEC113 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2C3E7EFF1BA7733300EEC113 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		2C3E7F001BA7733300EEC113 /* PersonNearbyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonNearbyTableViewCell.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 		8C53247D1BA8CAEF001F4486 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0FE634201BAA016E008289C5 /* LocationController.swift */,
 				8C5324811BA8D163001F4486 /* Model Objects */,
 				8C5324761BA8B477001F4486 /* FirebaseNetworkController.swift */,
 			);
@@ -401,6 +404,7 @@
 				8C5324831BA8D174001F4486 /* User.swift in Sources */,
 				2C3E7F071BA7733300EEC113 /* RegisterUserViewController.swift in Sources */,
 				2C3E7F051BA7733300EEC113 /* MapViewController.swift in Sources */,
+				0FE634211BAA016E008289C5 /* LocationController.swift in Sources */,
 				2C3E7F0B1BA7790600EEC113 /* PersonNearbyDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

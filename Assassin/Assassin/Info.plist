@@ -26,9 +26,12 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>your location is needed to let you see others at your location</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
+        <string>location-services</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
