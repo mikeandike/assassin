@@ -11,9 +11,6 @@ import Firebase
 
 class LoginViewController: UIViewController {
     
-    // *** test location controller ***
-    var locationController = LocationController()
-
     @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
@@ -23,8 +20,6 @@ class LoginViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        // *** test location controller ***
-        locationController.getLocation()
     }
 
     
