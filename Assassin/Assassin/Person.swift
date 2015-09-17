@@ -19,7 +19,9 @@ class Person: NSObject {
     
     var phoneNumber: String?
     
+    //should set this so that time at last location is set with lastLocation.timestamp when last location is assigned to user
     var lastLocation : CLLocation?
+    var timeAtLastLocation: NSDate?
     
     var jobTitle: String?
     var company: String?
@@ -81,6 +83,12 @@ class Person: NSObject {
             self.getCLLocationFromDictionary(locationDictionary as! [String : AnyObject])
             
         }
+        
+        
+        if let imageString = dictionary["imageString"] {
+            
+            self.convertStringToImage(imageString as! String)
+        }
      
         
     }
@@ -106,13 +114,35 @@ class Person: NSObject {
             }
             
             location = CLLocation.init(latitude: latitude, longitude: longitude)
-        
-    
+      
        //we need to get timestap back onto last location
+        
+        if let secondsSince1970 = locationDictionary["timestamp"] as? NSTimeInterval {
+            
+            let timestamp = NSDate.init(timeIntervalSince1970: secondsSince1970)
+            
+            self.timeAtLastLocation = timestamp
+            
+        }
+        
         
         self.lastLocation = location
         
         }
+    
+    
+    func convertStringToImage(imageString: String) {
+  
+        let imageData = NSData(base64EncodedString: imageString, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+        
+        if let imageData = imageData {
+            
+            image = UIImage(data: imageData)
+
+       }
+        
+        
+    }
     
     
 
