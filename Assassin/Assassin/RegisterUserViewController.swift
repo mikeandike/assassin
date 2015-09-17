@@ -53,14 +53,13 @@ class RegisterUserViewController: UIViewController {
             }
         }
     }
+
     
     func registerUserWithEmailAndPassword(emailString: String, passwordString: String, firstNameString: String, lastNameString: String) -> Void {
         
-        let ref = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl() as String)
+        let usersRef = FirebaseNetworkController.sharedInstance.getUsersRef()
         
-        FirebaseNetworkController.sharedInstance.createPersonWithEmail(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString)
-        
-        ref.createUser(emailString as String, password: passwordString as String, withValueCompletionBlock: { error, result in
+        usersRef.createUser(emailString as String, password: passwordString as String, withValueCompletionBlock: { error, result in
             
             if error != nil {
                 
@@ -70,8 +69,14 @@ class RegisterUserViewController: UIViewController {
                 
                 let uid = result["uid"] as? String
                 print("Created user account with uid: \(uid)")
+                
+                if let uid = uid {
+                
+                FirebaseNetworkController.sharedInstance.createPerson(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString, uid: uid)
+             
                 self.transitionToNextView()
                 
+                }
             }
         })
         

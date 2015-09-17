@@ -20,6 +20,11 @@ class LoginViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        //go ahead and start getting location
+        let locationController = LocationController()
+        locationController.getLocation()
+        
+        
     }
 
     
@@ -39,21 +44,10 @@ class LoginViewController: UIViewController {
     
     func loginUser(username : String, password: String) -> Void {
         
-        let ref = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl() as String)
+        FirebaseNetworkController.sharedInstance.authenticateUserWithEmailAndPassword(username, password: password)
         
-        ref.authUser(username as String, password: password as String) {
-            error, authData in
-            if error != nil {
+        transitionToNextView()
                 
-                self.warningLabel.text = "Error: \(error.localizedDescription)"
-                
-            } else {
-                // user is logged in, check authData for data
-                self.transitionToNextView()
-                
-            }
-        }
-        
     }
     
     func transitionToNextView() -> Void {

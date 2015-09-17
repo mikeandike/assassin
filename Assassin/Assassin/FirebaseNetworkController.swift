@@ -12,50 +12,121 @@ import CoreLocation
 
 class FirebaseNetworkController: NSObject {
     
+    var peopleNearby : [Person]?
+    var currentPerson: Person?
+    
     static let sharedInstance = FirebaseNetworkController()
     
+    //MARK: Methods to get references to firebase server locations
     
-    func getBaseUrl() -> NSString {
+    func getBaseUrl() -> String {
         
-        let baseURL = "https://assassindevmtn.firebaseio.com"
+        let baseURL : String = "https://assassindevmtn.firebaseio.com"
         
         return baseURL
     }
     
-    
-    
-    func createPersonWithEmail(emailString : String, passwordString: String, firstNameString: String, lastNameString: String){
+    func getUsersRef() -> Firebase {
         
-        let person = Person.init(firstName: firstNameString, lastName: lastNameString, email: emailString, password: passwordString)
+        let baseString = getBaseUrl() as String
         
-        savePersonIntoDictionary(person)
+        let usersRefString = baseString + "/users"
+        
+        let usersRef = Firebase(url: usersRefString)
+        
+        return usersRef
         
     }
     
+    //MARK: method to create new user
     
-    //MARK: convert and save person into dictionary
+    func createPerson(emailString : String, passwordString: String, firstNameString: String, lastNameString: String, uid: String){
+        
+        let person = Person.init(firstName: firstNameString, lastName: lastNameString, email: emailString, password: passwordString, uid: uid)
+        
+        let personDictionary = convertPersonIntoDictionary(person)
+        
+        createPersonDictionaryOnFireBase(personDictionary)
+        
+    }
     
-    func savePersonIntoDictionary(person :Person) -> Void {
+    //MARK: method to authenticate user
+    
+    func authenticateUserWithEmailAndPassword(email : String, password: String){
+        
+        let usersRef = getUsersRef()
+        
+        usersRef.authUser(email, password: password) { (error, authData) -> Void in
+            
+            if (error != nil) {
+               
+                print(error.localizedDescription)
+                
+            } else {
+                
+                let userRef = usersRef.childByAppendingPath(authData.uid)
+                
+                userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
+                    
+                    if let personDictionary = snapshot.value {
+                        
+                        self.currentPerson = Person.init(dictionary: personDictionary as! [String : AnyObject])
+                        
+                        print(self.currentPerson)
+                    }
+                    
+                })
+            
+                
+            }
+            
+        }
+
+        
+        
+    }
+    
+    //MARK: create person Dictionary in Firebase
+    
+    func createPersonDictionaryOnFireBase(dictionary : [String : AnyObject]) {
+        
+        let usersRef = getUsersRef()
+        
+        let uidString = dictionary["uid"] as! String
+        
+        let newUserRef = usersRef.childByAppendingPath(uidString)
+        
+        newUserRef.setValue(dictionary)
+    }
+    
+    //MARK: convert and update person into dictionary
+    
+    func savePersonIntoDictionary(person : Person) -> Void {
         
          let personDictionary = convertPersonIntoDictionary(person)
         
-         savePersonDictionaryToFirebase(personDictionary)
+         updatePersonDictionaryInFirebase(personDictionary)
         
     }
     
-    //MARK: save person into dictionary
     
-    func savePersonDictionaryToFirebase(dictionary : [String : AnyObject]) -> Void {
+    //MARK: update person Dictionary in Firebase
+    
+    func updatePersonDictionaryInFirebase(dictionary : [String : AnyObject]) -> Void {
         
-        let myRootRef = Firebase(url: getBaseUrl() as String)
+        let usersRef = getUsersRef()
         
-        myRootRef.setValue(dictionary)
+        let uidString = dictionary["uid"] as! String
+        
+        let userRef = usersRef.childByAppendingPath(uidString)
+        
+        userRef.updateChildValues(dictionary)
         
     }
     
    
     
-    //MARK: primary method to convert person object into dictionary
+    //MARK: convert person object into dictionary
     
     func convertPersonIntoDictionary(person: Person) -> [String : AnyObject] {
         
@@ -86,6 +157,7 @@ class FirebaseNetworkController: NSObject {
         
         var dictionary = Dictionary<String, AnyObject>()
         
+        dictionary["uid"] = person.uid
         dictionary["firstName"] = person.firstName
         dictionary["lastName"] = person.lastName
         dictionary["email"] = person.email
@@ -133,7 +205,7 @@ class FirebaseNetworkController: NSObject {
         
     }
     
-    
-    
+  
+   
 
 }

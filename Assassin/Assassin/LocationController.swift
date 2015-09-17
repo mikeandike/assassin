@@ -39,6 +39,18 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         myLocation = locations[locations.count - 1]
         
         print("locations are: \(locations)")
+        
+        //if a person has successfully logged in and a person object has been created for them, set their location
+        
+        if let currentPerson = FirebaseNetworkController.sharedInstance.currentPerson {
+            
+            currentPerson.lastLocation = myLocation
+            
+        } else {
+            
+            //need to put a method here to set 
+            print("User is not currently authenticated")
+        }
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {

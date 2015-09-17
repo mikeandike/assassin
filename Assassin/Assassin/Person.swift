@@ -15,6 +15,7 @@ class Person: NSObject {
     var lastName: String
     var email: String
     
+    var uid: String
     var password: String
     
     var phoneNumber: String?
@@ -31,12 +32,13 @@ class Person: NSObject {
     
     var starredUsers: [Person]?
     
-    init(firstName: String, lastName: String, email: String, password: String) {
+    init(firstName: String, lastName: String, email: String, password: String, uid: String) {
         
         self.firstName = firstName
         self.lastName = lastName
         self.email = email
         self.password = password
+        self.uid = uid
         
     }
     
@@ -49,6 +51,8 @@ class Person: NSObject {
         self.email = dictionary["email"] as! String
         
         self.password = dictionary["password"] as! String
+        
+        self.uid = dictionary["uid"] as! String
         
         if let phoneNumber = dictionary["phoneNumber"] {
             
