@@ -14,6 +14,7 @@ class FirebaseNetworkController: NSObject {
     
     var peopleNearby : [Person]?
     var currentPerson: Person?
+    var temporaryLastLocation: CLLocation?
     
     static let sharedInstance = FirebaseNetworkController()
     
@@ -44,6 +45,16 @@ class FirebaseNetworkController: NSObject {
         
         let person = Person.init(firstName: firstNameString, lastName: lastNameString, email: emailString, password: passwordString, uid: uid)
         
+        if let lastLocation = self.temporaryLastLocation {
+            
+            person.lastLocation = lastLocation
+            
+        } else {
+            
+            print("location has not yet been set")
+            
+        }
+        
         let personDictionary = convertPersonIntoDictionary(person)
         
         createPersonDictionaryOnFireBase(personDictionary)
@@ -71,6 +82,17 @@ class FirebaseNetworkController: NSObject {
                     if let personDictionary = snapshot.value {
                         
                         self.currentPerson = Person.init(dictionary: personDictionary as! [String : AnyObject])
+                        
+                        if let lastLocation = self.temporaryLastLocation {
+                            
+                            // NEEDS FIX: not sure I should be force unwrapping here but I just created current person so this should be good to go
+                            self.currentPerson!.lastLocation = lastLocation
+                            
+                        } else {
+                            
+                            print("location has not yet been set")
+                            
+                        }
                         
                         print(self.currentPerson)
                     }

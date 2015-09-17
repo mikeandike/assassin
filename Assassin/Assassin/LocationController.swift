@@ -48,7 +48,10 @@ class LocationController: NSObject, CLLocationManagerDelegate {
             
         } else {
             
-            //need to put a method here to set 
+            //need to put a method here to temporarily hold location if 
+            
+            FirebaseNetworkController.sharedInstance.temporaryLastLocation = myLocation
+            
             print("User is not currently authenticated")
         }
     }
