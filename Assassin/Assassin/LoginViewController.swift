@@ -21,9 +21,8 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         //go ahead and start getting location
-        let locationController = LocationController()
-        locationController.getLocation()
         
+        getLocation()
         
     }
 
@@ -56,7 +55,16 @@ class LoginViewController: UIViewController {
         
     }
     
-  
+    //MARK: get location methods
+    
+    func getLocation() {
+       
+        let locationController = LocationController()
+        locationController.getLocation()
+        
+    }
+    
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

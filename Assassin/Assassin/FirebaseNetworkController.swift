@@ -14,7 +14,6 @@ class FirebaseNetworkController: NSObject {
     
     var peopleNearby : [Person]?
     var currentPerson: Person?
-    var temporaryLastLocation: CLLocation?
     
     static let sharedInstance = FirebaseNetworkController()
     
@@ -39,25 +38,25 @@ class FirebaseNetworkController: NSObject {
         
     }
     
+    
+    
+    
     //MARK: method to create new user
     
     func createPerson(emailString : String, passwordString: String, firstNameString: String, lastNameString: String, uid: String){
         
         let person = Person.init(firstName: firstNameString, lastName: lastNameString, email: emailString, password: passwordString, uid: uid)
         
-        if let lastLocation = self.temporaryLastLocation {
-            
-            person.lastLocation = lastLocation
-            
-        } else {
-            
-            print("location has not yet been set")
-            
-        }
+        self.currentPerson = person
         
         let personDictionary = convertPersonIntoDictionary(person)
         
         createPersonDictionaryOnFireBase(personDictionary)
+        
+        let userExistsNotification = NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
+        
+        
+        
         
     }
     
@@ -83,18 +82,8 @@ class FirebaseNetworkController: NSObject {
                         
                         self.currentPerson = Person.init(dictionary: personDictionary as! [String : AnyObject])
                         
-                        if let lastLocation = self.temporaryLastLocation {
-                            
-                            // NEEDS FIX: not sure I should be force unwrapping here but I just created current person so this should be good to go
-                            self.currentPerson!.lastLocation = lastLocation
-                            
-                        } else {
-                            
-                            print("location has not yet been set")
-                            
-                        }
+                        let userExistsNotification = NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
                         
-                        print(self.currentPerson)
                     }
                     
                 })

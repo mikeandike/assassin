@@ -8,12 +8,65 @@
 
 import Foundation
 import CoreLocation
+import GeoFireHeader.h
 
 class LocationController: NSObject, CLLocationManagerDelegate {
     
-    var myLocation: CLLocation?
+    var location: CLLocation?
     
     var locationManager:CLLocationManager!
+    
+    var hasPerson : Bool
+    
+    var hasLocation : Bool
+    
+    init() {
+        
+        hasPerson = false
+        hasLocation = false
+        registerForNotifications()
+        
+        
+    }
+    
+    func sendLocationToFirebase() {
+        
+        if hasPerson == true && hasLocation == true {
+            
+        FirebaseNetworkController.sharedInstance.currentPerson!.lastLocation = location
+            
+        let person = FirebaseNetworkController.sharedInstance.currentPerson!
+            
+        let geoFireRef = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl())
+        let geoFire = GeoFire(fireBaseRef: geoFireRef)
+            
+            geoFire.setLocation(location, forKey: person.uid)
+        
+        }
+    }
+    
+    func personArrived() {
+       
+        hasPerson = true
+        
+        sendLocationToFirebase()
+        
+    }
+    
+    func locationArrived() {
+        
+        hasLocation = true
+        
+        sendLocationToFirebase()
+    }
+    
+    func registerForNotifications() {
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: personArrived(), name: "userExistsNotification", object: nil)
+        
+    }
+    
+    //MARK: get location method
     
     func getLocation() {
         
@@ -36,25 +89,15 @@ class LocationController: NSObject, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        myLocation = locations[locations.count - 1]
+        location = locations[locations.count - 1]
         
         print("locations are: \(locations)")
         
-        //if a person has successfully logged in and a person object has been created for them, set their location
+        locationArrived()
         
-        if let currentPerson = FirebaseNetworkController.sharedInstance.currentPerson {
-            
-            currentPerson.lastLocation = myLocation
-            
-        } else {
-            
-            //need to put a method here to temporarily hold location if 
-            
-            FirebaseNetworkController.sharedInstance.temporaryLastLocation = myLocation
-            
-            print("User is not currently authenticated")
-        }
     }
+    
+    
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         
