@@ -8,7 +8,9 @@
 
 import Foundation
 import CoreLocation
-import GeoFireHeader.h
+import Firebase
+
+
 
 class LocationController: NSObject, CLLocationManagerDelegate {
     
@@ -20,7 +22,7 @@ class LocationController: NSObject, CLLocationManagerDelegate {
     
     var hasLocation : Bool
     
-    init() {
+    override init () {
         
         hasPerson = false
         hasLocation = false
@@ -62,7 +64,7 @@ class LocationController: NSObject, CLLocationManagerDelegate {
     
     func registerForNotifications() {
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: personArrived(), name: "userExistsNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "personArrived:", name: "userExistsNotification", object: nil)
         
     }
     
