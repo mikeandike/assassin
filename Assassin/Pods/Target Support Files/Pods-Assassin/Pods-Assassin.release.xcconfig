@@ -1,6 +1,7 @@
-FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/Firebase" "$(PODS_ROOT)/Firebase" "$(PODS_ROOT)/Firebase"
+FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/Firebase" "$(PODS_ROOT)/Firebase"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Firebase" "${PODS_ROOT}/Headers/Public/GeoFire"
 OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/Firebase" -isystem "${PODS_ROOT}/Headers/Public/GeoFire"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"GeoFire" -l"c++" -l"icucore" -framework "CFNetwork" -framework "CoreLocation" -framework "Firebase" -framework "Security" -framework "SystemConfiguration"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"Pods-Assassin-GeoFire" -l"c++" -l"icucore" -framework "CFNetwork" -framework "CoreLocation" -framework "Firebase" -framework "Security" -framework "SystemConfiguration"
+OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
 PODS_ROOT = ${SRCROOT}/Pods

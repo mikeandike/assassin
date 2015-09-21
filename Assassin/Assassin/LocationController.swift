@@ -12,6 +12,7 @@ import Firebase
 
 
 
+
 class LocationController: NSObject, CLLocationManagerDelegate {
     
     var location: CLLocation?
@@ -40,7 +41,7 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         let person = FirebaseNetworkController.sharedInstance.currentPerson!
             
         let geoFireRef = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl())
-        let geoFire = GeoFire(fireBaseRef: geoFireRef)
+        let geoFire = GeoFire(firebaseRef: geoFireRef)
             
             geoFire.setLocation(location, forKey: person.uid)
         

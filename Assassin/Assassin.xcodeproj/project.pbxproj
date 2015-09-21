@@ -65,6 +65,7 @@
 		8C2D09241BA72FAF00155E77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C5324761BA8B477001F4486 /* FirebaseNetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseNetworkController.swift; sourceTree = "<group>"; };
 		8C5324821BA8D174001F4486 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		8C99C3151BB09E39002FA83F /* Assassin-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Assassin-Bridging-Header.h"; sourceTree = "<group>"; };
 		9FC6555B544C2CADE5999B6D /* Pods-Assassin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assassin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Assassin/Pods-Assassin.release.xcconfig"; sourceTree = "<group>"; };
 		A9A6D7C956A135243BE7CCB1 /* libPods-Assassin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Assassin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -138,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				8C2D09021BA72FAF00155E77 /* AppDelegate.swift */,
+				8C99C3151BB09E39002FA83F /* Assassin-Bridging-Header.h */,
 				8C5324811BA8D163001F4486 /* Model Objects */,
 				8C53247C1BA8CAE2001F4486 /* View Controllers */,
 				8C53247D1BA8CAEF001F4486 /* Controllers */,
@@ -501,6 +503,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "Assassin/Assassin-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -539,6 +542,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "Assassin/Assassin-Bridging-Header.h";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
