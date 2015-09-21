@@ -27,8 +27,8 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         
         hasPerson = false
         hasLocation = false
+        super.init()
         registerForNotifications()
-        
         
     }
     
