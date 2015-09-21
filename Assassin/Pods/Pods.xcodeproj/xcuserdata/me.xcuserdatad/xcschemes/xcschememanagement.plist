@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>GeoFire.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>Pods-Assassin-GeoFire.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>Pods-Assassin.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -13,6 +23,16 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>0C5F3BE5C9551206A412806488EAA461</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D69195E70A5610448225900258A55C0B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F7B226AEDE933226DFBB4ADF3BEE60A7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
