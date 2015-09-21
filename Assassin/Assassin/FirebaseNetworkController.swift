@@ -12,7 +12,7 @@ import CoreLocation
 
 class FirebaseNetworkController: NSObject {
     
-    var peopleNearby : [Person]?
+    var peopleNearby : [Person] = []
     var currentPerson: Person?
     
     static let sharedInstance = FirebaseNetworkController()
@@ -96,6 +96,51 @@ class FirebaseNetworkController: NSObject {
         
         
     }
+    
+    //MARK: Add nearby user to array of people nearby
+    
+    func addPersonWithUIDAndLocationToPeopleNearby(uid : String, location: CLLocation) {
+        
+        let usersRef = getUsersRef()
+        
+        let userRef = usersRef.childByAppendingPath(uid)
+        
+        userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
+            
+            if let personDictionary = snapshot.value {
+                
+                let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
+                
+                person.lastLocation = location
+                
+                self.peopleNearby.append(person)
+                
+            }
+        });
+        
+    }
+    
+    //MARK: method to remove person from dictionary
+    
+    func removePersonWithUIDFromPeopleNearby(uid : String) {
+        
+        let foundPerson = self.peopleNearby.filter{ $0.uid == uid }.first
+        
+        if let person = foundPerson {
+            
+            let index = self.peopleNearby.indexOf(person)
+            
+            if let personIndex = index {
+                
+                self.peopleNearby.removeAtIndex(personIndex)
+                
+            }
+            
+        }
+        
+    }
+    
+    
     
     //MARK: create person Dictionary in Firebase
     
