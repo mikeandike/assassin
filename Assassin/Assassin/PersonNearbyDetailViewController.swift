@@ -8,8 +8,25 @@
 
 import UIKit
 
+
+enum ProfileInformationTypes : Int {
+    
+    case ProfileInformationTypeMainCell
+    case ProfileInformationTypePurposeCell
+    case ProfileInformationTypePhoneCell
+    case ProfileInformationTypeEmailCell
+    
+    static var count: Int {return ProfileInformationTypes.ProfileInformationTypeEmailCell.hashValue + 1}
+    
+}
+
+
 class PersonNearbyDetailViewController: UIViewController {
 
+    let mainCellID = "mainCellID"
+    let purposeCellID = "purposeCellID"
+    let contactCellID = "contactCellID"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,3 +50,44 @@ class PersonNearbyDetailViewController: UIViewController {
     */
 
 }
+
+
+extension PersonNearbyDetailViewController : UITableViewDataSource {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return ProfileInformationTypes.count
+        
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        var cell : UITableViewCell
+        
+        switch ProfileInformationTypes(rawValue: indexPath.row)! {
+            
+        case ProfileInformationTypes.ProfileInformationTypeMainCell:
+            
+            cell = tableView.dequeueReusableCellWithIdentifier(mainCellID, forIndexPath: indexPath) as! MainTableViewCell
+            
+        case ProfileInformationTypes.ProfileInformationTypePurposeCell:
+            
+            cell = tableView.dequeueReusableCellWithIdentifier(purposeCellID, forIndexPath: indexPath) as! PurposeTableViewCell
+            
+        case ProfileInformationTypes.ProfileInformationTypePhoneCell:
+            
+            fallthrough
+            
+        case ProfileInformationTypes.ProfileInformationTypeEmailCell:
+            
+            cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath)
+            
+        }
+        
+        return cell
+    }
+    
+    
+    
+}
+

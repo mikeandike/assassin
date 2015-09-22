@@ -11,7 +11,6 @@ import UIKit
 class PersonNearbyTableViewCell: UITableViewCell {
 
     @IBOutlet weak var userImageView: UIImageView!
-    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var companyLabel: UILabel!
     @IBOutlet weak var jobTitleLabel: UILabel!

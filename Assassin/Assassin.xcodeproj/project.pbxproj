@@ -189,6 +189,9 @@
 			children = (
 				2C3E7EFF1BA7733300EEC113 /* MapViewController.swift */,
 				2C3E7F001BA7733300EEC113 /* PersonNearbyTableViewCell.swift */,
+				8C6444C61BB1FE12004AE95D /* MainTableViewCell.swift */,
+				8C6444C81BB1FE1B004AE95D /* PurposeTableViewCell.swift */,
+				8C6444CA1BB1FE23004AE95D /* ContactTableViewCell.swift */,
 			);
 			name = "People Nearby Table View Controller";
 			sourceTree = "<group>";
@@ -197,9 +200,6 @@
 			isa = PBXGroup;
 			children = (
 				2C3E7F0A1BA7790600EEC113 /* PersonNearbyDetailViewController.swift */,
-				8C6444C61BB1FE12004AE95D /* MainTableViewCell.swift */,
-				8C6444C81BB1FE1B004AE95D /* PurposeTableViewCell.swift */,
-				8C6444CA1BB1FE23004AE95D /* ContactTableViewCell.swift */,
 			);
 			name = "User Detail View Controller";
 			sourceTree = "<group>";
