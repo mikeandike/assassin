@@ -44,6 +44,8 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         let geoFire = GeoFire(firebaseRef: geoFireRef)
             
             geoFire.setLocation(currentLocation, forKey: person.uid)
+            
+            print("person has been sent to firebase: person: \(person)")
         
         }
     }
