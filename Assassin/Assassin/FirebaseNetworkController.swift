@@ -53,7 +53,7 @@ class FirebaseNetworkController: NSObject {
         
         createPersonDictionaryOnFireBase(personDictionary)
         
-        let userExistsNotification = NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
         
         
         
@@ -82,7 +82,7 @@ class FirebaseNetworkController: NSObject {
                         
                         self.currentPerson = Person.init(dictionary: personDictionary as! [String : AnyObject])
                         
-                        let userExistsNotification = NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
+                        NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
                         
                     }
                     
@@ -115,6 +115,8 @@ class FirebaseNetworkController: NSObject {
                 
                 self.peopleNearby.append(person)
                 
+                print("peopleNearby: \(self.peopleNearby)")
+                
             }
         });
         
@@ -134,6 +136,7 @@ class FirebaseNetworkController: NSObject {
                 
                 self.peopleNearby.removeAtIndex(personIndex)
                 
+                print("peopleNearby: \(self.peopleNearby)")
             }
             
         }

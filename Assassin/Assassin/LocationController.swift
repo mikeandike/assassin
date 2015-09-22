@@ -13,6 +13,8 @@ import Firebase
 
 class LocationController: NSObject, CLLocationManagerDelegate {
     
+    static let sharedInstance = LocationController()
+
     var currentLocation: CLLocation?
     
     var locationManager:CLLocationManager!
@@ -63,7 +65,7 @@ class LocationController: NSObject, CLLocationManagerDelegate {
     
     func registerForNotifications() {
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "personArrived:", name: "userExistsNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "personArrived", name: "userExistsNotification", object: nil)
         
     }
     
@@ -133,7 +135,7 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         //make sure that both are happening and not overriding each other
         
         circleQuery.observeEventType(GFEventTypeKeyExited) { (key: String!, location: CLLocation!) in
-            
+            print("Key '\(key)' left the search area at location '\(location)'")
             
             
         }
