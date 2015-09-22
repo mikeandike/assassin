@@ -22,6 +22,9 @@
 		8C2D09231BA72FAF00155E77 /* AssassinUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D09221BA72FAF00155E77 /* AssassinUITests.swift */; };
 		8C5324771BA8B477001F4486 /* FirebaseNetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5324761BA8B477001F4486 /* FirebaseNetworkController.swift */; settings = {ASSET_TAGS = (); }; };
 		8C5324831BA8D174001F4486 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5324821BA8D174001F4486 /* Person.swift */; settings = {ASSET_TAGS = (); }; };
+		8C6444C71BB1FE12004AE95D /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6444C61BB1FE12004AE95D /* MainTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		8C6444C91BB1FE1B004AE95D /* PurposeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6444C81BB1FE1B004AE95D /* PurposeTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		8C6444CB1BB1FE23004AE95D /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6444CA1BB1FE23004AE95D /* ContactTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		C25D826A85762A5AEF9D8DBE /* libPods-Assassin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A6D7C956A135243BE7CCB1 /* libPods-Assassin.a */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +68,9 @@
 		8C2D09241BA72FAF00155E77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C5324761BA8B477001F4486 /* FirebaseNetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseNetworkController.swift; sourceTree = "<group>"; };
 		8C5324821BA8D174001F4486 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		8C6444C61BB1FE12004AE95D /* MainTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		8C6444C81BB1FE1B004AE95D /* PurposeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurposeTableViewCell.swift; sourceTree = "<group>"; };
+		8C6444CA1BB1FE23004AE95D /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		8C99C3151BB09E39002FA83F /* Assassin-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Assassin-Bridging-Header.h"; sourceTree = "<group>"; };
 		9FC6555B544C2CADE5999B6D /* Pods-Assassin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assassin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Assassin/Pods-Assassin.release.xcconfig"; sourceTree = "<group>"; };
 		A9A6D7C956A135243BE7CCB1 /* libPods-Assassin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Assassin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,6 +197,9 @@
 			isa = PBXGroup;
 			children = (
 				2C3E7F0A1BA7790600EEC113 /* PersonNearbyDetailViewController.swift */,
+				8C6444C61BB1FE12004AE95D /* MainTableViewCell.swift */,
+				8C6444C81BB1FE1B004AE95D /* PurposeTableViewCell.swift */,
+				8C6444CA1BB1FE23004AE95D /* ContactTableViewCell.swift */,
 			);
 			name = "User Detail View Controller";
 			sourceTree = "<group>";
@@ -398,6 +407,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C6444CB1BB1FE23004AE95D /* ContactTableViewCell.swift in Sources */,
+				8C6444C71BB1FE12004AE95D /* MainTableViewCell.swift in Sources */,
 				2C3E7F061BA7733300EEC113 /* PersonNearbyTableViewCell.swift in Sources */,
 				8C5324771BA8B477001F4486 /* FirebaseNetworkController.swift in Sources */,
 				2C3E7F041BA7733300EEC113 /* LoginViewController.swift in Sources */,
@@ -407,6 +418,7 @@
 				2C3E7F071BA7733300EEC113 /* RegisterUserViewController.swift in Sources */,
 				2C3E7F051BA7733300EEC113 /* MapViewController.swift in Sources */,
 				0FE634211BAA016E008289C5 /* LocationController.swift in Sources */,
+				8C6444C91BB1FE1B004AE95D /* PurposeTableViewCell.swift in Sources */,
 				2C3E7F0B1BA7790600EEC113 /* PersonNearbyDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
