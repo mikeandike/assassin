@@ -9,6 +9,8 @@
 import UIKit
 
 class MapViewController: UIViewController {
+    
+    let personNearbyCellID = "personNearbyCellID"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,3 +35,36 @@ class MapViewController: UIViewController {
     */
 
 }
+
+extension MapViewController : UITableViewDataSource {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if let peopleNearby = FirebaseNetworkController.sharedInstance.peopleNearby {
+            
+            return peopleNearby.count
+        }
+        
+        return Int(0)
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(personNearbyCellID, forIndexPath: indexPath) as! PersonNearbyTableViewCell
+        
+        if let peopleNearby = FirebaseNetworkController.sharedInstance.peopleNearby {
+            
+            let person = peopleNearby[indexPath.row]
+            
+            cell.userImageView.image = person.image
+            cell.nameLabel.text = person.firstName + person.lastName
+            cell.companyLabel.text = person.company
+            cell.jobTitleLabel.text = person.jobTitle
+            
+        }
+        
+        return cell
+    }
+    
+}
+
