@@ -35,10 +35,9 @@ class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    
+    
+    //MARK: tableview delegate methods
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
@@ -60,6 +59,11 @@ class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
             
             return 48
         }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
 
@@ -112,12 +116,10 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
             
         case .ProfileInformationTypePhoneCell:
             
-            // *** need to create this custom cell first, then we can create our cell with this line of code...
-//            let cell = tableView.dequeueReusableCellWithIdentifier("phoneCellID", forIndexPath: indexPath)
-            //...and get rid of this one:
-            let cell = UITableViewCell()
+            let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
             
-            cell.textLabel?.text = person.phoneNumber
+            
+            cell.contactLabel.text = person.phoneNumber
             
             return cell
             
@@ -125,8 +127,6 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
             
-            // *** contactImageView needs to be a UIImageView not a UIView ?
-//            cell.contactImageView.image = person.image
             cell.contactLabel.text = person.email
             
             return cell
