@@ -26,6 +26,8 @@ class Person: NSObject {
     
     var jobTitle: String?
     var company: String?
+    var bio: String?
+    var purpose: String?
     
     //still have to figure out how to transfer images through firebase
     var image: UIImage?
@@ -70,6 +72,16 @@ class Person: NSObject {
             
             self.company = company as? String
             
+        }
+        
+        if let bio = dictionary["bio"] {
+            
+            self.bio = bio as? String
+        }
+        
+        if let purpose = dictionary["purpose"] {
+            
+            self.purpose = purpose as? String
         }
         
         if let starredUsers = dictionary["starredUsers"] {
