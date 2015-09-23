@@ -34,11 +34,17 @@ class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
 
         // Do any additional setup after loading the view.
     }
+    
+  
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func editButtonTapped(sender: UIBarButtonItem) {
+        
+        self.performSegueWithIdentifier("presentEditDetailVC", sender: self)
+        
     }
+    
+    
+   //MARK: tableview delegate methods
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
@@ -72,6 +78,11 @@ class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
 
 }
 
