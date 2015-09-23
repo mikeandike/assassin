@@ -25,6 +25,10 @@ class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
     
     var person : Person!
 
+    var isCurrentUsersProfile : Bool = false
+    
+    @IBOutlet weak var editButton: UIBarButtonItem!
+    
     let mainCellID = "mainCellID"
     let purposeCellID = "purposeCellID"
     let contactCellID = "contactCellID"
@@ -33,7 +37,17 @@ class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-     
+        if isCurrentUsersProfile == false {
+            
+            editButton.tintColor = UIColor.clearColor()
+            editButton.enabled = false
+            
+        } else {
+            
+            editButton.tintColor = UIColor.blackColor()
+            editButton.enabled = true
+            
+        }
         
     }
     

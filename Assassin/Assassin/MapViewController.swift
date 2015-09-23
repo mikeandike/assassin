@@ -29,17 +29,37 @@ class MapViewController: UIViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        let destinationViewCon = segue.destinationViewController as! PersonNearbyDetailViewController
+        if segue.identifier == "presentDetailViewFromCell" {
+            
+            let destinationViewCon = segue.destinationViewController as! PersonNearbyDetailViewController
+            
+            if let indexPath = tableView.indexPathForSelectedRow {
+                
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                
         
-        if let indexPath = tableView.indexPathForSelectedRow {
+                let person = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
+                
+                    destinationViewCon.person = person
+                    destinationViewCon.isCurrentUsersProfile = false
+            }
             
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        } else if segue.identifier == "presentCurrentUserProfile" {
             
-            let person = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
+            let destinationViewCon = segue.destinationViewController as! PersonNearbyDetailViewController
             
-            destinationViewCon.person = person
+            if let person = FirebaseNetworkController.sharedInstance.currentPerson {
+                
+                destinationViewCon.person = person
+                destinationViewCon.isCurrentUsersProfile = true
+                
+            }
+            
+            
         }
+        
     }
+        
 }
 
 
@@ -59,6 +79,7 @@ extension MapViewController : UITableViewDataSource {
         
         cell.userImageView.image = person.image
         cell.nameLabel.text = person.firstName + " " + person.lastName
+    
         cell.companyLabel.text = person.company
         cell.jobTitleLabel.text = person.jobTitle
         

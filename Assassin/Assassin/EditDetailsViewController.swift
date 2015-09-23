@@ -47,6 +47,9 @@ enum EditProfileInformationSectionTypes : Int {
 
 class EditDetailsViewController: UIViewController {
     
+    
+   
+    
     var person = FirebaseNetworkController.sharedInstance.currentPerson!
     
     //TODO: need to find a better way of doing this
@@ -67,6 +70,12 @@ class EditDetailsViewController: UIViewController {
     }
     
     
+    @IBAction func cancelButtonTapped(sender: UIBarButtonItem) {
+    }
+    
+    
+    @IBAction func doneButtonTapped(sender: UIBarButtonItem) {
+    }
 
     /*
     // MARK: - Navigation
