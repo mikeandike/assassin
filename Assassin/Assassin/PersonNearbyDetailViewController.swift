@@ -23,7 +23,7 @@ enum ProfileInformationTypes : Int {
 
 class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
     
-    var person = Person(firstName: "John", lastName: "Doe", email: "doe@net.net", password: "", uid: "")
+    var person : Person!
 
     let mainCellID = "mainCellID"
     let purposeCellID = "purposeCellID"
@@ -33,6 +33,8 @@ class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+     
+        
     }
     
   
@@ -103,11 +105,49 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(mainCellID, forIndexPath: indexPath) as! MainTableViewCell
             
-            cell.bioImageView.image = person.image
+            if let image = person.image {
+                
+                cell.bioImageView.image = image
+                
+            } else {
+                
+                //cell.bioImageView.image = fakeImage
+                
+            }
+            
             cell.nameLabel.text = person.firstName + " " + person.lastName
-            cell.companyLabel.text = person.company
-            cell.jobTitleLabel.text = person.jobTitle
-            cell.lastActiveLabel.text = person.timeAtLastLocation?.description
+            
+            if let company = person.company {
+                
+                cell.companyLabel.text = company
+                cell.companyLabel.textColor = UIColor.blackColor()
+                
+            } else {
+                
+                cell.companyLabel.text = "Company"
+                cell.companyLabel.textColor = UIColor.lightGrayColor()
+                
+            }
+            
+            if let jobTitle = person.jobTitle {
+                
+                cell.jobTitleLabel.text = jobTitle
+                cell.jobTitleLabel.textColor = UIColor.blackColor()
+                
+            } else {
+                
+                cell.jobTitleLabel.text = "Job Title"
+                cell.jobTitleLabel.textColor = UIColor.lightGrayColor()
+                
+            }
+            
+            if let timeAtLastLocation = person.timeAtLastLocation {
+                
+                let timeString = FirebaseNetworkController.sharedInstance.convertDateIntoString(timeAtLastLocation)
+                
+                cell.lastActiveLabel.text = "Last active at" + timeString
+                
+            }
             
             return cell
             
@@ -115,8 +155,27 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(purposeCellID, forIndexPath: indexPath) as! PurposeTableViewCell
             
-            cell.purposeLabel.text = person.purpose
-            cell.bioLabel.text = person.bio
+            if let purpose = person.purpose {
+                
+                cell.purposeLabel.text = purpose
+                cell.purposeLabel.textColor = UIColor.blackColor()
+                
+            } else {
+                
+                cell.purposeLabel.text = "Here to"
+                cell.purposeLabel.textColor = UIColor.lightGrayColor()
+            }
+            
+            if let bio = person.bio {
+                
+                cell.bioLabel.text = bio
+                cell.bioLabel.textColor = UIColor.blackColor()
+                
+            } else {
+                
+                cell.bioLabel.text = "Bio"
+                cell.bioLabel.textColor = UIColor.lightGrayColor()
+            }
             
             return cell
             
@@ -124,8 +183,16 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
             
-            cell.contactImageView.image = UIImage(named:"phoneIcon")
-            cell.contactLabel.text = person.phoneNumber
+            if let phone = person.phoneNumber {
+                
+               cell.contactLabel.text = phone
+               cell.contactLabel.textColor = UIColor.blackColor()
+                
+            } else {
+                
+                cell.contactLabel.text = "Phone"
+                cell.contactLabel.textColor = UIColor.lightGrayColor()
+            }
             
             return cell
             
@@ -133,7 +200,6 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
             
-            cell.contactImageView.image = UIImage(named:"emailIcon")
             cell.contactLabel.text = person.email
             
             return cell
