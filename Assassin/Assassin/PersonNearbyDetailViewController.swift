@@ -21,7 +21,9 @@ enum ProfileInformationTypes : Int {
 }
 
 
-class PersonNearbyDetailViewController: UIViewController {
+class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
+    
+    var person = Person(firstName: "John", lastName: "Doe", email: "doe@net.net", password: "", uid: "")
 
     let mainCellID = "mainCellID"
     let purposeCellID = "purposeCellID"
@@ -36,6 +38,28 @@ class PersonNearbyDetailViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        switch ProfileInformationTypes(rawValue: indexPath.row)! {
+            
+        case .ProfileInformationTypeMainCell:
+            
+            return 281
+            
+        case .ProfileInformationTypePurposeCell:
+            
+            return 119
+            
+        case .ProfileInformationTypePhoneCell:
+            
+            return 48
+            
+        case .ProfileInformationTypeEmailCell:
+            
+            return 48
+        }
     }
     
 
@@ -62,32 +86,52 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell : UITableViewCell
-        
         switch ProfileInformationTypes(rawValue: indexPath.row)! {
             
-        case ProfileInformationTypes.ProfileInformationTypeMainCell:
+        case .ProfileInformationTypeMainCell:
             
-            cell = tableView.dequeueReusableCellWithIdentifier(mainCellID, forIndexPath: indexPath) as! MainTableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(mainCellID, forIndexPath: indexPath) as! MainTableViewCell
             
-        case ProfileInformationTypes.ProfileInformationTypePurposeCell:
+            cell.bioImageView.image = person.image
+            cell.nameLabel.text = person.firstName + " " + person.lastName
+            cell.companyLabel.text = person.company
+            cell.jobTitleLabel.text = person.jobTitle
+            cell.lastActiveLabel.text = person.timeAtLastLocation?.description
             
-            cell = tableView.dequeueReusableCellWithIdentifier(purposeCellID, forIndexPath: indexPath) as! PurposeTableViewCell
+            return cell
             
-        case ProfileInformationTypes.ProfileInformationTypePhoneCell:
+        case .ProfileInformationTypePurposeCell:
             
-            fallthrough
+            let cell = tableView.dequeueReusableCellWithIdentifier(purposeCellID, forIndexPath: indexPath) as! PurposeTableViewCell
             
-        case ProfileInformationTypes.ProfileInformationTypeEmailCell:
+            // *** need to update this after we update Model, initializer, and encoder
+            cell.purposeLabel.text = person.firstName
+            cell.bioLabel.text = person.firstName
             
-            cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath)
+            return cell
             
+        case .ProfileInformationTypePhoneCell:
+            
+            // *** need to create this custom cell first, then we can create our cell with this line of code...
+//            let cell = tableView.dequeueReusableCellWithIdentifier("phoneCellID", forIndexPath: indexPath)
+            //...and get rid of this one:
+            let cell = UITableViewCell()
+            
+            cell.textLabel?.text = person.phoneNumber
+            
+            return cell
+            
+        case .ProfileInformationTypeEmailCell:
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
+            
+            // *** contactImageView needs to be a UIImageView not a UIView ?
+//            cell.contactImageView.image = person.image
+            cell.contactLabel.text = person.email
+            
+            return cell
         }
-        
-        return cell
     }
     
     
-    
 }
-
