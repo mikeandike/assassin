@@ -9,6 +9,10 @@
 import UIKit
 
 class MapViewController: UIViewController {
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    let personNearbyCellID = "personNearbyCellID"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,15 +25,45 @@ class MapViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        let destinationViewCon = segue.destinationViewController as! PersonNearbyDetailViewController
+        
+        if let indexPath = tableView.indexPathForSelectedRow {
+            
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            
+            let person = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
+            
+            destinationViewCon.person = person
+        }
     }
-    */
-
 }
+
+
+
+extension MapViewController : UITableViewDataSource {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return FirebaseNetworkController.sharedInstance.peopleNearby.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(personNearbyCellID, forIndexPath: indexPath) as! PersonNearbyTableViewCell
+        
+        let person = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
+        
+        cell.userImageView.image = person.image
+        cell.nameLabel.text = person.firstName + " " + person.lastName
+        cell.companyLabel.text = person.company
+        cell.jobTitleLabel.text = person.jobTitle
+        
+        return cell
+    }
+    
+}
+
