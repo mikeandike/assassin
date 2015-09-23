@@ -112,12 +112,11 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
             
         case .ProfileInformationTypePhoneCell:
             
-            // *** need to create this custom cell first, then we can create our cell with this line of code...
-//            let cell = tableView.dequeueReusableCellWithIdentifier("phoneCellID", forIndexPath: indexPath)
-            //...and get rid of this one:
-            let cell = UITableViewCell()
+            let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
             
-            cell.textLabel?.text = person.phoneNumber
+            // *** contactImageView needs to be a UIImageView not a UIView ?
+//            cell.contactImageView.image = UIImage(named:"phoneIcon")
+            cell.contactLabel.text = person.phoneNumber
             
             return cell
             
@@ -126,7 +125,7 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
             let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
             
             // *** contactImageView needs to be a UIImageView not a UIView ?
-//            cell.contactImageView.image = person.image
+//            cell.contactImageView.image = UIImage(named:"emailIcon")
             cell.contactLabel.text = person.email
             
             return cell
