@@ -47,26 +47,17 @@ enum EditProfileInformationSectionTypes : Int {
 
 class EditDetailsViewController: UIViewController {
     
-    var person : Person
+    var person = FirebaseNetworkController.sharedInstance.currentPerson!
+    
+    //TODO: need to find a better way of doing this
     
     let namePhotoCellID = "namePhotoCellID"
     let textFieldCellID = "textFieldCellID"
     let textViewCellID = "textViewCellID"
 
-    
-    init(person : Person) {
-        
-        self.person = person
-        
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
 
@@ -91,8 +82,56 @@ class EditDetailsViewController: UIViewController {
 
 extension EditDetailsViewController : UITableViewDataSource {
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
+        return EditProfileInformationSectionTypes.count
+        
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        switch EditProfileInformationSectionTypes(rawValue: section)! {
+            
+        case .EditProfileInformationSectionTypeNamePhoto:
+            
+            return ""
+            
+        case .EditProfileInformationSectionTypeJob:
+            
+            return "Job"
+            
+        case .EditProfileInformationSectionTypePurpose:
+            
+            return "Purpose"
+            
+        case .EditProfileInformationSectionTypeContact:
+            
+            return "Contact"
+        }
+        
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+       
+        switch EditProfileInformationSectionTypes(rawValue: section)! {
+            
+        case .EditProfileInformationSectionTypeNamePhoto:
+            
+            return 1
+            
+        case .EditProfileInformationSectionTypeJob:
+            
+            return EditJobTypes.count
+            
+        case .EditProfileInformationSectionTypePurpose:
+            
+            return EditPurposeTypes.count
+            
+        case .EditProfileInformationSectionTypeContact:
+            
+            return EditContactTypes.count
+        }
+
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -149,29 +188,75 @@ extension EditDetailsViewController : UITableViewDataSource {
             }
             
             
-        case .EditProfileInformationTypeNameJobTitleCell:
+        case .EditProfileInformationSectionTypePurpose:
             
-            let cell = tableView.dequeueReusableCellWithIdentifier(textFieldCellID, forIndexPath: indexPath) as! TextFieldTableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(textViewCellID, forIndexPath: indexPath) as! TextViewTableViewCell
             
-            if let jobTitle = person.jobTitle {
+            
+            switch EditPurposeTypes(rawValue: indexPath.row)! {
                 
-                cell.infoTextField.text = jobTitle
+            case .EditPurposeTypePurpose:
                 
-            } else {
+                if let purpose = person.purpose {
+                    
+                    cell.purposeTextView.text = purpose
+                    cell.purposeTextView.textColor = UIColor.blackColor()
+                    
+                } else {
+                    
+                    cell.purposeTextView.text = "Here to..."
+                    cell.purposeTextView.textColor = UIColor.lightGrayColor()
+                }
                 
-                cell.infoTextField.placeholder = "Job Title"
+                return cell
+                
+            case .EditPurposeTypeBio:
+                
+                if let bio = person.bio {
+                    
+                    cell.purposeTextView.text = bio
+                    cell.purposeTextView.textColor = UIColor.blackColor()
+                    
+                } else {
+                    
+                    cell.purposeTextView.text = "Bio"
+                    cell.purposeTextView.textColor = UIColor.lightGrayColor()
+                }
+                
+                return cell
                 
             }
             
-            return cell
             
-        case .Edit:
             
-            let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
+        case .EditProfileInformationSectionTypeContact:
             
-            cell.contactLabel.text = person.email
+            let cell = tableView.dequeueReusableCellWithIdentifier(textFieldCellID, forIndexPath: indexPath) as! TextFieldTableViewCell
             
-            return cell
+            switch EditContactTypes(rawValue: indexPath.row)! {
+                
+            case .EditContactTypePhone:
+                
+                if let phone = person.phoneNumber {
+                    
+                    cell.infoTextField.text = phone
+                    
+                } else {
+                    
+                    cell.infoTextField.placeholder = "Phone"
+                    
+                }
+                
+                return cell
+                
+            case .EditContactTypeEmail:
+                
+                cell.infoTextField.text = person.email
+                
+                return cell
+                
+            }
+            
         }
     }
     
