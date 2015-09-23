@@ -181,7 +181,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="My profile" id="mbL-9K-lfP">
                             <connections>
-                                <segue destination="hWC-pJ-0R8" kind="show" id="lFk-i4-7vQ"/>
+                                <segue destination="hWC-pJ-0R8" kind="show" identifier="presentCurrentUserProfile" id="lFk-i4-7vQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -553,8 +553,16 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="NWS-hP-bee">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="NfZ-EN-vjO"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="1by-fg-Hde"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="NfZ-EN-vjO">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="GNx-1o-lxm" id="xOC-zp-CBg"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="1by-fg-Hde">
+                            <connections>
+                                <action selector="doneButtonTapped:" destination="GNx-1o-lxm" id="EGw-CQ-P6t"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3gF-vb-7RB" userLabel="First Responder" sceneMemberID="firstResponder"/>

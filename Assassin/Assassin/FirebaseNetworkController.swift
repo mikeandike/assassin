@@ -266,7 +266,72 @@ class FirebaseNetworkController: NSObject {
         
     }
     
-  
+
+//MARK: Convert person.timestamp into useable timestring
+    
+    func convertDateIntoString(date : NSDate) -> String {
+        
+        let currentCalendar = NSCalendar.currentCalendar()
+            
+        let dateComponents = currentCalendar.components([NSCalendarUnit.Minute, NSCalendarUnit.Hour], fromDate: date)
+            
+        
+        let dateFormatter = NSDateFormatter.init()
+        
+            var minuteString = ""
+            
+            if dateComponents.minute < 10 {
+                
+                minuteString = "0\(dateComponents.minute)"
+                
+            } else {
+            
+                minuteString = "\(dateComponents.minute)"
+            
+            }
+            
+            var hourString = ""
+            var AMPMString = ""
+            
+            if dateComponents.hour > 11 {
+                
+                //if its noon
+                if dateComponents.hour == 12 {
+                    
+                   hourString = "\(dateComponents.hour)"
+                   AMPMString = dateFormatter.PMSymbol
+                    
+                } else {
+                    //its 1pm or later
+                    
+                    hourString = "\(dateComponents.hour - 12)"
+                    AMPMString = dateFormatter.PMSymbol
+                    
+                }
+                
+            } else {
+                //its the am
+                
+                if dateComponents.hour == 0 {
+                    
+                    hourString = "12"
+                    AMPMString = dateFormatter.AMSymbol
+                    
+                } else {
+                    
+                    hourString = "\(dateComponents.hour)"
+                    AMPMString = dateFormatter.AMSymbol
+                    
+                }
+                
+            }
+            
+           let timeString = "\(hourString):\(minuteString)\(AMPMString)"
+            
+    
+    return timeString
+        
+    }
    
 
 }
