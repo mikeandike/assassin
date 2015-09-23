@@ -104,9 +104,8 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(purposeCellID, forIndexPath: indexPath) as! PurposeTableViewCell
             
-            // *** need to update this after we update Model, initializer, and encoder
-            cell.purposeLabel.text = person.firstName
-            cell.bioLabel.text = person.firstName
+            cell.purposeLabel.text = person.purpose
+            cell.bioLabel.text = person.bio
             
             return cell
             
