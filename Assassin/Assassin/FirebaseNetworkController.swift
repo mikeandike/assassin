@@ -224,6 +224,8 @@ class FirebaseNetworkController: NSObject {
         dictionary["phoneNumber"] = person.phoneNumber
         dictionary["jobTitle"] = person.jobTitle
         dictionary["company"] = person.company
+        dictionary["bio"] = person.bio
+        dictionary["purpose"] = person.purpose
         dictionary["starredUsers"] = person.starredUsers
         dictionary["lastLocation"] = lastLocationDictionary
         dictionary["imageString"] = imageString
