@@ -22,7 +22,7 @@ class LoginViewController: UIViewController {
         
         //go ahead and start getting location
         
-        getLocation()
+        LocationController.sharedInstance.getLocation()
         
     }
 
