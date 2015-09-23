@@ -344,10 +344,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pth-Ht-CF0">
-                                                    <rect key="frame" x="8" y="8" width="36" height="34"/>
+                                                    <rect key="frame" x="8" y="8" width="35" height="35"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="34" id="D2n-XQ-pPq"/>
-                                                        <constraint firstAttribute="width" constant="36" id="mjq-ab-J8z"/>
+                                                        <constraint firstAttribute="height" constant="35" id="D2n-XQ-pPq"/>
+                                                        <constraint firstAttribute="width" constant="35" id="mjq-ab-J8z"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="anne.m.tessier@gmail.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dL6-J7-6cV">
@@ -364,13 +364,13 @@
                                                 <constraint firstAttribute="leadingMargin" secondItem="pth-Ht-CF0" secondAttribute="leading" id="2ja-qK-2NV"/>
                                                 <constraint firstAttribute="topMargin" secondItem="pth-Ht-CF0" secondAttribute="top" id="4iN-ht-58L"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="dL6-J7-6cV" secondAttribute="trailing" id="Gvt-Ok-Dhm"/>
-                                                <constraint firstItem="dL6-J7-6cV" firstAttribute="leading" secondItem="pth-Ht-CF0" secondAttribute="trailing" constant="8" id="U1P-Ii-H27"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="pth-Ht-CF0" secondAttribute="bottom" constant="-2.5" id="Zxg-OI-eqV"/>
+                                                <constraint firstItem="dL6-J7-6cV" firstAttribute="leading" secondItem="pth-Ht-CF0" secondAttribute="trailing" constant="9" id="U1P-Ii-H27"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="pth-Ht-CF0" secondAttribute="bottom" constant="-3.5" id="Zxg-OI-eqV"/>
                                                 <constraint firstAttribute="topMargin" secondItem="dL6-J7-6cV" secondAttribute="top" id="xLo-BD-RUl"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="contactImageView" destination="55Y-wY-BcH" id="6aC-D9-mOh"/>
+                                            <outlet property="contactImageView" destination="pth-Ht-CF0" id="Tvl-Av-2hS"/>
                                             <outlet property="contactLabel" destination="dL6-J7-6cV" id="CJL-lG-ocP"/>
                                         </connections>
                                     </tableViewCell>
