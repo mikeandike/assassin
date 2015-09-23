@@ -124,8 +124,7 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
             
-            // *** contactImageView needs to be a UIImageView not a UIView ?
-//            cell.contactImageView.image = UIImage(named:"phoneIcon")
+            cell.contactImageView.image = UIImage(named:"phoneIcon")
             cell.contactLabel.text = person.phoneNumber
             
             return cell
@@ -134,8 +133,7 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
             
-            // *** contactImageView needs to be a UIImageView not a UIView ?
-//            cell.contactImageView.image = UIImage(named:"emailIcon")
+            cell.contactImageView.image = UIImage(named:"emailIcon")
             cell.contactLabel.text = person.email
             
             return cell
