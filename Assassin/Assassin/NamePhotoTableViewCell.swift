@@ -18,6 +18,7 @@ class NamePhotoTableViewCell: UITableViewCell {
 
 //    var delegate : NamePhotoTableViewCellDelegate?
     
+
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!

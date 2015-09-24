@@ -530,6 +530,9 @@
                                                     <rect key="frame" x="8" y="0.0" width="584" height="68"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="GNx-1o-lxm" id="JdI-kA-yYv"/>
+                                                    </connections>
                                                 </textView>
                                             </subviews>
                                             <constraints>
