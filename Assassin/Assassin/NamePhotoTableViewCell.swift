@@ -23,11 +23,7 @@ class NamePhotoTableViewCell: UITableViewCell {
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
    
-    
-    
-    
-    
-    
+   
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -49,6 +45,4 @@ class NamePhotoTableViewCell: UITableViewCell {
 //        }
 //    }
 
-    @IBAction func imageButtonTapped(sender: UIButton) {
-    }
 }
