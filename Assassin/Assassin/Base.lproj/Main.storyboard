@@ -155,7 +155,7 @@
                                             <outlet property="jobTitleLabel" destination="gqx-Ol-wsk" id="LBX-mo-H2O"/>
                                             <outlet property="nameLabel" destination="vox-qc-eoT" id="TTY-u0-6BA"/>
                                             <outlet property="userImageView" destination="Y5w-36-7WT" id="nUD-qv-aGg"/>
-                                            <segue destination="hWC-pJ-0R8" kind="show" identifier="seguePersonCellToDetail" id="rqN-VE-ztt"/>
+                                            <segue destination="hWC-pJ-0R8" kind="show" identifier="presentDetailViewFromCell" id="rqN-VE-ztt"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
