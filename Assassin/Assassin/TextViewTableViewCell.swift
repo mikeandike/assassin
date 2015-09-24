@@ -8,8 +8,17 @@
 
 import UIKit
 
+//protocol TextViewTableViewCellDelegate {
+//    
+//    func textOnTextViewCellEntered(sender : TextViewTableViewCell)
+//    
+//}
+
 class TextViewTableViewCell: UITableViewCell {
 
+//    var delegate : TextViewTableViewCellDelegate?
+    
+    
     @IBOutlet weak var purposeTextView: UITextView!
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,5 +30,14 @@ class TextViewTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+//    func textViewDidEndEditing(textView: UITextView) {
+//        
+//        if let textViewCellDelegate = delegate {
+//            
+//            textViewCellDelegate.textOnTextViewCellEntered(self)
+//            
+//        }
+//    }
 
 }

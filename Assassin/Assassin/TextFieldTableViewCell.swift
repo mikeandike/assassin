@@ -8,9 +8,19 @@
 
 import UIKit
 
-class TextFieldTableViewCell: UITableViewCell {
+//@objc protocol TextFieldTableViewCellDelegate {
+//    
+//    func textOnTextFieldCellEntered(sender : TextFieldTableViewCell)
+//    
+//}
 
+class TextFieldTableViewCell: UITableViewCell {
+    
+//     var textFieldCellDelegate : TextFieldTableViewCellDelegate?
+    
     @IBOutlet weak var infoTextField: UITextField!
+    
+   
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,5 +32,7 @@ class TextFieldTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+   
 
 }

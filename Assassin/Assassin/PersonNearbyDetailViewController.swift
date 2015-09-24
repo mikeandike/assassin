@@ -23,6 +23,9 @@ enum ProfileInformationTypes : Int {
 
 class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
     
+    
+    @IBOutlet weak var profileTableView: UITableView!
+    
     var person : Person!
 
     var isCurrentUsersProfile : Bool = false
@@ -49,6 +52,13 @@ class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
             
         }
         
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        self.profileTableView.reloadData()
     }
     
   
@@ -119,15 +129,15 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(mainCellID, forIndexPath: indexPath) as! MainTableViewCell
             
-            if let image = person.image {
-                
-                cell.bioImageView.image = image
-                
-            } else {
-                
-                //cell.bioImageView.image = fakeImage
-                
-            }
+//            if let image = person.image {
+//                
+//                cell.bioImageView.image = image
+//                
+//            } else {
+//                
+//                //cell.bioImageView.image = fakeImage
+//                
+//            }
             
             cell.nameLabel.text = person.firstName + " " + person.lastName
             

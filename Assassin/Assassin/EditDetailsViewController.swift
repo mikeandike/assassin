@@ -37,18 +37,19 @@ enum EditContactTypes: Int {
 
 enum EditProfileInformationSectionTypes : Int {
     
-     case EditProfileInformationSectionTypeNamePhoto
-     case EditProfileInformationSectionTypeJob
-     case EditProfileInformationSectionTypePurpose
-     case EditProfileInformationSectionTypeContact
+    case EditProfileInformationSectionTypeNamePhoto
+    case EditProfileInformationSectionTypeJob
+    case EditProfileInformationSectionTypePurpose
+    case EditProfileInformationSectionTypeContact
     
     static var count: Int {return EditProfileInformationSectionTypes.EditProfileInformationSectionTypeContact.hashValue + 1}
 }
 
-class EditDetailsViewController: UIViewController {
+class EditDetailsViewController: UIViewController, UITableViewDataSource, UITextViewDelegate, UITextFieldDelegate {
     
     
-   
+    @IBOutlet weak var tableView: UITableView!
+    
     
     var person = FirebaseNetworkController.sharedInstance.currentPerson!
     
@@ -57,13 +58,13 @@ class EditDetailsViewController: UIViewController {
     let namePhotoCellID = "namePhotoCellID"
     let textFieldCellID = "textFieldCellID"
     let textViewCellID = "textViewCellID"
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -71,25 +72,154 @@ class EditDetailsViewController: UIViewController {
     
     
     @IBAction func cancelButtonTapped(sender: UIBarButtonItem) {
+        
+        self.navigationController!.popViewControllerAnimated(true)
+        
     }
     
     
     @IBAction func doneButtonTapped(sender: UIBarButtonItem) {
+        
+        //TODO: Save changes to Firebase
+        
+        self.navigationController!.popViewControllerAnimated(true)
+        
     }
-
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        
+        
+        updateTemporaryPersonWithText(textField)
+        
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        
+        updatePersonWithTextView(textView)
+        
+    }
+    
+    //    func textOnTextFieldCellEntered(sender: TextFieldTableViewCell) {
+    //        updateTemporaryPersonWithText(sender)
+    //    }
+    //
+    //    func textOnTextViewCellEntered(sender: TextViewTableViewCell) {
+    //        updateTemporaryPersonWithText(sender)
+    //    }
+    
+    func updatePersonWithTextView(textView : UITextView) {
+        
+        let cell = textView.superview!.superview! as! TextViewTableViewCell
+        
+        if let indexPath = self.tableView.indexPathForCell(cell) {
+            
+            switch EditProfileInformationSectionTypes(rawValue: indexPath.section)! {
+                
+            case .EditProfileInformationSectionTypeNamePhoto:
+                break
+                
+            case .EditProfileInformationSectionTypeJob:
+                break
+                
+            case .EditProfileInformationSectionTypePurpose:
+                break
+                
+            case .EditProfileInformationSectionTypeContact:
+                break
+             
+            }
+        }
+    }
+    
+    func updateTemporaryPersonWithText(textField : UITextField) {
+        
+        let cell = textField.superview!.superview! as! TextFieldTableViewCell
+        
+        if let indexPath = self.tableView.indexPathForCell(cell) {
+            
+            switch EditProfileInformationSectionTypes(rawValue: indexPath.section)! {
+                
+            case .EditProfileInformationSectionTypeNamePhoto:
+                
+                break;
+                
+            case .EditProfileInformationSectionTypeJob:
+                
+                let textFieldCell = cell
+                
+                switch EditJobTypes(rawValue: indexPath.row)! {
+                    
+                case .EditJobTypeCompanyCell:
+                    
+                    person.company = textFieldCell.infoTextField.text
+                    
+                case .EditJobTypeJobTitleCell:
+                    
+                    person.jobTitle = textFieldCell.infoTextField.text
+                }
+                
+            case .EditProfileInformationSectionTypePurpose:
+                break;
+                //            let textViewCell = cell
+                //
+                //            switch EditPurposeTypes(rawValue: indexPath.row)! {
+                //
+                //            case .EditPurposeTypePurpose:
+                //
+                //                person.purpose = textViewCell.purposeTextView.text
+                //
+                //            case .EditPurposeTypeBio:
+                //
+                //                person.bio = textViewCell.purposeTextView.text
+                //
+                //            }
+                
+            case .EditProfileInformationSectionTypeContact:
+                
+                let textFieldCell = cell
+                
+                switch EditContactTypes(rawValue: indexPath.row)! {
+                    
+                case .EditContactTypePhone:
+                    
+                    person.phoneNumber = textFieldCell.infoTextField.text
+                    
+                case .EditContactTypeEmail:
+                    
+                    if let textFieldText = textFieldCell.infoTextField.text {
+                        
+                        person.email = textFieldText
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    
+    func saveProfile() {
+        
+        
+        
+    }
+    
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
-
-}
-
-extension EditDetailsViewController : UITableViewDataSource {
+    
+    //}
+    
+    //extension EditDetailsViewController : UITableViewDataSource {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
@@ -121,7 +251,7 @@ extension EditDetailsViewController : UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
+        
         switch EditProfileInformationSectionTypes(rawValue: section)! {
             
         case .EditProfileInformationSectionTypeNamePhoto:
@@ -140,7 +270,7 @@ extension EditDetailsViewController : UITableViewDataSource {
             
             return EditContactTypes.count
         }
-
+        
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -162,11 +292,14 @@ extension EditDetailsViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(textFieldCellID, forIndexPath: indexPath) as! TextFieldTableViewCell
             
+            
+            print("CUSTOM DELEGATE\(self)")
+            
             switch EditJobTypes(rawValue: indexPath.row)! {
                 
             case .EditJobTypeCompanyCell:
-               
-            
+                
+                
                 if let company = person.company {
                     
                     cell.infoTextField.text = company
@@ -200,6 +333,7 @@ extension EditDetailsViewController : UITableViewDataSource {
         case .EditProfileInformationSectionTypePurpose:
             
             let cell = tableView.dequeueReusableCellWithIdentifier(textViewCellID, forIndexPath: indexPath) as! TextViewTableViewCell
+            
             
             
             switch EditPurposeTypes(rawValue: indexPath.row)! {
@@ -242,6 +376,8 @@ extension EditDetailsViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(textFieldCellID, forIndexPath: indexPath) as! TextFieldTableViewCell
             
+            
+            
             switch EditContactTypes(rawValue: indexPath.row)! {
                 
             case .EditContactTypePhone:
@@ -265,8 +401,8 @@ extension EditDetailsViewController : UITableViewDataSource {
                 return cell
                 
             }
-            
+        
         }
     }
-    
 }
+

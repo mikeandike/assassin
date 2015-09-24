@@ -7,9 +7,17 @@
 //
 
 import UIKit
+//
+//protocol NamePhotoTableViewCellDelegate {
+//    
+//    func updateTemporaryPersonWithTextField(sender : NamePhotoTableViewCell)
+//    
+//}
 
 class NamePhotoTableViewCell: UITableViewCell {
 
+//    var delegate : NamePhotoTableViewCellDelegate?
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
@@ -30,6 +38,15 @@ class NamePhotoTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+//    func textFieldDidEndEditing(textField: UITextField) {
+//        
+//        if let namePhotoCellDelegate = delegate {
+//            
+//            namePhotoCellDelegate.updateTemporaryPersonWithTextField(self)
+//            
+//        }
+//    }
 
     @IBAction func imageButtonTapped(sender: UIButton) {
     }

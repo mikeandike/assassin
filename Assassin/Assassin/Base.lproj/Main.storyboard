@@ -393,12 +393,14 @@
                     <navigationItem key="navigationItem" title="Profile" id="NYc-2Q-miI">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="b1y-N5-6rv">
                             <connections>
-                                <action selector="editButtonTapped:" destination="hWC-pJ-0R8" id="reF-p9-jxY"/>
+                                <action selector="editButtonTapped:" destination="hWC-pJ-0R8" id="Mlh-5g-VM1"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="editButton" destination="b1y-N5-6rv" id="bnz-7h-3oK"/>
+                        <outlet property="profileTableView" destination="vgL-7W-PnD" id="mSz-iW-cU1"/>
                         <segue destination="GNx-1o-lxm" kind="show" identifier="presentEditDetailVC" id="t2Q-hQ-DhR"/>
                     </connections>
                 </viewController>
@@ -502,6 +504,9 @@
                                                     <rect key="frame" x="8" y="10" width="584" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="GNx-1o-lxm" id="Vo3-6C-nk2"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -564,8 +569,12 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="9ZB-yW-IC8" id="mkT-n8-Rcr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3gF-vb-7RB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="uvN-H3-l29" customClass="TextFieldTableViewCell" customModule="Assassin" customModuleProvider="target"/>
                 <navigationItem title="Title" id="h5c-ra-OTg"/>
             </objects>
             <point key="canvasLocation" x="4022" y="-114"/>
