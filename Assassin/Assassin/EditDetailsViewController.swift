@@ -45,7 +45,7 @@ enum EditProfileInformationSectionTypes : Int {
     static var count: Int {return EditProfileInformationSectionTypes.EditProfileInformationSectionTypeContact.hashValue + 1}
 }
 
-class EditDetailsViewController: UIViewController, UITableViewDataSource, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class EditDetailsViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
     @IBOutlet weak var tableView: UITableView!
@@ -289,9 +289,9 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
     }
     */
     
-    //}
-    
-    //extension EditDetailsViewController : UITableViewDataSource {
+    }
+
+    extension EditDetailsViewController : UITableViewDataSource {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
