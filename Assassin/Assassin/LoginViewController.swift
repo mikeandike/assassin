@@ -27,15 +27,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         usernameTextField.delegate = self
         passwordTextField.delegate = self
-        loginButton.enabled = false
-        warningLabel.text = "Enter email and password to Login"
+        loginButton.enabled = true
+        warningLabel.text = ""
         
     }
     
     func textFieldDidBeginEditing(textField: UITextField) {
         
         warningLabel.text = ""
-        loginButton.enabled = false
+        loginButton.enabled = true
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {

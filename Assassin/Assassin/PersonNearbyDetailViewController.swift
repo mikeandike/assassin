@@ -129,15 +129,15 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(mainCellID, forIndexPath: indexPath) as! MainTableViewCell
             
-//            if let image = person.image {
-//                
-//                cell.bioImageView.image = image
-//                
-//            } else {
-//                
-//                //cell.bioImageView.image = fakeImage
-//                
-//            }
+            if let image = person.image {
+                
+                cell.bioImageView.image = image
+                
+            } else {
+                
+                //cell.bioImageView.image = fakeImage
+                
+            }
             
             cell.nameLabel.text = person.firstName + " " + person.lastName
             

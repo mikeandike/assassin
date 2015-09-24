@@ -99,26 +99,31 @@ class FirebaseNetworkController: NSObject {
     
     //MARK: Add nearby user to array of people nearby
     
-    func addPersonWithUIDAndLocationToPeopleNearby(uid : String, location: CLLocation) {
+    func addPersonWithUIDAndLocationToPeopleNearby(uid : String, location: CLLocation, locationOfCurrentUser: CLLocation) {
         
-        let usersRef = getUsersRef()
-        
-        let userRef = usersRef.childByAppendingPath(uid)
-        
-        userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
+        //If the location is not the location that was queried from
+        if location.coordinate.latitude != locationOfCurrentUser.coordinate.latitude || location.coordinate.longitude != locationOfCurrentUser.coordinate.longitude {
+    
+            let usersRef = getUsersRef()
             
-            if let personDictionary = snapshot.value {
+            let userRef = usersRef.childByAppendingPath(uid)
+            
+            userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
                 
-                let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
-                
-                person.lastLocation = location
-                
-                self.peopleNearby.append(person)
-                
-                print("peopleNearby: \(self.peopleNearby)")
-                
-            }
-        });
+                if let personDictionary = snapshot.value {
+                    
+                    let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
+                    
+                    person.lastLocation = location
+                    
+                    self.peopleNearby.append(person)
+                    
+                    print("peopleNearby: \(self.peopleNearby)")
+                    
+                }
+            });
+            
+        }
         
     }
     

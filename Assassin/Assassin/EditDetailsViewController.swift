@@ -146,6 +146,9 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
         person.image = image
+        self.tableView.reloadData()
+        dismissViewControllerAnimated(true, completion: nil)
+        
         
     }
 
@@ -353,7 +356,16 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
             cell.firstNameTextField.text = person.firstName
             cell.lastNameTextField.text = person.lastName
             
-            //need to put something here to not let person completely delete name
+            if let personImage = person.image {
+            
+                cell.imageButton.setImage(personImage, forState: UIControlState.Normal)
+            
+            } else {
+                
+                cell.imageButton.setTitle("Choose Image", forState: UIControlState.Normal)
+                cell.imageButton.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
+                
+            }
             
             return cell
             

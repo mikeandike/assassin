@@ -130,17 +130,14 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         circleQuery.observeEventType(GFEventTypeKeyEntered, withBlock: { (key: String!, location: CLLocation!) in
             print("Key '\(key)' entered the search area and is at location '\(location)'")
             
-            FirebaseNetworkController.sharedInstance.addPersonWithUIDAndLocationToPeopleNearby(key, location: location)
+            
+            FirebaseNetworkController.sharedInstance.addPersonWithUIDAndLocationToPeopleNearby(key, location: location, locationOfCurrentUser: currentLocation)
             
         })
         
         //make sure that both are happening and not overriding each other
         
-        circleQuery.observeEventType(GFEventTypeKeyExited) { (key: String!, location: CLLocation!) in
-            print("Key '\(key)' left the search area at location '\(location)'")
-            
-            
-        }
+       
         
     }
     
