@@ -49,6 +49,7 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
     
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var imageButton: UIButton!
     
     
     var person = FirebaseNetworkController.sharedInstance.currentPerson!
@@ -80,10 +81,14 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
     
     @IBAction func doneButtonTapped(sender: UIBarButtonItem) {
         
-        //TODO: Save changes to Firebase
+        saveProfile()
         
         self.navigationController!.popViewControllerAnimated(true)
         
+    }
+    
+    
+    @IBAction func imageButtonTapped(sender: UIButton) {
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
@@ -208,7 +213,7 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
     
     func saveProfile() {
         
-        
+        FirebaseNetworkController.sharedInstance.savePersonIntoDictionary(person)
         
     }
     
