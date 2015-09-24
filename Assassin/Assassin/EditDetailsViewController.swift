@@ -88,7 +88,6 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
     
     func textFieldDidEndEditing(textField: UITextField) {
         
-        
         updateTemporaryPersonWithText(textField)
         
     }
@@ -98,14 +97,6 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
         updatePersonWithTextView(textView)
         
     }
-    
-    //    func textOnTextFieldCellEntered(sender: TextFieldTableViewCell) {
-    //        updateTemporaryPersonWithText(sender)
-    //    }
-    //
-    //    func textOnTextViewCellEntered(sender: TextViewTableViewCell) {
-    //        updateTemporaryPersonWithText(sender)
-    //    }
     
     func updatePersonWithTextView(textView : UITextView) {
         
@@ -122,7 +113,20 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
                 break
                 
             case .EditProfileInformationSectionTypePurpose:
-                break
+                
+                let textViewCell = cell
+                
+                switch EditPurposeTypes(rawValue: indexPath.row)! {
+                    
+                case .EditPurposeTypePurpose:
+                    
+                    person.purpose = textViewCell.purposeTextView.text
+                    
+                case .EditPurposeTypeBio:
+                    
+                    person.bio = textViewCell.purposeTextView.text
+                    
+                }
                 
             case .EditProfileInformationSectionTypeContact:
                 break
@@ -133,7 +137,7 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
     
     func updateTemporaryPersonWithText(textField : UITextField) {
         
-        let cell = textField.superview!.superview! as! TextFieldTableViewCell
+        let cell = textField.superview!.superview! as! UITableViewCell
         
         if let indexPath = self.tableView.indexPathForCell(cell) {
             
@@ -141,11 +145,24 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
                 
             case .EditProfileInformationSectionTypeNamePhoto:
                 
-                break;
+                let namePhotoCell = cell as! NamePhotoTableViewCell
                 
+                if let firstNameText = namePhotoCell.firstNameTextField.text {
+                
+                    person.firstName = firstNameText
+                    
+                }
+                
+                if let lastNameText = namePhotoCell.lastNameTextField.text {
+                    
+                    person.lastName = lastNameText
+                    
+                }
+                
+             
             case .EditProfileInformationSectionTypeJob:
                 
-                let textFieldCell = cell
+                let textFieldCell = cell as! TextFieldTableViewCell
                 
                 switch EditJobTypes(rawValue: indexPath.row)! {
                     
@@ -160,23 +177,11 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
                 
             case .EditProfileInformationSectionTypePurpose:
                 break;
-                //            let textViewCell = cell
-                //
-                //            switch EditPurposeTypes(rawValue: indexPath.row)! {
-                //
-                //            case .EditPurposeTypePurpose:
-                //
-                //                person.purpose = textViewCell.purposeTextView.text
-                //
-                //            case .EditPurposeTypeBio:
-                //
-                //                person.bio = textViewCell.purposeTextView.text
-                //
-                //            }
+               
                 
             case .EditProfileInformationSectionTypeContact:
                 
-                let textFieldCell = cell
+                let textFieldCell = cell as! TextFieldTableViewCell
                 
                 switch EditContactTypes(rawValue: indexPath.row)! {
                     
