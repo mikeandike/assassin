@@ -98,6 +98,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    //MARK: login user
+    
     func loginUser(username : String, password: String) -> Void {
         
         FirebaseNetworkController.sharedInstance.authenticateUserWithEmailAndPassword(username, password: password)
