@@ -64,35 +64,37 @@ class FirebaseNetworkController: NSObject {
     
     func authenticateUserWithEmailAndPassword(email : String, password: String){
         
-        let usersRef = getUsersRef()
-        
-        usersRef.authUser(email, password: password) { (error, authData) -> Void in
+            let usersRef = getUsersRef()
             
-            if (error != nil) {
-               
-                print(error.localizedDescription)
+            usersRef.authUser(email, password: password) { (error, authData) in
                 
-            } else {
-                
-                let userRef = usersRef.childByAppendingPath(authData.uid)
-                
-                userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
+                if (error != nil) {
                     
-                    if let personDictionary = snapshot.value {
-                        
-                        self.currentPerson = Person.init(dictionary: personDictionary as! [String : AnyObject])
-                        
-                        NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
-                        
-                    }
+                    print(error.localizedDescription)
                     
-                })
-            
+                } else {
+                    
+                    let userRef = usersRef.childByAppendingPath(authData.uid)
+                    
+                    userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
+                        
+                        if let personDictionary = snapshot.value {
+                            
+                            self.currentPerson = Person.init(dictionary: personDictionary as! [String : AnyObject])
+                            
+                            NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
+                            
+                        }
+                        
+                    })
+                    
+                    
+                }
                 
             }
             
-        }
-
+        
+        
         
         
     }

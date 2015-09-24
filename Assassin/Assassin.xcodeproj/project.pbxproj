@@ -14,6 +14,7 @@
 		2C3E7F071BA7733300EEC113 /* RegisterUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7F011BA7733300EEC113 /* RegisterUserViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		2C3E7F081BA7733300EEC113 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7F021BA7733300EEC113 /* SettingsViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		2C3E7F0B1BA7790600EEC113 /* PersonNearbyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7F0A1BA7790600EEC113 /* PersonNearbyDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		76A9953B1BB4B76A0019B140 /* AppearenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A9953A1BB4B76A0019B140 /* AppearenceController.swift */; settings = {ASSET_TAGS = (); }; };
 		8C2D09031BA72FAF00155E77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D09021BA72FAF00155E77 /* AppDelegate.swift */; };
 		8C2D09081BA72FAF00155E77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C2D09061BA72FAF00155E77 /* Main.storyboard */; };
 		8C2D090A1BA72FAF00155E77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C2D09091BA72FAF00155E77 /* Assets.xcassets */; };
@@ -58,6 +59,7 @@
 		2C3E7F021BA7733300EEC113 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2C3E7F0A1BA7790600EEC113 /* PersonNearbyDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonNearbyDetailViewController.swift; sourceTree = "<group>"; };
 		5B9980DEC71A816C7FEB2BD3 /* Pods-Assassin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assassin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Assassin/Pods-Assassin.debug.xcconfig"; sourceTree = "<group>"; };
+		76A9953A1BB4B76A0019B140 /* AppearenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppearenceController.swift; sourceTree = "<group>"; };
 		8C2D08FF1BA72FAF00155E77 /* Assassin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assassin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C2D09021BA72FAF00155E77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C2D09071BA72FAF00155E77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			children = (
 				0FE634201BAA016E008289C5 /* LocationController.swift */,
 				8C5324761BA8B477001F4486 /* FirebaseNetworkController.swift */,
+				76A9953A1BB4B76A0019B140 /* AppearenceController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				2C3E7F081BA7733300EEC113 /* SettingsViewController.swift in Sources */,
 				8C2D09031BA72FAF00155E77 /* AppDelegate.swift in Sources */,
 				8C5324831BA8D174001F4486 /* Person.swift in Sources */,
+				76A9953B1BB4B76A0019B140 /* AppearenceController.swift in Sources */,
 				2C3E7F071BA7733300EEC113 /* RegisterUserViewController.swift in Sources */,
 				2C3E7F051BA7733300EEC113 /* MapViewController.swift in Sources */,
 				8C62F4701BB30D020005F95D /* NamePhotoTableViewCell.swift in Sources */,

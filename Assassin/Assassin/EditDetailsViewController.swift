@@ -80,6 +80,8 @@ class EditDetailsViewController: UIViewController, UITextViewDelegate, UITextFie
     
     @IBAction func doneButtonTapped(sender: UIBarButtonItem) {
         
+        self.view.endEditing(true)
+        
         saveProfile()
         
         self.navigationController!.popViewControllerAnimated(true)
