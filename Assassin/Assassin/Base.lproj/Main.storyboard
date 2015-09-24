@@ -496,6 +496,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="firstNameTextField" destination="iHR-bv-0ZG" id="vkF-QM-gUL"/>
+                                            <outlet property="imageButton" destination="9Li-Li-yQp" id="9b0-gf-x63"/>
                                             <outlet property="lastNameTextField" destination="I1W-DH-5MQ" id="WWA-ka-Wf9"/>
                                             <outlet property="nameLabel" destination="8aq-xQ-6o8" id="Q7g-Ir-owP"/>
                                         </connections>

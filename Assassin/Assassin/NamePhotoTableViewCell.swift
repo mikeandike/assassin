@@ -22,7 +22,7 @@ class NamePhotoTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
-   
+    @IBOutlet weak var imageButton: UIButton!
    
     
     override func awakeFromNib() {
