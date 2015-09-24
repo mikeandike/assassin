@@ -49,7 +49,6 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
     
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var imageButton: UIButton!
     
     
     var person = FirebaseNetworkController.sharedInstance.currentPerson!
