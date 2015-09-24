@@ -45,7 +45,7 @@ enum EditProfileInformationSectionTypes : Int {
     static var count: Int {return EditProfileInformationSectionTypes.EditProfileInformationSectionTypeContact.hashValue + 1}
 }
 
-class EditDetailsViewController: UIViewController, UITableViewDataSource, UITextViewDelegate, UITextFieldDelegate {
+class EditDetailsViewController: UIViewController, UITableViewDataSource, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
     @IBOutlet weak var tableView: UITableView!
@@ -89,8 +89,68 @@ class EditDetailsViewController: UIViewController, UITableViewDataSource, UIText
     
     
     @IBAction func imageButtonTapped(sender: UIButton) {
+        
+       loadImagePickerView()
+        
     }
     
+    
+    func loadImagePickerView() {
+        
+        let imagePickerController = UIImagePickerController.init()
+        imagePickerController.delegate = self
+        
+        let photoActionSheet = UIAlertController.init(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        
+        
+        let cameraRollAction = UIAlertAction.init(title: "From Library", style: UIAlertActionStyle.Default) { (action) -> Void in
+            imagePickerController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            self.presentViewController(imagePickerController, animated: true, completion: nil)
+            
+        }
+        
+        photoActionSheet.addAction(cameraRollAction)
+        
+        let takePictureAction = UIAlertAction.init(title: "Take Picture", style: UIAlertActionStyle.Default) { (action) -> Void in
+            
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) == true {
+                
+                imagePickerController.sourceType = UIImagePickerControllerSourceType.Camera
+                imagePickerController.cameraDevice = UIImagePickerControllerCameraDevice.Front
+                imagePickerController.allowsEditing = true
+                
+                self.presentViewController(imagePickerController, animated: true, completion: nil)
+                
+            } else {
+                
+                let noCameraAlert = UIAlertController.init(title: "Camera not available", message: "Please choose photo from library", preferredStyle: UIAlertControllerStyle.Alert)
+                
+                let dismissAction = UIAlertAction.init(title: "OK", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                    [self .dismissViewControllerAnimated(true, completion: nil)];
+                })
+                
+                noCameraAlert.addAction(dismissAction)
+                
+                self.presentViewController(noCameraAlert, animated: true, completion: nil)
+                
+            }
+        }
+        
+        photoActionSheet.addAction(takePictureAction)
+        
+        presentViewController(photoActionSheet, animated: true, completion: nil)
+        
+    }
+    
+
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        
+        person.image = image
+        
+    }
+
+
     func textFieldDidEndEditing(textField: UITextField) {
         
         updateTemporaryPersonWithText(textField)
