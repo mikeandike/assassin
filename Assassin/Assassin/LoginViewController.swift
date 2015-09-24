@@ -9,11 +9,12 @@
 import UIKit
 import Firebase
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var loginButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,62 @@ class LoginViewController: UIViewController {
         
         LocationController.sharedInstance.getLocation()
         
+        usernameTextField.delegate = self
+        passwordTextField.delegate = self
+        loginButton.enabled = false
+        warningLabel.text = "Enter email and password to Login"
+        
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        
+        warningLabel.text = ""
+        loginButton.enabled = false
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        if textField == usernameTextField {
+            
+            textField.resignFirstResponder()
+            passwordTextField.becomeFirstResponder()
+        }
+        
+        if textField == passwordTextField {
+            
+            textField.resignFirstResponder()
+//            loginButtonTapped(loginButton)
+        }
+        return true
+    }
+    
+    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+        
+        if textField == usernameTextField {
+            if let emailText = textField.text {
+                
+                if (emailText.containsString("@") == false) || (emailText.containsString(".") == false) || (emailText.characters.count < 6) {
+                    
+                    warningLabel.text = "You must enter a valid email address."
+                    return false
+                }
+            }
+        }
+        if textField == passwordTextField {
+            if let passwordText = textField.text {
+                
+                if passwordText.characters.count < 5 {
+                    
+                    warningLabel.text = "Password must be at least 5 characters."
+                    return false
+                    
+                } else {
+                    loginButton.enabled = true
+                    loginButtonTapped(loginButton)
+                }
+            }
+        }
+        return true
     }
 
     
