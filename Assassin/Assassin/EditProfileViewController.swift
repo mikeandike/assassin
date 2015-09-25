@@ -45,15 +45,16 @@ enum EditProfileInformationSectionTypes : Int {
     static var count: Int {return EditProfileInformationSectionTypes.EditProfileInformationSectionTypeContact.hashValue + 1}
 }
 
-class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class EditProfileViewController: UIViewController, UITableViewDelegate, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
     @IBOutlet weak var tableView: UITableView!
+
+    var person = FirebaseNetworkController.sharedInstance.currentPerson! //TODO: need to find a better way of doing this
+    var purposeTextViewHeight : CGFloat = 48.0
+    var bioTextViewHeight : CGFloat = 48.0
     
-    
-    var person = FirebaseNetworkController.sharedInstance.currentPerson!
-    
-    //TODO: need to find a better way of doing this
+    @IBOutlet weak var viewLengthLabel: UILabel!
     
     let namePhotoCellID = "namePhotoCellID"
     let textFieldCellID = "textFieldCellID"
@@ -63,6 +64,24 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        if let purposeString = person.purpose {
+        
+        purposeTextViewHeight = getHeightOfTextWithFont(purposeString, font: UIFont.systemFontOfSize(17))
+            
+        }
+        
+        if let bioString = person.bio {
+            
+            bioTextViewHeight = getHeightOfTextWithFont(bioString, font: UIFont.systemFontOfSize(17))
+            
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -92,6 +111,125 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
     @IBAction func imageButtonTapped(sender: UIButton) {
         
        loadImagePickerView()
+        
+    }
+    
+    //MARK: method to add characters remaining to textViews
+
+    
+    func textViewDidChange(textView: UITextView) {
+        
+        let cell = textView.superview!.superview! as! TextViewTableViewCell
+        
+        let textViewCharacterCount = textView.text.characters.count
+        
+        let characterCountString = "\(140-textViewCharacterCount)"
+        
+        cell.characterCountLabel.text = characterCountString
+        
+        if let indexPath = tableView.indexPathForCell(cell) {
+        
+            switch EditPurposeTypes(rawValue: indexPath.row)! {
+                
+            case .EditPurposeTypePurpose:
+                
+                let textHeight = getHeightOfTextWithFont(textView.text, font: cell.purposeTextView.font!)
+                
+                if textHeight > purposeTextViewHeight {
+                    
+                purposeTextViewHeight = textHeight
+                
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                    
+                }
+                
+            case .EditPurposeTypeBio:
+                
+                let textHeight = getHeightOfTextWithFont(textView.text, font: cell.purposeTextView.font!)
+                
+                if textHeight > bioTextViewHeight {
+                
+                 bioTextViewHeight = textHeight
+                
+                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                    
+                }
+                
+            }
+        }
+        
+        
+    }
+    
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        
+        if text.characters.count == 0 {
+            
+            if textView.text.characters.count != 0 {
+                
+                return true
+                
+            }
+            
+        } else if textView.text.characters.count > 140 {
+                
+                return false
+                
+            }
+                
+            return true
+            
+    }
+        
+
+    
+    func getHeightOfTextWithFont(textString : String, font : UIFont) -> CGFloat {
+        
+        return (textString as String).boundingRectWithSize(CGSize(width: self.view.frame.size.width - 10, height: CGFloat.max),
+            options: NSStringDrawingOptions.UsesLineFragmentOrigin,
+            attributes: [NSFontAttributeName: font],
+            context: nil).size.height
+        
+    }
+    
+    //MARK: UITableViewDelegate methods
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+            
+            switch EditProfileInformationSectionTypes(rawValue: indexPath.section)! {
+                
+            case .EditProfileInformationSectionTypeNamePhoto:
+                
+                return 130.0
+                
+            case .EditProfileInformationSectionTypeJob:
+               
+                return 48.0
+                
+            case .EditProfileInformationSectionTypePurpose:
+                
+                switch EditPurposeTypes(rawValue: indexPath.row)! {
+                    
+                case .EditPurposeTypePurpose:
+                    
+                  
+                    
+                    return purposeTextViewHeight
+                    
+                case .EditPurposeTypeBio:
+                    
+                    
+                    
+                    return bioTextViewHeight
+                    
+                }
+                
+            case .EditProfileInformationSectionTypeContact:
+                
+                return 48.0
+                
+            }
         
     }
     
@@ -164,8 +302,9 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
     func textViewDidEndEditing(textView: UITextView) {
         
         updatePersonWithTextView(textView)
-        
     }
+    
+   
     
     func updatePersonWithTextView(textView : UITextView) {
         
@@ -182,18 +321,16 @@ class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFie
                 break
                 
             case .EditProfileInformationSectionTypePurpose:
-                
-                let textViewCell = cell
-                
+              
                 switch EditPurposeTypes(rawValue: indexPath.row)! {
                     
                 case .EditPurposeTypePurpose:
                     
-                    person.purpose = textViewCell.purposeTextView.text
+                    person.purpose = cell.purposeTextView.text
                     
                 case .EditPurposeTypeBio:
                     
-                    person.bio = textViewCell.purposeTextView.text
+                    person.bio = cell.purposeTextView.text
                     
                 }
                 

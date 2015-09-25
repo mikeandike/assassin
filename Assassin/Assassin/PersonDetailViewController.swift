@@ -27,6 +27,9 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var profileTableView: UITableView!
     
     var person : Person!
+    
+    var purposeTextViewHeight : CGFloat = 48.0
+    var bioTextViewHeight : CGFloat = 48.0
 
     var isCurrentUsersProfile : Bool = false
     
@@ -61,13 +64,29 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
         self.profileTableView.reloadData()
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "presentDetailViewFromCell" {
+            
+            let cell = sender as! UITableViewCell
+            
+            if let indexPath = profileTableView.indexPathForCell(cell) {
+            
+            profileTableView .deselectRowAtIndexPath(indexPath, animated: true)
+                
+                }
+            
+        } else if segue.identifier == "presentEditProfileVC" {
+            
+            let editProfileVC = segue.destinationViewController as! EditProfileViewController
+            editProfileVC.purposeTextViewHeight = purposeTextViewHeight
+            editProfileVC.bioTextViewHeight = bioTextViewHeight
+            
+            
+        }
+    }
   
 
-    @IBAction func editButtonTapped(sender: UIBarButtonItem) {
-        
-        self.performSegueWithIdentifier("presentEditProfileVC", sender: self)
-        
-    }
+   
     
     
    //MARK: tableview delegate methods
@@ -82,7 +101,17 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
             
         case .ProfileInformationTypePurposeCell:
             
-            return 119
+            switch EditPurposeTypes(rawValue: indexPath.row)! {
+                
+            case .EditPurposeTypePurpose:
+                
+                return purposeTextViewHeight
+                
+            case .EditPurposeTypeBio:
+                
+                return bioTextViewHeight
+                
+            }
             
         case .ProfileInformationTypePhoneCell:
             

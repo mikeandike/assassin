@@ -21,8 +21,23 @@ class RegisterUserViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        //Appearence related activities
+        
+        AppearenceController.initializeAppearence()
+        warningLabel.textColor = AppearenceController.tealColor
+        
+    
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let navController = navigationController {
+            
+            navController.navigationBarHidden = false
+        }
     }
     
     @IBAction func registerButtonPressed(sender: UIButton) {

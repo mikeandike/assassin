@@ -20,7 +20,7 @@ class TextViewTableViewCell: UITableViewCell {
     
     
     @IBOutlet weak var purposeTextView: UITextView!
-    
+    @IBOutlet weak var characterCountLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
