@@ -21,6 +21,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
         
+        //Appearence related activities
+        
+        AppearenceController.initializeAppearence()
+        warningLabel.textColor = AppearenceController.tealColor
+        
         //go ahead and start getting location
         
         LocationController.sharedInstance.getLocation()
@@ -30,6 +35,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         loginButton.enabled = false
         warningLabel.text = ""
         
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let navController = navigationController {
+            
+            navController.navigationBarHidden = true
+        }
     }
     
     func textFieldDidBeginEditing(textField: UITextField) {
