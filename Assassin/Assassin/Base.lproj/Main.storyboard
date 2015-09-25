@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b1I-5X-Vv1">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b1I-5X-Vv1">
                                 <rect key="frame" x="20" y="247" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
@@ -84,9 +84,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="emailTextField" destination="b1I-5X-Vv1" id="8vC-2v-cUe"/>
                         <outlet property="loginButton" destination="C3b-XK-T7h" id="TPW-ko-gjj"/>
                         <outlet property="passwordTextField" destination="fRf-BD-cbR" id="wAL-rP-aHb"/>
-                        <outlet property="usernameTextField" destination="b1I-5X-Vv1" id="Atf-lt-f9e"/>
                         <outlet property="warningLabel" destination="QJR-Hg-j2y" id="p1b-LI-m0d"/>
                         <segue destination="ejx-s1-gMn" kind="presentation" identifier="loginAndPresentTabBar" id="XXn-oj-Ib2"/>
                     </connections>
@@ -98,7 +98,7 @@
         <!--People near me-->
         <scene sceneID="xoL-uf-Ba1">
             <objects>
-                <viewController id="27h-H6-0Mn" customClass="MapViewController" customModule="Assassin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="27h-H6-0Mn" customClass="PersonListViewController" customModule="Assassin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bHO-Te-wGV"/>
                         <viewControllerLayoutGuide type="bottom" id="mQs-CQ-TUZ"/>
@@ -111,11 +111,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="personNearbyCellID" rowHeight="121" id="3mk-7i-PNE" customClass="PersonNearbyTableViewCell" customModule="Assassin" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="personCellID" rowHeight="121" id="3mk-7i-PNE" customClass="PersonTableViewCell">
                                         <rect key="frame" x="0.0" y="92" width="600" height="121"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3mk-7i-PNE" id="a1z-Vm-oSQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="120"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="120.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y5w-36-7WT">
@@ -223,7 +223,7 @@
         <!--Profile-->
         <scene sceneID="b1f-4X-hyd">
             <objects>
-                <viewController id="hWC-pJ-0R8" customClass="PersonNearbyDetailViewController" customModule="Assassin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="hWC-pJ-0R8" customClass="PersonDetailViewController" customModule="Assassin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="YKk-zN-J3W"/>
                         <viewControllerLayoutGuide type="bottom" id="ai3-i2-qmY"/>
@@ -240,7 +240,7 @@
                                         <rect key="frame" x="0.0" y="92" width="600" height="281"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="X8a-hF-chS" id="OOa-5L-P1s">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="280"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="280.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BPV-n4-KNe">
@@ -310,7 +310,7 @@
                                         <rect key="frame" x="0.0" y="373" width="600" height="119"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QmA-o4-w9z" id="Ybl-7S-fUW">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="118"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="118.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Here to Get a Job in iOS Development" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VXK-e4-8Fn">
@@ -322,7 +322,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Currently a student at DevMtn. Originally from Asheville, NC. Hates lengthy guest speakers. Is amused by furry animals." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azr-uw-eYy">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Currently a student at DevMtn. Originally from Asheville, NC. Hates lengthy guest speakers. Is amused by furry animals." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azr-uw-eYy">
                                                     <rect key="frame" x="8" y="44" width="584" height="67"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -348,7 +348,7 @@
                                         <rect key="frame" x="0.0" y="492" width="600" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Bh2-Q0-xr9" id="55Y-wY-BcH">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="47"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="47.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pth-Ht-CF0">
@@ -409,17 +409,17 @@
                     <connections>
                         <outlet property="editButton" destination="b1y-N5-6rv" id="bnz-7h-3oK"/>
                         <outlet property="profileTableView" destination="vgL-7W-PnD" id="mSz-iW-cU1"/>
-                        <segue destination="GNx-1o-lxm" kind="show" identifier="presentEditDetailVC" id="t2Q-hQ-DhR"/>
+                        <segue destination="GNx-1o-lxm" kind="show" identifier="presentEditProfileVC" id="t2Q-hQ-DhR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CEW-nt-B1T" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3310" y="-114"/>
         </scene>
-        <!--Edit Details View Controller-->
+        <!--Edit Profile View Controller-->
         <scene sceneID="lxi-0e-aGw">
             <objects>
-                <viewController id="GNx-1o-lxm" customClass="EditDetailsViewController" customModule="Assassin" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="GNx-1o-lxm" customClass="EditProfileViewController" customModule="Assassin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oAt-r0-jj4"/>
                         <viewControllerLayoutGuide type="bottom" id="dbo-A4-ZbC"/>
@@ -436,7 +436,7 @@
                                         <rect key="frame" x="0.0" y="92" width="600" height="136"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kof-sA-R33" id="aFY-QL-NjO">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="135"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="135.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iHR-bv-0ZG">
@@ -506,7 +506,7 @@
                                         <rect key="frame" x="0.0" y="228" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OTg-Lb-H9r" id="f9O-u7-a4K">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="49"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gMR-6f-Wx8">
@@ -532,10 +532,10 @@
                                         <rect key="frame" x="0.0" y="278" width="600" height="76"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="h7G-ON-Hos" id="X4Q-7V-dgf">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="75"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="75.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="Currently a student at DevMtn. Originally from Asheville, NC. Hates lengthy guest speakers. Is amused by furry animals." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="KGj-es-KlO">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Currently a student at DevMtn. Originally from Asheville, NC. Hates lengthy guest speakers. Is amused by furry animals." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="KGj-es-KlO">
                                                     <rect key="frame" x="8" y="0.0" width="584" height="68"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -730,8 +730,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="gXY-Ug-qra"/>
         <segue reference="XXn-oj-Ib2"/>
+        <segue reference="gXY-Ug-qra"/>
         <segue reference="rqN-VE-ztt"/>
     </inferredMetricsTieBreakers>
 </document>

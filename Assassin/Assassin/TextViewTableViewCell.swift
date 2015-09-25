@@ -20,6 +20,8 @@ class TextViewTableViewCell: UITableViewCell {
     
     
     @IBOutlet weak var purposeTextView: UITextView!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

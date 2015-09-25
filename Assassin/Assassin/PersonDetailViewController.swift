@@ -1,5 +1,5 @@
 //
-//  PersonNearbyDetailViewController.swift
+//  PersonDetailViewController.swift
 //  Assassin
 //
 //  Created by Michelle Tessier on 9/14/15.
@@ -21,7 +21,7 @@ enum ProfileInformationTypes : Int {
 }
 
 
-class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
+class PersonDetailViewController: UIViewController, UITableViewDelegate {
     
     
     @IBOutlet weak var profileTableView: UITableView!
@@ -65,7 +65,7 @@ class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
 
     @IBAction func editButtonTapped(sender: UIBarButtonItem) {
         
-        self.performSegueWithIdentifier("presentEditDetailVC", sender: self)
+        self.performSegueWithIdentifier("presentEditProfileVC", sender: self)
         
     }
     
@@ -113,7 +113,7 @@ class PersonNearbyDetailViewController: UIViewController, UITableViewDelegate {
 }
 
 
-extension PersonNearbyDetailViewController : UITableViewDataSource {
+extension PersonDetailViewController : UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -169,7 +169,7 @@ extension PersonNearbyDetailViewController : UITableViewDataSource {
                 
                 let timeString = FirebaseNetworkController.sharedInstance.convertDateIntoString(timeAtLastLocation)
                 
-                cell.lastActiveLabel.text = "Last active at" + timeString
+                cell.lastActiveLabel.text = "Last active at " + timeString
                 
             }
             

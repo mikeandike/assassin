@@ -13,7 +13,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
     override func viewDidLoad() {
@@ -25,9 +25,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         LocationController.sharedInstance.getLocation()
         
-        usernameTextField.delegate = self
+        emailTextField.delegate = self
         passwordTextField.delegate = self
-        loginButton.enabled = true
+        loginButton.enabled = false
         warningLabel.text = ""
         
     }
@@ -35,12 +35,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     func textFieldDidBeginEditing(textField: UITextField) {
         
         warningLabel.text = ""
-        loginButton.enabled = true
+        loginButton.enabled = false
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
-        if textField == usernameTextField {
+        if textField == emailTextField {
             
             textField.resignFirstResponder()
             passwordTextField.becomeFirstResponder()
@@ -49,14 +49,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         if textField == passwordTextField {
             
             textField.resignFirstResponder()
-//            loginButtonTapped(loginButton)
         }
         return true
     }
     
     func textFieldShouldEndEditing(textField: UITextField) -> Bool {
         
-        if textField == usernameTextField {
+        if textField == emailTextField {
             if let emailText = textField.text {
                 
                 if (emailText.containsString("@") == false) || (emailText.containsString(".") == false) || (emailText.characters.count < 6) {
@@ -86,7 +85,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func loginButtonTapped(sender: AnyObject) {
         
-        if let emailString = usernameTextField.text, passwordString = passwordTextField.text {
+        if let emailString = emailTextField.text, passwordString = passwordTextField.text {
             
             loginUser(emailString, password: passwordString)
             

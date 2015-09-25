@@ -1,5 +1,5 @@
 //
-//  PersonNearbyTableViewCell.swift
+//  PersonTableViewCell.swift
 //  Assassin
 //
 //  Created by Michael Sacks on 9/14/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PersonNearbyTableViewCell: UITableViewCell {
+class PersonTableViewCell: UITableViewCell {
 
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!

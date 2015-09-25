@@ -1,5 +1,5 @@
 //
-//  EditDetailsViewController.swift
+//  EditProfileViewController.swift
 //  Assassin
 //
 //  Created by Michael Sacks on 9/23/15.
@@ -45,7 +45,7 @@ enum EditProfileInformationSectionTypes : Int {
     static var count: Int {return EditProfileInformationSectionTypes.EditProfileInformationSectionTypeContact.hashValue + 1}
 }
 
-class EditDetailsViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class EditProfileViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
     @IBOutlet weak var tableView: UITableView!
@@ -293,7 +293,7 @@ class EditDetailsViewController: UIViewController, UITextViewDelegate, UITextFie
     
     }
 
-    extension EditDetailsViewController : UITableViewDataSource {
+    extension EditProfileViewController : UITableViewDataSource {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         

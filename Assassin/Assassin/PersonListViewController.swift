@@ -1,5 +1,5 @@
 //
-//  MapViewController.swift
+//  PersonListViewController.swift
 //  Assassin
 //
 //  Created by Michael Sacks on 9/14/15.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class MapViewController: UIViewController {
+class PersonListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    let personNearbyCellID = "personNearbyCellID"
+    let personCellID = "personCellID"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +31,7 @@ class MapViewController: UIViewController {
         
         if segue.identifier == "presentDetailViewFromCell" {
             
-            let destinationViewCon = segue.destinationViewController as! PersonNearbyDetailViewController
+            let destinationVC = segue.destinationViewController as! PersonDetailViewController
             
             if let indexPath = tableView.indexPathForSelectedRow {
                 
@@ -40,18 +40,18 @@ class MapViewController: UIViewController {
         
                 let person = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
                 
-                    destinationViewCon.person = person
-                    destinationViewCon.isCurrentUsersProfile = false
+                    destinationVC.person = person
+                    destinationVC.isCurrentUsersProfile = false
             }
             
         } else if segue.identifier == "presentCurrentUserProfile" {
             
-            let destinationViewCon = segue.destinationViewController as! PersonNearbyDetailViewController
+            let destinationVC = segue.destinationViewController as! PersonDetailViewController
             
             if let person = FirebaseNetworkController.sharedInstance.currentPerson {
                 
-                destinationViewCon.person = person
-                destinationViewCon.isCurrentUsersProfile = true
+                destinationVC.person = person
+                destinationVC.isCurrentUsersProfile = true
                 
             }
             
@@ -64,7 +64,7 @@ class MapViewController: UIViewController {
 
 
 
-extension MapViewController : UITableViewDataSource {
+extension PersonListViewController : UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -73,7 +73,7 @@ extension MapViewController : UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(personNearbyCellID, forIndexPath: indexPath) as! PersonNearbyTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(personCellID, forIndexPath: indexPath) as! PersonTableViewCell
         
         let person = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
         
