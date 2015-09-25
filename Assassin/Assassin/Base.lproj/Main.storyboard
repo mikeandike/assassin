@@ -246,20 +246,20 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BPV-n4-KNe">
-                                                    <rect key="frame" x="238" y="0.0" width="125" height="125"/>
+                                                    <rect key="frame" x="238" y="8" width="125" height="125"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="125" id="UeQ-vb-hea"/>
                                                         <constraint firstAttribute="width" constant="125" id="bwb-Sm-78t"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Michelle Tessier" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cx5-l2-hig">
-                                                    <rect key="frame" x="8" y="149" width="584" height="24"/>
+                                                    <rect key="frame" x="8" y="157" width="584" height="24"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iOS Developer Student" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cmg-vr-Ptb">
-                                                    <rect key="frame" x="8" y="202" width="584" height="21"/>
+                                                    <rect key="frame" x="8" y="210" width="584" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="F7i-jp-r8U"/>
                                                     </constraints>
@@ -268,7 +268,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last active 1:05PM " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m1V-KK-xLZ">
-                                                    <rect key="frame" x="8" y="231" width="584" height="21"/>
+                                                    <rect key="frame" x="8" y="239" width="584" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="bon-L4-zDK"/>
                                                     </constraints>
@@ -277,7 +277,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DevMountain" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cEf-aW-5Bx">
-                                                    <rect key="frame" x="8" y="186" width="584" height="21"/>
+                                                    <rect key="frame" x="8" y="194" width="584" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -297,7 +297,7 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="cEf-aW-5Bx" secondAttribute="trailing" id="XeZ-Q2-F06"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="m1V-KK-xLZ" secondAttribute="trailing" id="aTP-1Y-xan"/>
                                                 <constraint firstAttribute="leadingMargin" secondItem="cEf-aW-5Bx" secondAttribute="leading" id="cej-9K-GQ7"/>
-                                                <constraint firstItem="BPV-n4-KNe" firstAttribute="top" secondItem="OOa-5L-P1s" secondAttribute="topMargin" constant="-8" id="juP-oF-F0s"/>
+                                                <constraint firstItem="BPV-n4-KNe" firstAttribute="top" secondItem="OOa-5L-P1s" secondAttribute="topMargin" id="juP-oF-F0s"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -468,7 +468,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="29" id="pRM-DQ-cuu"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
