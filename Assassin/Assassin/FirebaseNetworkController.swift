@@ -62,15 +62,18 @@ class FirebaseNetworkController: NSObject {
     
     //MARK: method to authenticate user
     
-    func authenticateUserWithEmailAndPassword(email : String, password: String){
+    func authenticateUserWithEmailAndPassword(email : String, password: String, completion: (Bool) -> ()){
         
             let usersRef = getUsersRef()
             
             usersRef.authUser(email, password: password) { (error, authData) in
                 
+                // TODO: change to if (error) ??
                 if (error != nil) {
                     
                     print(error.localizedDescription)
+                    
+                    completion(false)
                     
                 } else {
                     
@@ -84,6 +87,9 @@ class FirebaseNetworkController: NSObject {
                             
                             NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
                             
+                            completion(true)
+                        } else {
+                            completion(false)
                         }
                         
                     })
