@@ -85,6 +85,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func loginButtonTapped(sender: AnyObject) {
         
+        loginButton.enabled = false
+        
         if let emailString = emailTextField.text, passwordString = passwordTextField.text {
             
             loginUser(emailString, password: passwordString)
@@ -101,10 +103,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func loginUser(username : String, password: String) -> Void {
         
-        FirebaseNetworkController.sharedInstance.authenticateUserWithEmailAndPassword(username, password: password)
-        
-        transitionToNextView()
-                
+        FirebaseNetworkController.sharedInstance.authenticateUserWithEmailAndPassword(username, password: password) { (hasUser) -> () in
+            if hasUser {
+                print("transitioning to new view")
+
+                self.transitionToNextView()
+            } else {
+                print("authenticate user failed")
+            }
+        }
     }
     
     func transitionToNextView() -> Void {
