@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class RegisterUserViewController: UIViewController {
+class RegisterUserViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var firstNameTextField: UITextField!
@@ -18,6 +18,7 @@ class RegisterUserViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmPasswordTextField: UITextField!
     @IBOutlet weak var warningLabel: UILabel!
+    @IBOutlet weak var registerButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +28,14 @@ class RegisterUserViewController: UIViewController {
         AppearenceController.initializeAppearence()
         warningLabel.textColor = AppearenceController.tealColor
         
-    
         // Do any additional setup after loading the view.
+        
+        firstNameTextField.delegate = self
+        lastNameTextField.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        confirmPasswordTextField.delegate = self
+        warningLabel.text = ""
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -40,34 +47,215 @@ class RegisterUserViewController: UIViewController {
         }
     }
     
-    @IBAction func registerButtonPressed(sender: UIButton) {
+    //MARK: textfield checking methods
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
         
+        warningLabel.text = ""
+    }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
-     if passwordTextField.text != confirmPasswordTextField.text {
+        if textField == firstNameTextField || textField == lastNameTextField {
             
-            warningLabel.text = "Passwords must match"
-            
-        } else if emailTextField.text?.containsString("@") == false {
-            //TODO: Better way to check email?
-            warningLabel.text = "Must enter a valid email"
-            
-        } else {
-        
-            warningLabel.text = ""
-            
-            if let emailString = emailTextField.text, passwordString = passwordTextField.text, firstNameString = firstNameTextField.text, lastNameString = lastNameTextField.text {
+            if controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 0) && (string != "") || controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 2) && (string == "") {
                 
-               registerUserWithEmailAndPassword(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString)
+                warningLabel.text = ""
                 
+                if controlTestForNamesAndPasswordTextFields(firstNameTextField, andCharacterCountGreaterThan: 1) &&
+                    controlTestForNamesAndPasswordTextFields(lastNameTextField, andCharacterCountGreaterThan: 1) &&
+                    controlTestForNamesAndPasswordTextFields(passwordTextField, andCharacterCountGreaterThan: 4) &&
+                    controlTestForConfirmPasswordTextField(confirmPasswordTextField) &&
+                    controlTestForEmailTextField(emailTextField, andCharacterCountGreaterThan: 5) {
+                    
+                    registerButton.enabled = true
+                        
+                } else {
+                    registerButton.enabled = false
+                }
                 
             } else {
-                
-                warningLabel.text = "Must enter email and password"
-                
+                registerButton.enabled = false
             }
+        }
+        
+        if textField == passwordTextField {
+            
+            if controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 3) && (string != "") || controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 5) && (string == "") {
+                
+                warningLabel.text = ""
+                
+                if controlTestForNamesAndPasswordTextFields(firstNameTextField, andCharacterCountGreaterThan: 1) &&
+                    controlTestForNamesAndPasswordTextFields(lastNameTextField, andCharacterCountGreaterThan: 1) &&
+                    controlTestForConfirmPasswordTextField(confirmPasswordTextField) &&
+                    controlTestForEmailTextField(emailTextField, andCharacterCountGreaterThan: 5) {
+                        
+                        registerButton.enabled = true
+                        
+                } else {
+                    registerButton.enabled = false
+                }
+                
+            } else {
+                registerButton.enabled = false
+            }
+        }
+        
+        if textField == emailTextField {
+            
+            if controlTestForEmailTextField(textField, andCharacterCountGreaterThan: 4) && (string != "") ||
+                controlTestForEmailTextField(textField, andCharacterCountGreaterThan: 6) && (string == "") {
+                
+                warningLabel.text = ""
+                
+                if controlTestForNamesAndPasswordTextFields(firstNameTextField, andCharacterCountGreaterThan: 1) &&
+                    controlTestForNamesAndPasswordTextFields(lastNameTextField, andCharacterCountGreaterThan: 1) &&
+                    controlTestForNamesAndPasswordTextFields(passwordTextField, andCharacterCountGreaterThan: 4) &&
+                    controlTestForConfirmPasswordTextField(confirmPasswordTextField) {
+                        
+                        registerButton.enabled = true
+                        
+                } else {
+                    registerButton.enabled = false
+                }
+                
+            } else {
+                registerButton.enabled = false
+            }
+        }
+        return true
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        if textField == firstNameTextField {
+            textField.resignFirstResponder()
+            lastNameTextField.becomeFirstResponder()
+        }
+        if textField == lastNameTextField {
+            textField.resignFirstResponder()
+            emailTextField.becomeFirstResponder()
+        }
+        if textField == emailTextField {
+            textField.resignFirstResponder()
+            passwordTextField.becomeFirstResponder()
+        }
+        if textField == passwordTextField {
+            textField.resignFirstResponder()
+            confirmPasswordTextField.becomeFirstResponder()
+        }
+        if textField == confirmPasswordTextField {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+    
+    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+        
+        if textField == firstNameTextField {
+            
+            if controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 1) {
+                return true
+                
+            } else {
+                warningLabel.text = "First name must be more than one letter."
+                return false
+            }
+        }
+        if textField == lastNameTextField {
+            
+            if controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 1) {
+                return true
+                
+            } else {
+                warningLabel.text = "Last name must be more than one letter."
+                return false
+            }
+        }
+        if textField == emailTextField {
+            
+            if controlTestForEmailTextField(textField, andCharacterCountGreaterThan: 5) {
+                return true
+                
+            } else {
+                warningLabel.text = "You must enter a valid email address."
+                return false
+            }
+        }
+        if textField == passwordTextField {
+            
+            if controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 4) {
+                return true
+                
+            } else {
+                warningLabel.text = "Password must be more than four characters."
+                return false
+            }
+        }
+        if textField == confirmPasswordTextField {
+            
+            if controlTestForConfirmPasswordTextField(textField) {
+                return true
+                
+            } else {
+                warningLabel.text = "Passwords must match."
+                return false
+            }
+        }
+        return true
+    }
+    
+    //MARK: textfield control test methods
+    
+    func controlTestForNamesAndPasswordTextFields(textField: UITextField, andCharacterCountGreaterThan count: Int) -> Bool {
+        
+        if let typedText = textField.text {
+            
+            if typedText.characters.count > count {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func controlTestForEmailTextField(textField: UITextField, andCharacterCountGreaterThan count: Int) -> Bool {
+        
+        if let emailText = textField.text {
+            
+            if (emailText.containsString("@")) && (emailText.containsString(".")) && (emailText.characters.count > count) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func controlTestForConfirmPasswordTextField(textField: UITextField) -> Bool {
+        
+        if let passwordText = passwordTextField.text, confirmPasswordText = textField.text {
+            
+            if (confirmPasswordText == passwordText) {
+                registerButton.enabled = true
+                return true
+            }
+        }
+        return false
+    }
+
+    //MARK: register button method
+    
+    @IBAction func registerButtonPressed(sender: UIButton) {
+        
+        if let emailString = emailTextField.text, passwordString = passwordTextField.text, firstNameString = firstNameTextField.text, lastNameString = lastNameTextField.text {
+            
+            registerUserWithEmailAndPassword(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString)
+            
+        } else {
+            
+            warningLabel.text = "Must enter email and password"
         }
     }
 
+    //MARK: register user on firebase method
     
     func registerUserWithEmailAndPassword(emailString: String, passwordString: String, firstNameString: String, lastNameString: String) -> Void {
         
@@ -95,6 +283,8 @@ class RegisterUserViewController: UIViewController {
         })
         
     }
+    
+    //MARK: segue method
     
     func transitionToNextView() -> Void {
         
