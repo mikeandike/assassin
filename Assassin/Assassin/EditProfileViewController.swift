@@ -291,12 +291,20 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
         
         
     }
-
+    
+    //MARK: - textFieldDelegateMethods - dismissing keyboard
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    //MARK: - saving edited fields
 
     func textFieldDidEndEditing(textField: UITextField) {
         
         updateTemporaryPersonWithText(textField)
-        
     }
     
     func textViewDidEndEditing(textView: UITextView) {
@@ -355,14 +363,19 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
                 
                 if let firstNameText = namePhotoCell.firstNameTextField.text {
                 
-                    person.firstName = firstNameText
+                    //prevents from saving first or last names with 0 or 1 letter:
+                    //should we also have a warning pop up and/or prevent the from leaving the screen?
                     
+                    if firstNameText.characters.count > 1 {
+                        person.firstName = firstNameText
+                    }
                 }
                 
                 if let lastNameText = namePhotoCell.lastNameTextField.text {
                     
-                    person.lastName = lastNameText
-                    
+                    if lastNameText.characters.count > 1 {
+                        person.lastName = lastNameText
+                    }
                 }
                 
              
@@ -399,10 +412,14 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
                     
                     if let textFieldText = textFieldCell.infoTextField.text {
                         
-                        person.email = textFieldText
+                        //only saves email if it passes email test (the one we've been using)
+                        //again, like with names, should we have a warning and/or prevent screen from popping?
                         
+                        if textFieldText.characters.count > 5 && textFieldText.containsString("@") && textFieldText.containsString(".") {
+                            person.email = textFieldText
+
+                        }
                     }
-                    
                 }
                 
             }
@@ -428,9 +445,11 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
     }
     */
     
-    }
+}
 
-    extension EditProfileViewController : UITableViewDataSource {
+//MARK: - Extension: TableView DataSource
+
+extension EditProfileViewController : UITableViewDataSource {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         

@@ -444,6 +444,9 @@
                                                     <rect key="frame" x="141" y="43" width="451" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="GNx-1o-lxm" id="If0-0D-aJs"/>
+                                                    </connections>
                                                 </textField>
                                                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Li-Li-yQp">
                                                     <rect key="frame" x="8" y="0.0" width="125" height="125"/>
@@ -476,6 +479,9 @@
                                                     <rect key="frame" x="141" y="90" width="451" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="GNx-1o-lxm" id="OjM-Bn-C0d"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -515,7 +521,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
-                                                        <outlet property="delegate" destination="GNx-1o-lxm" id="Vo3-6C-nk2"/>
+                                                        <outlet property="delegate" destination="GNx-1o-lxm" id="YCq-3b-sba"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
