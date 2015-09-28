@@ -10,8 +10,8 @@ import UIKit
 
 class PurposeTableViewCell: UITableViewCell {
 
+    
     @IBOutlet weak var purposeLabel: UILabel!
-    @IBOutlet weak var bioLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

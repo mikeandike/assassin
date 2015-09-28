@@ -10,10 +10,12 @@ import UIKit
 
 class PersonTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var starButton: UIButton!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var companyLabel: UILabel!
     @IBOutlet weak var jobTitleLabel: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
