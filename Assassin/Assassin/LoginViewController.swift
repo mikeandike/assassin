@@ -15,6 +15,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var boringActivityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -167,6 +168,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         loginButton.enabled = false
         
         if let emailString = emailTextField.text, passwordString = passwordTextField.text {
+            
+            boringActivityIndicator.startAnimating()
             
             loginUser(emailString, password: passwordString)
             
