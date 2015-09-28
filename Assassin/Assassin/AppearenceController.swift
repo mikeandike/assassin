@@ -46,11 +46,8 @@ class AppearenceController: NSObject {
 //        UIBarButtonItem.appearance().setBackButtonBackgroundImage(backImage, forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
         
         //images to get
-        //-back button arrow
         //Assassin full word w/ A icon
         //Assassin icon only
-        //picture placeholder
-        //picture placeholder w/ select image text
         
         
     

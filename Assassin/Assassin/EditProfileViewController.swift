@@ -515,8 +515,9 @@ extension EditProfileViewController : UITableViewDataSource {
             
             } else {
                 
-                cell.imageButton.setTitle("Choose Image", forState: UIControlState.Normal)
-                cell.imageButton.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
+                cell.imageButton.setBackgroundImage(UIImage(named: "blankProfileLightGray"), forState: .Normal)
+                cell.imageButton.setTitle("Choose Image", forState: .Normal)
+                cell.imageButton.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
                 
             }
             

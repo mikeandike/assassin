@@ -90,7 +90,13 @@ extension PersonListViewController : UITableViewDataSource {
         
         let person = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
         
-        cell.userImageView.image = person.image
+        if let image = person.image {
+            cell.userImageView.image = image
+
+        } else {
+            cell.userImageView.image = UIImage(named: "blankProfileGray")
+        }
+        
         cell.nameLabel.text = person.firstName + " " + person.lastName
     
         cell.companyLabel.text = person.company
