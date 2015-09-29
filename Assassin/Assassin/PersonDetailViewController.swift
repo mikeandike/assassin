@@ -14,10 +14,18 @@ enum ProfileInformationTypes : Int {
     case ProfileInformationTypeMainCell
     case ProfileInformationTypePurposeCell
     case ProfileInformationTypeBioCell
-    case ProfileInformationTypePhoneCell
-    case ProfileInformationTypeEmailCell
+    case ProfileInformationTypeContactCell
     
     static var count: Int {return ProfileInformationTypes.ProfileInformationTypeEmailCell.hashValue + 1}
+    
+}
+
+enum ContactInformationTypes : Int {
+    
+    case ContactInformationTypePhone
+    case ContactInformationTypeEmail
+    
+    static var count: Int {return ContactInformationTypes.ContactInformationTypeEmail.hashValue + 1}
     
 }
 
@@ -128,11 +136,7 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
             
             return bioTextViewHeight
             
-        case .ProfileInformationTypePhoneCell:
-            
-            return 48
-            
-        case .ProfileInformationTypeEmailCell:
+        case .ProfileInformationTypeContactCell
             
             return 48
         }
@@ -159,15 +163,65 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
 
 extension PersonDetailViewController : UITableViewDataSource {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         return ProfileInformationTypes.count
         
     }
     
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        switch ProfileInformationTypes(rawValue: indexPath.section)! {
+            
+        case .ProfileInformationTypeMainCell:
+            
+            return 1
+            
+        case .ProfileInformationTypePurposeCell:
+            
+            return 1
+            
+        case .ProfileInformationTypeBioCell:
+            
+            return 1
+            
+            return bioTextViewHeight
+            
+        case .ProfileInformationTypeContactCell:
+            
+            return 2
+            
+        }
+        
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        switch ProfileInformationTypes(rawValue: indexPath.section)! {
+            
+        case .ProfileInformationTypeMainCell:
+            
+            break
+            
+        case .ProfileInformationTypePurposeCell:
+            
+            return "Purpose"
+            
+        case .ProfileInformationTypeBioCell:
+            
+            return "Bio"
+            
+        case .ProfileInformationTypeContactCell:
+            
+            return "Contact"
+            
+        }
+        
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        switch ProfileInformationTypes(rawValue: indexPath.row)! {
+        switch ProfileInformationTypes(rawValue: indexPath.section)! {
             
         case .ProfileInformationTypeMainCell:
             
@@ -268,29 +322,31 @@ extension PersonDetailViewController : UITableViewDataSource {
             
             return cell
 
+         
+        case .ProfileInformationTypeContactCell:
             
-        case .ProfileInformationTypePhoneCell:
-            
+            switch ContactInformationTypes(rawValue: indexPath.row) {
+                
             let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
-            
-            if let phone = person.phoneNumber {
                 
-               cell.contactLabel.text = phone
-               cell.contactLabel.textColor = UIColor.blackColor()
-               cell.contactLabel.font = AppearenceController.mediumSmallText
+            case .ContactInformationTypePhone:
                 
-            } else {
+                if let phone = person.phoneNumber {
+                    
+                    cell.contactLabel.text = phone
+                    cell.contactLabel.textColor = UIColor.blackColor()
+                    cell.contactLabel.font = AppearenceController.mediumSmallText
+                    
+                } else {
+                    
+                    cell.contactLabel.text = "Phone"
+                    cell.contactLabel.textColor = UIColor.lightGrayColor()
+                    //TODO: decide on empty state font
+                }
                 
-                cell.contactLabel.text = "Phone"
-                cell.contactLabel.textColor = UIColor.lightGrayColor()
-                //TODO: decide on empty state font
-            }
-            
-            return cell
-            
-        case .ProfileInformationTypeEmailCell:
-            
-            let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
+                return cell
+                
+            case .ContactInformationTypeEmail:
             
             cell.contactLabel.text = person.email
             cell.contactLabel.font = AppearenceController.mediumSmallText
