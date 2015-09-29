@@ -59,7 +59,7 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
             
         } else {
             
-            editButton.tintColor = UIColor.blackColor()
+            editButton.tintColor = AppearenceController.tealColor
             editButton.enabled = true
             
         }

@@ -10,7 +10,7 @@ import UIKit
 
 class AppearenceController: NSObject {
     
-    static let purpleColor : UIColor = UIColor(red:0.322, green:0, blue:0.612, alpha:1)
+    static let purpleColor : UIColor = UIColor(red:115/255.0, green:57/255.0, blue:171/255.0, alpha:1.0)
     static let tealColor : UIColor = UIColor(red: 120/255.0, green: 195/255.0, blue: 168/255.0, alpha: 1.0)
     
     
@@ -23,9 +23,10 @@ class AppearenceController: NSObject {
         
         UIButton.appearanceWhenContainedInInstancesOfClasses([LoginViewController.self]).backgroundColor = purpleColor
         UIButton.appearanceWhenContainedInInstancesOfClasses([RegisterUserViewController.self]).backgroundColor = purpleColor
+        UIBarButtonItem.appearance().tintColor = tealColor
         UIButton.appearance().setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
-//        UIBarButtonItem.appearance().tintColor = tealColor
+
         
         if let backImage = UIImage(named: "backArrow") {
             
