@@ -10,8 +10,9 @@ import UIKit
 
 class AppearenceController: NSObject {
     
-   static let purpleColor : UIColor = UIColor(red: 112/255.0, green: 41/255.0, blue: 99/255.0, alpha: 1.0)
+    static let purpleColor : UIColor = UIColor(red:115/255.0, green:57/255.0, blue:171/255.0, alpha:1.0)
     static let tealColor : UIColor = UIColor(red: 120/255.0, green: 195/255.0, blue: 168/255.0, alpha: 1.0)
+    
     
     static let bigText : UIFont = UIFont.systemFontOfSize(20, weight: UIFontWeightBold)
     static let mediumBigText : UIFont = UIFont.systemFontOfSize(17, weight: UIFontWeightMedium)
@@ -20,11 +21,23 @@ class AppearenceController: NSObject {
     
     static func initializeAppearence() {
         
-        UIButton.appearance().backgroundColor = purpleColor
+        UIButton.appearanceWhenContainedInInstancesOfClasses([LoginViewController.self]).backgroundColor = purpleColor
+        UIButton.appearanceWhenContainedInInstancesOfClasses([RegisterUserViewController.self]).backgroundColor = purpleColor
+        UIBarButtonItem.appearance().tintColor = tealColor
         UIButton.appearance().setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
-//        UIBarButtonItem.appearance().tintColor = tealColor
+
         
+        if let backImage = UIImage(named: "backArrow") {
+            
+            let backImageWithInsets = backImage.resizableImageWithCapInsets(UIEdgeInsetsMake(1.0, 40.0, 1.0, 40.0))
+            UIBarButtonItem.appearance().setBackButtonBackgroundImage(backImageWithInsets, forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
+            UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(50000, 500000), forBarMetrics: UIBarMetrics.Default)
+        }
+        
+        
+        
+
        
             
         }
@@ -41,22 +54,7 @@ class AppearenceController: NSObject {
         return textHeight
         
     }
-        //let backImage =
-        
-//        UIBarButtonItem.appearance().setBackButtonBackgroundImage(backImage, forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
-        
+    
         //images to get
-        //-back button arrow
         //Assassin full word w/ A icon
-        //Assassin icon only
-        //picture placeholder
-        //picture placeholder w/ select image text
-        
-        
-    
-    
-    
-    
-    
-
 }

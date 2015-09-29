@@ -19,6 +19,7 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var confirmPasswordTextField: UITextField!
     @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var registerActivityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -247,6 +248,8 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         
         if let emailString = emailTextField.text, passwordString = passwordTextField.text, firstNameString = firstNameTextField.text, lastNameString = lastNameTextField.text {
             
+            registerActivityIndicator.startAnimating()
+
             registerUserWithEmailAndPassword(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString)
             
         } else {
