@@ -179,7 +179,7 @@ extension PersonDetailViewController : UITableViewDataSource {
                 
             } else {
                 
-                //cell.bioImageView.image = fakeImage
+                cell.bioImageView.image = UIImage(named: "blankProfileGray")
                 
             }
             
@@ -285,6 +285,7 @@ extension PersonDetailViewController : UITableViewDataSource {
                 cell.contactLabel.textColor = UIColor.lightGrayColor()
                 //TODO: decide on empty state font
             }
+            cell.contactImageView.image = UIImage(named: "phoneIcon")
             
             return cell
             
@@ -294,6 +295,7 @@ extension PersonDetailViewController : UITableViewDataSource {
             
             cell.contactLabel.text = person.email
             cell.contactLabel.font = AppearenceController.mediumSmallText
+            cell.contactImageView.image = UIImage(named: "emailIcon")
             
             return cell
         }
