@@ -106,22 +106,15 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
         
     }
     
-    //MARK: method to add characters remaining to textViews
-
+    //MARK: text view delegate methods
     
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidBeginEditing(textView: UITextView) {
         
         let cell = textView.superview!.superview! as! TextViewTableViewCell
         
-        let textViewCharacterCount = textView.text.characters.count
-        
-        let characterCountString = "\(140-textViewCharacterCount)"
-        
-        cell.characterCountLabel.text = characterCountString
-        
-        if let indexPath = tableView.indexPathForCell(cell) {
-        
-            switch EditProfileInformationSectionTypes(rawValue: indexPath.row)! {
+        if let indexPath = self.tableView.indexPathForCell(cell) {
+            
+            switch EditProfileInformationSectionTypes(rawValue: indexPath.section)! {
                 
             case .EditProfileInformationSectionTypeNamePhoto:
                 
@@ -133,35 +126,64 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
                 
             case .EditProfileInformationSectionTypePurpose:
                 
-                let textHeight = AppearenceController.getHeightOfTextWithFont(textView.text, font: cell.purposeTextView.font!, view: self.view)
                 
-                if textHeight > purposeTextViewHeight {
-                    
-                purposeTextViewHeight = textHeight
+//                let indexPathToScrollTo = NSIndexPath.init(forRow: 0, inSection: 3)
                 
-                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-                    
-                }
+                let scrollPoint = CGPointMake(0, textView.superview!.frame.size.height);
+                tableView.setContentOffset(scrollPoint, animated: true)
+                
+                purposeTextViewHeight = 150
+                
+                tableView.beginUpdates()
+                tableView.endUpdates()
+                
+                
+
+                
+//                tableView.scrollToRowAtIndexPath(indexPathToScrollTo, atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
+                
+               
                 
             case .EditProfileInformationSectionTypeBio:
+//                
+//              let indexPathToScrollTo = NSIndexPath.init(forRow: 0, inSection: 4)
                 
-                let textHeight = AppearenceController.getHeightOfTextWithFont(textView.text, font: cell.purposeTextView.font!, view: self.view)
+                let scrollPoint = CGPointMake(0, textView.superview!.frame.size.height);
+                tableView.setContentOffset(scrollPoint, animated: true)
                 
-                if textHeight > bioTextViewHeight {
+                bioTextViewHeight = 150
                 
-                 bioTextViewHeight = textHeight
+                tableView.beginUpdates()
+                tableView.endUpdates()
+
                 
-                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-                    
-                }
+//                tableView.scrollToRowAtIndexPath(indexPathToScrollTo, atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
+                
                 
             case .EditProfileInformationSectionTypeContact:
                 
                 break
                 
             }
+            
         }
         
+        
+        
+    }
+
+    
+    func textViewDidChange(textView: UITextView) {
+        
+        let cell = textView.superview!.superview! as! TextViewTableViewCell
+
+        let textViewCharacterCount = textView.text.characters.count
+        
+        let characterCountString = "\(140-textViewCharacterCount)"
+        
+        cell.characterCountLabel.text = characterCountString
+        
+       
         
     }
     
@@ -186,6 +208,51 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
     }
         
 
+    func textViewDidEndEditing(textView: UITextView) {
+        
+        updatePersonWithTextView(textView)
+        
+        let cell = textView.superview!.superview! as! TextViewTableViewCell
+        
+        if let indexPath = self.tableView.indexPathForCell(cell) {
+            
+            switch EditProfileInformationSectionTypes(rawValue: indexPath.section)! {
+                
+            case .EditProfileInformationSectionTypeNamePhoto:
+                
+                break
+                
+            case .EditProfileInformationSectionTypeJob:
+                
+                break
+                
+            case .EditProfileInformationSectionTypePurpose:
+                
+              
+                
+                purposeTextViewHeight = AppearenceController.getHeightOfTextWithFont(textView.text, font: AppearenceController.mediumSmallText, view: textView.superview!)
+                
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                
+                
+            case .EditProfileInformationSectionTypeBio:
+                
+                bioTextViewHeight = AppearenceController.getHeightOfTextWithFont(textView.text, font: AppearenceController.mediumSmallText, view: textView.superview!)
+                
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+
+                
+            case .EditProfileInformationSectionTypeContact:
+                
+                break
+                
+            }
+            
+        }
+        
+        
+    }
+    
     
     
     
@@ -294,10 +361,6 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
         updateTemporaryPersonWithText(textField)
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
-        
-        updatePersonWithTextView(textView)
-    }
     
    
     
