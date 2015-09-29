@@ -19,6 +19,19 @@ class PersonListViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    
+    @IBAction func starButtonTapped(sender: UIButton) {
+        
+       let cell = sender.superview!.superview! as! PersonTableViewCell
+        
+        if let indexPath = tableView.indexPathForCell(cell) {
+        
+            let starredPerson = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
+            
+        }
+        
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

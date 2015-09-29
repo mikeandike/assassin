@@ -13,6 +13,7 @@ enum ProfileInformationTypes : Int {
     
     case ProfileInformationTypeMainCell
     case ProfileInformationTypePurposeCell
+    case ProfileInformationTypeBioCell
     case ProfileInformationTypePhoneCell
     case ProfileInformationTypeEmailCell
     
@@ -64,18 +65,26 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
         self.profileTableView.reloadData()
     }
     
+    
+    //MARK: prepare for segue
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
         if segue.identifier == "presentDetailViewFromCell" {
+            
+            //deselect row at index Path
             
             let cell = sender as! UITableViewCell
             
             if let indexPath = profileTableView.indexPathForCell(cell) {
             
-            profileTableView .deselectRowAtIndexPath(indexPath, animated: true)
+            profileTableView.deselectRowAtIndexPath(indexPath, animated: true)
                 
                 }
             
         } else if segue.identifier == "presentEditProfileVC" {
+            
+            //pass textview heights to next VC
             
             let editProfileVC = segue.destinationViewController as! EditProfileViewController
             editProfileVC.purposeTextViewHeight = purposeTextViewHeight
@@ -101,17 +110,23 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
             
         case .ProfileInformationTypePurposeCell:
             
-            switch EditPurposeTypes(rawValue: indexPath.row)! {
-                
-            case .EditPurposeTypePurpose:
-                
-                return purposeTextViewHeight
-                
-            case .EditPurposeTypeBio:
-                
-                return bioTextViewHeight
+            if let purposeString = person.purpose {
+            
+            purposeTextViewHeight = AppearenceController.getHeightOfTextWithFont(purposeString, font: AppearenceController.mediumSmallText, view: self.view)
                 
             }
+            
+            return purposeTextViewHeight
+         
+        case .ProfileInformationTypeBioCell:
+            
+            if let bioString = person.bio {
+                
+                bioTextViewHeight = AppearenceController.getHeightOfTextWithFont(bioString, font: AppearenceController.mediumSmallText, view: self.view)
+                
+            }
+            
+            return bioTextViewHeight
             
         case .ProfileInformationTypePhoneCell:
             
@@ -169,28 +184,32 @@ extension PersonDetailViewController : UITableViewDataSource {
             }
             
             cell.nameLabel.text = person.firstName + " " + person.lastName
+            cell.nameLabel.font = AppearenceController.bigText
             
             if let company = person.company {
                 
                 cell.companyLabel.text = company
                 cell.companyLabel.textColor = UIColor.blackColor()
+                cell.companyLabel.font = AppearenceController.mediumBigText
                 
             } else {
                 
                 cell.companyLabel.text = "Company"
                 cell.companyLabel.textColor = UIColor.lightGrayColor()
-                
+                //TODO: decide on empty state font
             }
             
             if let jobTitle = person.jobTitle {
                 
                 cell.jobTitleLabel.text = jobTitle
                 cell.jobTitleLabel.textColor = UIColor.blackColor()
+                cell.jobTitleLabel.font = AppearenceController.mediumSmallText
                 
             } else {
                 
                 cell.jobTitleLabel.text = "Job Title"
                 cell.jobTitleLabel.textColor = UIColor.lightGrayColor()
+                //TODO: decide on empty state font
                 
             }
             
@@ -199,6 +218,7 @@ extension PersonDetailViewController : UITableViewDataSource {
                 let timeString = FirebaseNetworkController.sharedInstance.convertDateIntoString(timeAtLastLocation)
                 
                 cell.lastActiveLabel.text = "Last active at " + timeString
+                cell.lastActiveLabel.font = AppearenceController.tinyText
                 
             }
             
@@ -208,29 +228,46 @@ extension PersonDetailViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(purposeCellID, forIndexPath: indexPath) as! PurposeTableViewCell
             
-            if let purpose = person.purpose {
-                
-                cell.purposeLabel.text = purpose
-                cell.purposeLabel.textColor = UIColor.blackColor()
-                
-            } else {
-                
-                cell.purposeLabel.text = "Here to"
-                cell.purposeLabel.textColor = UIColor.lightGrayColor()
-            }
             
-            if let bio = person.bio {
+                if let purpose = person.purpose {
+                    
+                    cell.purposeLabel.text = purpose
+                    cell.purposeLabel.textColor = UIColor.blackColor()
+                    cell.purposeLabel.font = AppearenceController.mediumSmallText
+                    
+                } else {
+                    
+                    cell.purposeLabel.text = "Here to"
+                    cell.purposeLabel.textColor = UIColor.lightGrayColor()
+                    //TODO: decide on empty state font
+                }
                 
-                cell.bioLabel.text = bio
-                cell.bioLabel.textColor = UIColor.blackColor()
+            
+       
+            return cell
+       
+        case .ProfileInformationTypeBioCell:
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier(purposeCellID, forIndexPath: indexPath) as! PurposeTableViewCell
+            
+            
+                if let bio = person.bio {
+                    
+                    cell.purposeLabel.text = bio
+                    cell.purposeLabel.textColor = UIColor.blackColor()
+                    cell.purposeLabel.font = AppearenceController.mediumSmallText
+                    
+                } else {
+                    
+                    cell.purposeLabel.text = "Bio"
+                    cell.purposeLabel.textColor = UIColor.lightGrayColor()
+                    //TODO: decide on empty state font
+                }
                 
-            } else {
-                
-                cell.bioLabel.text = "Bio"
-                cell.bioLabel.textColor = UIColor.lightGrayColor()
-            }
+            
             
             return cell
+
             
         case .ProfileInformationTypePhoneCell:
             
@@ -240,11 +277,13 @@ extension PersonDetailViewController : UITableViewDataSource {
                 
                cell.contactLabel.text = phone
                cell.contactLabel.textColor = UIColor.blackColor()
+               cell.contactLabel.font = AppearenceController.mediumSmallText
                 
             } else {
                 
                 cell.contactLabel.text = "Phone"
                 cell.contactLabel.textColor = UIColor.lightGrayColor()
+                //TODO: decide on empty state font
             }
             
             return cell
@@ -254,6 +293,7 @@ extension PersonDetailViewController : UITableViewDataSource {
             let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
             
             cell.contactLabel.text = person.email
+            cell.contactLabel.font = AppearenceController.mediumSmallText
             
             return cell
         }

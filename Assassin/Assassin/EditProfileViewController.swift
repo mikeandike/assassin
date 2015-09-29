@@ -17,15 +17,6 @@ enum EditJobTypes : Int {
     
 }
 
-enum EditPurposeTypes: Int {
-    
-    case EditPurposeTypePurpose
-    case EditPurposeTypeBio
-    
-    static var count: Int {return EditPurposeTypes.EditPurposeTypeBio.hashValue + 1}
-    
-}
-
 enum EditContactTypes: Int {
     
     case EditContactTypeEmail
@@ -40,6 +31,7 @@ enum EditProfileInformationSectionTypes : Int {
     case EditProfileInformationSectionTypeNamePhoto
     case EditProfileInformationSectionTypeJob
     case EditProfileInformationSectionTypePurpose
+    case EditProfileInformationSectionTypeBio
     case EditProfileInformationSectionTypeContact
     
     static var count: Int {return EditProfileInformationSectionTypes.EditProfileInformationSectionTypeContact.hashValue + 1}
@@ -72,13 +64,13 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
         
         if let purposeString = person.purpose {
         
-        purposeTextViewHeight = getHeightOfTextWithFont(purposeString, font: UIFont.systemFontOfSize(17))
+            purposeTextViewHeight = AppearenceController.getHeightOfTextWithFont(purposeString, font: UIFont.systemFontOfSize(17), view: self.view)
             
         }
         
         if let bioString = person.bio {
             
-            bioTextViewHeight = getHeightOfTextWithFont(bioString, font: UIFont.systemFontOfSize(17))
+            bioTextViewHeight = AppearenceController.getHeightOfTextWithFont(bioString, font: UIFont.systemFontOfSize(17), view: self.view)
             
         }
         
@@ -114,50 +106,84 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
         
     }
     
-    //MARK: method to add characters remaining to textViews
+    //MARK: text view delegate methods
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        
+        let cell = textView.superview!.superview! as! TextViewTableViewCell
+        
+        if let indexPath = self.tableView.indexPathForCell(cell) {
+            
+            switch EditProfileInformationSectionTypes(rawValue: indexPath.section)! {
+                
+            case .EditProfileInformationSectionTypeNamePhoto:
+                
+                break
+                
+            case .EditProfileInformationSectionTypeJob:
+                
+                break
+                
+            case .EditProfileInformationSectionTypePurpose:
+                
+                
+//                let indexPathToScrollTo = NSIndexPath.init(forRow: 0, inSection: 3)
+                
+                let scrollPoint = CGPointMake(0, textView.superview!.frame.size.height);
+                tableView.setContentOffset(scrollPoint, animated: true)
+                
+                purposeTextViewHeight = 150
+                
+                tableView.beginUpdates()
+                tableView.endUpdates()
+                
+                
+
+                
+//                tableView.scrollToRowAtIndexPath(indexPathToScrollTo, atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
+                
+               
+                
+            case .EditProfileInformationSectionTypeBio:
+//                
+//              let indexPathToScrollTo = NSIndexPath.init(forRow: 0, inSection: 4)
+                
+                let scrollPoint = CGPointMake(0, textView.superview!.frame.size.height);
+                tableView.setContentOffset(scrollPoint, animated: true)
+                
+                bioTextViewHeight = 150
+                
+                tableView.beginUpdates()
+                tableView.endUpdates()
+
+                
+//                tableView.scrollToRowAtIndexPath(indexPathToScrollTo, atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
+                
+                
+            case .EditProfileInformationSectionTypeContact:
+                
+                break
+                
+            }
+            
+        }
+        
+        
+        
+    }
 
     
     func textViewDidChange(textView: UITextView) {
         
         let cell = textView.superview!.superview! as! TextViewTableViewCell
-        
+
         let textViewCharacterCount = textView.text.characters.count
         
         let characterCountString = "\(140-textViewCharacterCount)"
         
         cell.characterCountLabel.text = characterCountString
         
-        if let indexPath = tableView.indexPathForCell(cell) {
-        
-            switch EditPurposeTypes(rawValue: indexPath.row)! {
-                
-            case .EditPurposeTypePurpose:
-                
-                let textHeight = getHeightOfTextWithFont(textView.text, font: cell.purposeTextView.font!)
-                
-                if textHeight > purposeTextViewHeight {
-                    
-                purposeTextViewHeight = textHeight
-                
-                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-                    
-                }
-                
-            case .EditPurposeTypeBio:
-                
-                let textHeight = getHeightOfTextWithFont(textView.text, font: cell.purposeTextView.font!)
-                
-                if textHeight > bioTextViewHeight {
-                
-                 bioTextViewHeight = textHeight
-                
-                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-                    
-                }
-                
-            }
-        }
-        
+       
         
     }
     
@@ -182,15 +208,53 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
     }
         
 
-    
-    func getHeightOfTextWithFont(textString : String, font : UIFont) -> CGFloat {
+    func textViewDidEndEditing(textView: UITextView) {
         
-        return (textString as String).boundingRectWithSize(CGSize(width: self.view.frame.size.width - 10, height: CGFloat.max),
-            options: NSStringDrawingOptions.UsesLineFragmentOrigin,
-            attributes: [NSFontAttributeName: font],
-            context: nil).size.height
+        updatePersonWithTextView(textView)
+        
+        let cell = textView.superview!.superview! as! TextViewTableViewCell
+        
+        if let indexPath = self.tableView.indexPathForCell(cell) {
+            
+            switch EditProfileInformationSectionTypes(rawValue: indexPath.section)! {
+                
+            case .EditProfileInformationSectionTypeNamePhoto:
+                
+                break
+                
+            case .EditProfileInformationSectionTypeJob:
+                
+                break
+                
+            case .EditProfileInformationSectionTypePurpose:
+                
+              
+                
+                purposeTextViewHeight = AppearenceController.getHeightOfTextWithFont(textView.text, font: AppearenceController.mediumSmallText, view: textView.superview!)
+                
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                
+                
+            case .EditProfileInformationSectionTypeBio:
+                
+                bioTextViewHeight = AppearenceController.getHeightOfTextWithFont(textView.text, font: AppearenceController.mediumSmallText, view: textView.superview!)
+                
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+
+                
+            case .EditProfileInformationSectionTypeContact:
+                
+                break
+                
+            }
+            
+        }
+        
         
     }
+    
+    
+    
     
     //MARK: UITableViewDelegate methods
     
@@ -209,21 +273,11 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
                 
             case .EditProfileInformationSectionTypePurpose:
                 
-                switch EditPurposeTypes(rawValue: indexPath.row)! {
-                    
-                case .EditPurposeTypePurpose:
-                    
-                  
-                    
-                    return purposeTextViewHeight
-                    
-                case .EditPurposeTypeBio:
-                    
-                    
-                    
+                return purposeTextViewHeight
+                
+            case .EditProfileInformationSectionTypeBio:
+                
                     return bioTextViewHeight
-                    
-                }
                 
             case .EditProfileInformationSectionTypeContact:
                 
@@ -307,10 +361,6 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
         updateTemporaryPersonWithText(textField)
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
-        
-        updatePersonWithTextView(textView)
-    }
     
    
     
@@ -329,19 +379,14 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
                 break
                 
             case .EditProfileInformationSectionTypePurpose:
-              
-                switch EditPurposeTypes(rawValue: indexPath.row)! {
-                    
-                case .EditPurposeTypePurpose:
-                    
-                    person.purpose = cell.purposeTextView.text
-                    
-                case .EditPurposeTypeBio:
-                    
-                    person.bio = cell.purposeTextView.text
-                    
-                }
                 
+                person.purpose = cell.purposeTextView.text
+                
+            case .EditProfileInformationSectionTypeBio:
+                
+                person.bio = cell.purposeTextView.text
+              
+               
             case .EditProfileInformationSectionTypeContact:
                 break
              
@@ -395,7 +440,12 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
                 }
                 
             case .EditProfileInformationSectionTypePurpose:
-                break;
+                
+                break
+                
+            case .EditProfileInformationSectionTypeBio:
+                
+                break
                
                 
             case .EditProfileInformationSectionTypeContact:
@@ -421,9 +471,9 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
                         }
                     }
                 }
-                
-            }
             
+            }
+                
         }
         
     }
@@ -471,7 +521,11 @@ extension EditProfileViewController : UITableViewDataSource {
             
         case .EditProfileInformationSectionTypePurpose:
             
-            return "Purpose"
+            return "Here to"
+            
+        case .EditProfileInformationSectionTypeBio:
+            
+            return "Bio"
             
         case .EditProfileInformationSectionTypeContact:
             
@@ -494,7 +548,11 @@ extension EditProfileViewController : UITableViewDataSource {
             
         case .EditProfileInformationSectionTypePurpose:
             
-            return EditPurposeTypes.count
+            return 1
+            
+        case .EditProfileInformationSectionTypeBio:
+            
+            return 1
             
         case .EditProfileInformationSectionTypeContact:
             
@@ -531,8 +589,6 @@ extension EditProfileViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(textFieldCellID, forIndexPath: indexPath) as! TextFieldTableViewCell
             
-            
-            print("CUSTOM DELEGATE\(self)")
             
             switch EditJobTypes(rawValue: indexPath.row)! {
                 
@@ -573,12 +629,6 @@ extension EditProfileViewController : UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCellWithIdentifier(textViewCellID, forIndexPath: indexPath) as! TextViewTableViewCell
             
-            
-            
-            switch EditPurposeTypes(rawValue: indexPath.row)! {
-                
-            case .EditPurposeTypePurpose:
-                
                 if let purpose = person.purpose {
                     
                     cell.purposeTextView.text = purpose
@@ -592,8 +642,10 @@ extension EditProfileViewController : UITableViewDataSource {
                 
                 return cell
                 
-            case .EditPurposeTypeBio:
-                
+        case .EditProfileInformationSectionTypeBio:
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier(textViewCellID, forIndexPath: indexPath) as! TextViewTableViewCell
+            
                 if let bio = person.bio {
                     
                     cell.purposeTextView.text = bio
@@ -607,9 +659,6 @@ extension EditProfileViewController : UITableViewDataSource {
                 
                 return cell
                 
-            }
-            
-            
             
         case .EditProfileInformationSectionTypeContact:
             
