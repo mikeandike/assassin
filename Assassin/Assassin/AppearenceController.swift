@@ -10,8 +10,9 @@ import UIKit
 
 class AppearenceController: NSObject {
     
-   static let purpleColor : UIColor = UIColor(red: 86/255.0, green: 4/255.0, blue: 158/255.0, alpha: 1.0)
+    static let purpleColor : UIColor = UIColor(red:0.322, green:0, blue:0.612, alpha:1)
     static let tealColor : UIColor = UIColor(red: 120/255.0, green: 195/255.0, blue: 168/255.0, alpha: 1.0)
+    
     
     static let bigText : UIFont = UIFont.systemFontOfSize(20, weight: UIFontWeightBold)
     static let mediumBigText : UIFont = UIFont.systemFontOfSize(17, weight: UIFontWeightMedium)

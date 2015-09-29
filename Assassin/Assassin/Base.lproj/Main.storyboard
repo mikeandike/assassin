@@ -287,7 +287,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="vgL-7W-PnD">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="vgL-7W-PnD">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
@@ -323,13 +323,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DevMountain" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cEf-aW-5Bx">
-                                                    <rect key="frame" x="8" y="232.5" width="584" height="20.5"/>
+                                                    <rect key="frame" x="8" y="232" width="584" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BPV-n4-KNe">
-                                                    <rect key="frame" x="202" y="9" width="180" height="180"/>
+                                                    <rect key="frame" x="210" y="9" width="180" height="180"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="180" id="UeQ-vb-hea"/>
                                                         <constraint firstAttribute="width" constant="180" id="bwb-Sm-78t"/>
@@ -344,7 +344,6 @@
                                             <constraints>
                                                 <constraint firstAttribute="leadingMargin" secondItem="m1V-KK-xLZ" secondAttribute="leading" id="3Kk-OB-JQ5"/>
                                                 <constraint firstItem="Cx5-l2-hig" firstAttribute="top" secondItem="BPV-n4-KNe" secondAttribute="bottom" constant="10" id="J1Q-ga-lMl"/>
-                                                <constraint firstItem="BPV-n4-KNe" firstAttribute="centerX" secondItem="OOa-5L-P1s" secondAttribute="centerX" constant="-8" id="L47-mY-PY4"/>
                                                 <constraint firstAttribute="leadingMargin" secondItem="Cx5-l2-hig" secondAttribute="leading" id="O82-pJ-fdB"/>
                                                 <constraint firstItem="cEf-aW-5Bx" firstAttribute="top" secondItem="Cx5-l2-hig" secondAttribute="bottom" constant="13" id="OBg-Da-nZr"/>
                                                 <constraint firstItem="cmg-vr-Ptb" firstAttribute="top" secondItem="cEf-aW-5Bx" secondAttribute="bottom" constant="-5" id="QHs-wF-chn"/>
@@ -355,6 +354,7 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="cEf-aW-5Bx" secondAttribute="trailing" id="XeZ-Q2-F06"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="m1V-KK-xLZ" secondAttribute="trailing" id="aTP-1Y-xan"/>
                                                 <constraint firstAttribute="leadingMargin" secondItem="cEf-aW-5Bx" secondAttribute="leading" id="cej-9K-GQ7"/>
+                                                <constraint firstItem="BPV-n4-KNe" firstAttribute="centerX" secondItem="OOa-5L-P1s" secondAttribute="centerX" id="d5K-XJ-em6"/>
                                                 <constraint firstItem="BPV-n4-KNe" firstAttribute="top" secondItem="OOa-5L-P1s" secondAttribute="topMargin" constant="1" id="juP-oF-F0s"/>
                                             </constraints>
                                         </tableViewCellContentView>

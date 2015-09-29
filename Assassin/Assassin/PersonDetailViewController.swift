@@ -16,7 +16,7 @@ enum ProfileInformationTypes : Int {
     case ProfileInformationTypeBioCell
     case ProfileInformationTypeContactCell
     
-    static var count: Int {return ProfileInformationTypes.ProfileInformationTypeEmailCell.hashValue + 1}
+    static var count: Int {return ProfileInformationTypes.ProfileInformationTypeContactCell.hashValue + 1}
     
 }
 
@@ -110,7 +110,7 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        switch ProfileInformationTypes(rawValue: indexPath.row)! {
+        switch ProfileInformationTypes(rawValue: indexPath.section)! {
             
         case .ProfileInformationTypeMainCell:
             
@@ -136,10 +136,35 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
             
             return bioTextViewHeight
             
-        case .ProfileInformationTypeContactCell
+        case .ProfileInformationTypeContactCell:
             
             return 48
         }
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        
+        switch ProfileInformationTypes(rawValue: section)! {
+            
+        case .ProfileInformationTypeMainCell:
+            
+            return CGFloat(1)
+            
+        case .ProfileInformationTypePurposeCell:
+            
+           return CGFloat(25)
+            
+        case .ProfileInformationTypeBioCell:
+            
+            return CGFloat(25)
+            
+        case .ProfileInformationTypeContactCell:
+            
+            return CGFloat(25)
+        }
+        
+        
     }
     
 
@@ -171,7 +196,7 @@ extension PersonDetailViewController : UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch ProfileInformationTypes(rawValue: indexPath.section)! {
+        switch ProfileInformationTypes(rawValue: section)! {
             
         case .ProfileInformationTypeMainCell:
             
@@ -185,8 +210,6 @@ extension PersonDetailViewController : UITableViewDataSource {
             
             return 1
             
-            return bioTextViewHeight
-            
         case .ProfileInformationTypeContactCell:
             
             return 2
@@ -197,11 +220,11 @@ extension PersonDetailViewController : UITableViewDataSource {
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        switch ProfileInformationTypes(rawValue: indexPath.section)! {
+        switch ProfileInformationTypes(rawValue: section)! {
             
         case .ProfileInformationTypeMainCell:
             
-            break
+            return ""
             
         case .ProfileInformationTypePurposeCell:
             
@@ -233,7 +256,7 @@ extension PersonDetailViewController : UITableViewDataSource {
                 
             } else {
                 
-                //cell.bioImageView.image = fakeImage
+                cell.bioImageView.image = UIImage(named: "blankProfileGray")
                 
             }
             
@@ -325,16 +348,14 @@ extension PersonDetailViewController : UITableViewDataSource {
          
         case .ProfileInformationTypeContactCell:
             
-            switch ContactInformationTypes(rawValue: indexPath.row) {
-                
             let cell = tableView.dequeueReusableCellWithIdentifier(contactCellID, forIndexPath: indexPath) as! ContactTableViewCell
+
+            switch ContactInformationTypes(rawValue: indexPath.row)! {
                 
             case .ContactInformationTypePhone:
                 
-               
                 cell.contactImageView.image = UIImage(named: "phoneIcon")
 
-            
                 if let phone = person.phoneNumber {
                     
                     cell.contactLabel.text = phone
@@ -361,5 +382,5 @@ extension PersonDetailViewController : UITableViewDataSource {
         }
     }
     
-    
+  }
 }
