@@ -331,6 +331,10 @@ extension PersonDetailViewController : UITableViewDataSource {
                 
             case .ContactInformationTypePhone:
                 
+               
+                cell.contactImageView.image = UIImage(named: "phoneIcon")
+
+            
                 if let phone = person.phoneNumber {
                     
                     cell.contactLabel.text = phone
@@ -350,6 +354,8 @@ extension PersonDetailViewController : UITableViewDataSource {
             
             cell.contactLabel.text = person.email
             cell.contactLabel.font = AppearenceController.mediumSmallText
+            cell.contactImageView.image = UIImage(named: "emailIcon")
+            
             
             return cell
         }
