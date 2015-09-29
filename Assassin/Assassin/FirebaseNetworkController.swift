@@ -15,7 +15,7 @@ class FirebaseNetworkController: NSObject {
     var peopleNearby : [Person] = []
     var currentPerson: Person?
     var starredPeople : [Person] = []
-    var starredStrings : [String] = []
+    var starredStrings : [AnyObject] = []
     
     static let sharedInstance = FirebaseNetworkController()
     
@@ -335,7 +335,7 @@ class FirebaseNetworkController: NSObject {
                 } else {
                     
                     hourString = "\(dateComponents.hour)"
-                    AMPMString = dateFormatter.AMSymbo
+                    AMPMString = dateFormatter.AMSymbol
                 }
                 
             }
@@ -347,57 +347,50 @@ class FirebaseNetworkController: NSObject {
         
     }
     
-    func loadStarUsers (uid : String) -> void {
+    func loadStarUsers (uid : String) {
         
         let userRef = getUsersRef()
         userRef.childByAppendingPath("/starred")
-        dataRef.observeEventType(FEventType.value, withBlock {snapshot in
+        userRef.observeEventType(FEventType.Value, withBlock: {snapshot in
             print(snapshot.value)
             //Set snapshot.value to array of stared users
             if let starUserDictionary = snapshot.value {
-                
-                let starStrings = Array[(starUserDictionary.allKeys)]
-                self.starredStrings = starStrings
+
+                self.starredStrings = (starUserDictionary.allKeys)
                 
             }
             
-            }, withCancelBlock { error in
+            }, withCancelBlock: { error in
                 print(error.description)
         })
         
     }
    
-    func setStarUser (uid : String, starUID : String) -> void {
+    func setStarUser (starUID : String) {
         
-        var userRef = getUsersRef()
-        userRef.childByAppendingPath(uid)
+        let starredRef = getUsersRef()
         
-        var starredRef = childByAppendingPath("/starred")
-        let starredUser = (starUID, starUID)
-        
-        starredRef.updateChildValues(starredUser)
+        if let currentPerson = self.currentPerson{
+            starredRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("/starred").updateChildValues([starUID : starUID])
+        }
     }
     
-    func loadStarredUserWithUid (uid : String) -> void {
+    func loadStarredUserWithUid (uid : String) {
         
         let userRef = getUsersRef()
         userRef.childByAppendingPath(uid)
-        userRef.observeEventType(FEventType.value, withBlock: { (snapshot) -> Void in
+        userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
             if let personDictionary = snapshot.value {
                 
                 let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
                 
-                person.lastLocation = location
-                
                 self.starredPeople.append(person)
                 
-                print("peopleNearby: \(self.peopleNearby)")
+                print("starredPeople: \(self.starredPeople)")
                 
             }
             
         })
-        
-        share
         
     }
 
