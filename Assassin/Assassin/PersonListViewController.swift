@@ -98,9 +98,13 @@ extension PersonListViewController : UITableViewDataSource {
         }
         
         cell.nameLabel.text = person.firstName + " " + person.lastName
+        cell.nameLabel.font = AppearenceController.bigText
     
         cell.companyLabel.text = person.company
+        cell.companyLabel.font = AppearenceController.mediumBigText
         cell.jobTitleLabel.text = person.jobTitle
+        cell.jobTitleLabel.font = AppearenceController.mediumSmallText
+        
         
         return cell
     }
