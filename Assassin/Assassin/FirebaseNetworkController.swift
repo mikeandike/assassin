@@ -14,6 +14,8 @@ class FirebaseNetworkController: NSObject {
     
     var peopleNearby : [Person] = []
     var currentPerson: Person?
+    var starredPeople : [Person] = []
+    var starredStrings : [String] = []
     
     static let sharedInstance = FirebaseNetworkController()
     
@@ -333,8 +335,7 @@ class FirebaseNetworkController: NSObject {
                 } else {
                     
                     hourString = "\(dateComponents.hour)"
-                    AMPMString = dateFormatter.AMSymbol
-                    
+                    AMPMString = dateFormatter.AMSymbo
                 }
                 
             }
@@ -345,6 +346,59 @@ class FirebaseNetworkController: NSObject {
     return timeString
         
     }
+    
+    func loadStarUsers (uid : String) -> void {
+        
+        let userRef = getUsersRef()
+        userRef.childByAppendingPath("/starred")
+        dataRef.observeEventType(FEventType.value, withBlock {snapshot in
+            print(snapshot.value)
+            //Set snapshot.value to array of stared users
+            if let starUserDictionary = snapshot.value {
+                
+                let starStrings = Array[(starUserDictionary.allKeys)]
+                self.starredStrings = starStrings
+                
+            }
+            
+            }, withCancelBlock { error in
+                print(error.description)
+        })
+        
+    }
    
+    func setStarUser (uid : String, starUID : String) -> void {
+        
+        var userRef = getUsersRef()
+        userRef.childByAppendingPath(uid)
+        
+        var starredRef = childByAppendingPath("/starred")
+        let starredUser = (starUID, starUID)
+        
+        starredRef.updateChildValues(starredUser)
+    }
+    
+    func loadStarredUserWithUid (uid : String) -> void {
+        
+        let userRef = getUsersRef()
+        userRef.childByAppendingPath(uid)
+        userRef.observeEventType(FEventType.value, withBlock: { (snapshot) -> Void in
+            if let personDictionary = snapshot.value {
+                
+                let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
+                
+                person.lastLocation = location
+                
+                self.starredPeople.append(person)
+                
+                print("peopleNearby: \(self.peopleNearby)")
+                
+            }
+            
+        })
+        
+        share
+        
+    }
 
 }

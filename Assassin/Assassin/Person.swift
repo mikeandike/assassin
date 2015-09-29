@@ -32,7 +32,7 @@ class Person: NSObject {
     //still have to figure out how to transfer images through firebase
     var image: UIImage?
     
-    var starredUsers: [Person]?
+    var starredUsers: [Person]? 
     
     init(firstName: String, lastName: String, email: String, password: String, uid: String) {
         
