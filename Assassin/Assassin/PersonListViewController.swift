@@ -28,7 +28,7 @@ class PersonListViewController: UIViewController {
         if let indexPath = tableView.indexPathForCell(cell) {
         
             let starredPerson = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
-            
+            FirebaseNetworkController.sharedInstance.setStarUser(starredPerson.uid)
         }
         
     }
@@ -67,7 +67,6 @@ class PersonListViewController: UIViewController {
                 destinationVC.isCurrentUsersProfile = true
                 
             }
-            
             
         }
         
