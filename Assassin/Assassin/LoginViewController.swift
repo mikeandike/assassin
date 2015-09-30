@@ -19,6 +19,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadLoginFromDefaults()
 
         // Do any additional setup after loading the view.
         
@@ -166,6 +168,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func loginButtonTapped(sender: AnyObject) {
         
+        saveLoginToDefaults()
+        
         loginButton.enabled = false
         
         if let emailString = emailTextField.text, passwordString = passwordTextField.text {
@@ -176,7 +180,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             
         } else {
             
-            warningLabel.text = "Invalid Email or Password"
+            warningLabel.text = "Must have Email and Password"
             
         }
         
@@ -213,7 +217,45 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-   
+    //MARK: remember credentials - NSUserDefaults methods
+    
+    func saveLoginToDefaults() {
+        
+        var loginArray = [String]()
+        
+        if let emailToSave = emailTextField.text {
+            
+            loginArray.insert(emailToSave, atIndex: 0)
+            
+        } else {
+            loginArray.insert("", atIndex: 0)
+        }
+        
+        if let passwordToSave = passwordTextField.text {
+            
+            loginArray.insert(passwordToSave, atIndex: 1)
+            
+        } else {
+            loginArray.insert("", atIndex: 1)
+        }
+        
+        NSUserDefaults.standardUserDefaults().setObject(loginArray, forKey: "savedLogin")
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    func loadLoginFromDefaults() {
+        
+        
+        
+        if let loginArray = NSUserDefaults.standardUserDefaults().stringArrayForKey("savedLogin") {
+            
+            emailTextField.text = loginArray[0]
+            passwordTextField.text = loginArray[1]
+        }
+    }
+    
+    //MARK: memory warning method
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
