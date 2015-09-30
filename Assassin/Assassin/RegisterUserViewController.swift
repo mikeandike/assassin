@@ -29,6 +29,7 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         AppearenceController.initializeAppearence()
         warningLabel.textColor = AppearenceController.tealColor
         
+        
         // Do any additional setup after loading the view.
         
         firstNameTextField.delegate = self

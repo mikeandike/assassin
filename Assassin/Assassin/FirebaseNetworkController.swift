@@ -13,7 +13,7 @@ import CoreLocation
 class FirebaseNetworkController: NSObject {
     
     var peopleNearby : [Person] = []
-    var currentPerson: Person?
+    var currentPerson : Person?
     var starredPeople : [Person] = []
     var starredStrings : [AnyObject] = []
     
@@ -67,9 +67,7 @@ class FirebaseNetworkController: NSObject {
     func authenticateUserWithEmailAndPassword(email : String, password: String, completion: (Bool) -> ()){
         
             let usersRef = getUsersRef()
-            
-            usersRef.authUser(email, password: password) { (error, authData) in
-                
+            usersRef.authUser(email, password: password) { (error, authData) -> Void in
                 // TODO: change to if (error) ??
                 if (error != nil) {
                     
@@ -102,10 +100,6 @@ class FirebaseNetworkController: NSObject {
                 }
                 
             }
-            
-        
-        
-        
         
     }
     
@@ -397,6 +391,16 @@ class FirebaseNetworkController: NSObject {
             self.starredStrings.append(starUID)
             self.loadStarredUserWithUid(starUID)
         }
+    }
+    
+    func updateStarredUsers(){
+        
+        let starredRef = getUsersRef()
+        
+        if let currentPerson = self.currentPerson{
+            starredRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starred").setValue([self.starredStrings : self.starredStrings])
+        }
+        
     }
     
     func loadStarredUserWithUid (uid : String) {
