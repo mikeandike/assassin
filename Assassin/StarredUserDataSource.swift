@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StarredUserDataSource : NSObject, UITableViewDataSource, UITableViewD {
+class StarredUserDataSource : NSObject, UITableViewDataSource, UITableViewDelegate {
     
     let starredPersonCellID = "starredPersonCellID"
     

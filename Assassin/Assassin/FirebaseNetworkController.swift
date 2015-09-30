@@ -369,7 +369,8 @@ class FirebaseNetworkController: NSObject {
             //Set snapshot.value to array of stared users
             if let starUserDictionary = snapshot.value {
 
-                self.starredStrings = (starUserDictionary.allKeys)
+                self.starredStrings = (starUserDictionary.allKeys)  // *** encountered an error on this line:
+                                                                    // 'fatal error: unexpectedly found nil while unwrapping an Optional value' ***
                 
                 for starUID in self.starredStrings {
                     self.loadStarredUserWithUid(starUID as! String)

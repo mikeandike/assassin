@@ -104,17 +104,19 @@ extension PersonListViewController : UITableViewDataSource {
     func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         
         if FirebaseNetworkController.sharedInstance.peopleNearby.count >= 1 {
-        
-        if let timeAtLastLocation = FirebaseNetworkController.sharedInstance.currentPerson?.timeAtLastLocation {
-        
-        let lastRefreshedString = FirebaseNetworkController.sharedInstance.convertDateIntoString(timeAtLastLocation)
             
-            return "Last refreshed at \(lastRefreshedString)"
-            
-        } else {
-            
-            print("There's not a current user")
-            
+            if let timeAtLastLocation = FirebaseNetworkController.sharedInstance.currentPerson?.timeAtLastLocation {
+                
+                let lastRefreshedString = FirebaseNetworkController.sharedInstance.convertDateIntoString(timeAtLastLocation)
+                
+                return "Last refreshed at \(lastRefreshedString)"
+                
+            } else {
+                
+                print("There's not a current user")
+                
+                return ""
+                
             }
             
         } else {
@@ -123,11 +125,8 @@ extension PersonListViewController : UITableViewDataSource {
             
         }
         
-        
-            
-        
-        
     }
+    
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         

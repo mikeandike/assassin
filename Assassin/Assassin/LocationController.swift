@@ -158,24 +158,24 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         })
         
         
-        currentUserQuery.observeEventType(GFEventTypeKeyMoved, withBlock: { (key: String!, location:CLLocation!) in
+        if let currentPerson = FirebaseNetworkController.sharedInstance.currentPerson {
             
-            if let currentPerson = FirebaseNetworkController.sharedInstance.currentPerson {
-            
+            currentUserQuery.observeEventType(GFEventTypeKeyMoved, withBlock: { (key: String!, location:CLLocation!) in
+                
                 if key == currentPerson.uid {
                     
                     if let lastLocation = currentPerson.lastLocation {
-                    
+                        
                         if location.distanceFromLocation(lastLocation) > 400 {
-                    
-                            getLocation()
+                            
+                            self.getLocation()
                             
                         }
-                    
+                        
                     }
                 }
                 
-            }
+            })
             
         }
         
