@@ -89,11 +89,13 @@ class FirebaseNetworkController: NSObject {
                             
                             NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
                             
+                            self.loadStarUsers(authData.uid)
                             completion(true)
+                            
                         } else {
                             completion(false)
                         }
-                        
+                       // self.loadStarredUserWithUid(authData.uid)
                     })
                     
                     
@@ -121,7 +123,7 @@ class FirebaseNetworkController: NSObject {
             userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
                 
                 if let personDictionary = snapshot.value {
-                    
+                    //print(snapshot.value)
                     let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
                     
                     person.lastLocation = location
@@ -350,14 +352,18 @@ class FirebaseNetworkController: NSObject {
     func loadStarUsers (uid : String) {
         
         let userRef = getUsersRef()
-        userRef.childByAppendingPath("/starred")
-        userRef.observeEventType(FEventType.Value, withBlock: {snapshot in
-            print(snapshot.value)
+        print(userRef)
+        userRef.childByAppendingPath(uid).childByAppendingPath("starred").observeEventType(FEventType.Value, withBlock: {snapshot in
+            //print(snapshot.value)
             //Set snapshot.value to array of stared users
             if let starUserDictionary = snapshot.value {
 
                 self.starredStrings = (starUserDictionary.allKeys)
                 
+                for starUID in self.starredStrings {
+                    self.loadStarredUserWithUid(starUID as! String)
+                    print("Star User Added")
+                }
             }
             
             }, withCancelBlock: { error in
@@ -371,21 +377,20 @@ class FirebaseNetworkController: NSObject {
         let starredRef = getUsersRef()
         
         if let currentPerson = self.currentPerson{
-            starredRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("/starred").updateChildValues([starUID : starUID])
+            starredRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starred").updateChildValues([starUID : starUID])
         }
     }
     
     func loadStarredUserWithUid (uid : String) {
         
         let userRef = getUsersRef()
-        userRef.childByAppendingPath(uid)
-        userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
+        userRef.childByAppendingPath(uid).observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
             if let personDictionary = snapshot.value {
-                
+                print(snapshot.value)
                 let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
                 
                 self.starredPeople.append(person)
-                
+            
                 print("starredPeople: \(self.starredPeople)")
                 
             }

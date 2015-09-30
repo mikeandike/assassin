@@ -34,6 +34,7 @@
 		8C6444C71BB1FE12004AE95D /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6444C61BB1FE12004AE95D /* MainTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		8C6444C91BB1FE1B004AE95D /* PurposeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6444C81BB1FE1B004AE95D /* PurposeTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		8C6444CB1BB1FE23004AE95D /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6444CA1BB1FE23004AE95D /* ContactTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		93C177CF1BBB5AE400443C85 /* StarredUserDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C177CE1BBB5AE400443C85 /* StarredUserDataSource.swift */; settings = {ASSET_TAGS = (); }; };
 		C25D826A85762A5AEF9D8DBE /* libPods-Assassin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A6D7C956A135243BE7CCB1 /* libPods-Assassin.a */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +96,7 @@
 		8C6444C81BB1FE1B004AE95D /* PurposeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurposeTableViewCell.swift; sourceTree = "<group>"; };
 		8C6444CA1BB1FE23004AE95D /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		8C99C3151BB09E39002FA83F /* Assassin-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Assassin-Bridging-Header.h"; sourceTree = "<group>"; };
+		93C177CE1BBB5AE400443C85 /* StarredUserDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StarredUserDataSource.swift; path = ../StarredUserDataSource.swift; sourceTree = "<group>"; };
 		9FC6555B544C2CADE5999B6D /* Pods-Assassin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assassin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Assassin/Pods-Assassin.release.xcconfig"; sourceTree = "<group>"; };
 		A9A6D7C956A135243BE7CCB1 /* libPods-Assassin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Assassin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -227,6 +229,7 @@
 		8C5324791BA8CA91001F4486 /* People Nearby List View Controller */ = {
 			isa = PBXGroup;
 			children = (
+				93C177CE1BBB5AE400443C85 /* StarredUserDataSource.swift */,
 				2C3E7EFF1BA7733300EEC113 /* PersonListViewController.swift */,
 				2C3E7F001BA7733300EEC113 /* PersonTableViewCell.swift */,
 			);
@@ -464,6 +467,7 @@
 				761F04C21BBA1390003F6DA4 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				761F04C11BBA1390003F6DA4 /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				8C6444C71BB1FE12004AE95D /* MainTableViewCell.swift in Sources */,
+				93C177CF1BBB5AE400443C85 /* StarredUserDataSource.swift in Sources */,
 				2C3E7F061BA7733300EEC113 /* PersonTableViewCell.swift in Sources */,
 				761F04C41BBA1390003F6DA4 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				8C62F4721BB30D290005F95D /* TextFieldTableViewCell.swift in Sources */,
