@@ -365,9 +365,12 @@ class FirebaseNetworkController: NSObject {
         let userRef = getUsersRef()
         print(userRef)
         userRef.childByAppendingPath(uid).childByAppendingPath("starred").observeEventType(FEventType.Value, withBlock: {snapshot in
-            //print(snapshot.value)
+            print(snapshot.value)
             //Set snapshot.value to array of stared users
-            if let starUserDictionary = snapshot.value {
+            if snapshot.value is NSNull {
+                print("value is null")
+            } else {
+                if let starUserDictionary = snapshot.value      {
 
                 self.starredStrings = (starUserDictionary.allKeys)  // *** encountered an error on this line:
                                                                     // 'fatal error: unexpectedly found nil while unwrapping an Optional value' ***
@@ -375,6 +378,7 @@ class FirebaseNetworkController: NSObject {
                 for starUID in self.starredStrings {
                     self.loadStarredUserWithUid(starUID as! String)
                     print("Star User Added")
+                }
                 }
             }
             
@@ -390,6 +394,8 @@ class FirebaseNetworkController: NSObject {
         
         if let currentPerson = self.currentPerson{
             starredRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starred").updateChildValues([starUID : starUID])
+            self.starredStrings.append(starUID)
+            self.loadStarredUserWithUid(starUID)
         }
     }
     

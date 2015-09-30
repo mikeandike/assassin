@@ -14,6 +14,8 @@ class StarredUserDataSource : NSObject, UITableViewDataSource, UITableViewDelega
     
     @objc func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
+        print(FirebaseNetworkController.sharedInstance.starredStrings)
+        print(FirebaseNetworkController.sharedInstance.starredPeople)
         return FirebaseNetworkController.sharedInstance.starredPeople.count
     }
     

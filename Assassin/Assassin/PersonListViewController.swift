@@ -19,6 +19,7 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         refreshUsersNearbyControl.backgroundColor = AppearenceController.purpleColor
         refreshUsersNearbyControl.tintColor = UIColor.whiteColor()
         refreshUsersNearbyControl.addTarget(self, action: "refreshNearbyUsersTapped", forControlEvents: UIControlEvents.ValueChanged)
@@ -44,7 +45,7 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         
             let starredPerson = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
             FirebaseNetworkController.sharedInstance.setStarUser(starredPerson.uid)
-
+            self.tableView.reloadData()
         }
         
     }
@@ -148,8 +149,14 @@ extension PersonListViewController : UITableViewDataSource {
             cell.userImageView.image = UIImage(named: "blankProfileGray")
         }
         
-        if(person.uid == FirebaseNetworkController.sharedInstance.starredStrings[i]) {
-            
+       if  let starrStrings = (FirebaseNetworkController.sharedInstance.starredStrings as? [String]) {
+            for var i = 0; i < FirebaseNetworkController.sharedInstance.starredStrings.count; ++i {
+                if(person.uid == starrStrings[i] ) {
+                    cell.starButton.imageView?.image = UIImage(named: "starred")
+                } else {
+                    cell.starButton.imageView?.image = UIImage(named: "unstarred")
+                }
+            }
         }
         
         cell.nameLabel.text = person.firstName + " " + person.lastName
@@ -166,17 +173,17 @@ extension PersonListViewController : UITableViewDataSource {
     
 }
 
-extension PersonListViewController : UITabBarControllerDelegate {
-    
-    @objc func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
-        
-        var navController = viewController as! UINavigationController;
-            navController.
-        }
-        
-        if viewController.isKindOfClass(UINavigationController) {
-            self.tableView.reloadData()
-        }
-    }
-    
-}
+//extension PersonListViewController : UITabBarControllerDelegate {
+//    
+//    @objc func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+//        
+//////        var navController = viewController as! UINavigationController;
+//////            navController.
+//////        }
+//////        
+//////        if viewController.isKindOfClass(UINavigationController) {
+////            self.tableView.reloadData()
+//////        }
+//////    }
+//    
+//}
