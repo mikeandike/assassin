@@ -15,6 +15,8 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var refreshFooterLabel: UILabel!
     @IBOutlet weak var segControl: UISegmentedControl!
     
+    var peopleNearbyStaticCopy : [Person] = []
+    
     let refreshUsersNearbyControl = UIRefreshControl.init()
 
     let personCellID = "personCellID"
@@ -29,6 +31,8 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         setUpRefreshControl()
         
             if FirebaseNetworkController.sharedInstance.peopleNearby.count >= 1 {
+                
+            peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
         
             if let timeAtLastLocation = FirebaseNetworkController.sharedInstance.currentPerson?.timeAtLastLocation {
         
@@ -115,13 +119,31 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
     
     @IBAction func starButtonTapped(sender: UIButton) {
         
-       let cell = sender.superview!.superview! as! PersonTableViewCell
+        let cell = sender.superview!.superview! as! PersonTableViewCell
         
-        if let indexPath = tableView.indexPathForCell(cell) {
-        
-            let starredPerson = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
-            FirebaseNetworkController.sharedInstance.setStarUser(starredPerson.uid)
-            self.tableView.reloadData()
+        if cell.starButton.imageView?.image == UIImage(named: "unstarred") {
+            //If star is unstarred, add them to starred users.
+            if let indexPath = tableView.indexPathForCell(cell) {
+                
+                let starredPerson = peopleNearbyStaticCopy[indexPath.row]
+                FirebaseNetworkController.sharedInstance.starredStrings.append(starredPerson.uid)
+                FirebaseNetworkController.sharedInstance.setStarUser(starredPerson.uid)
+                self.tableView.reloadData()
+            }
+        } else {
+            //Else remove them from starred
+            if let indexPath = tableView.indexPathForCell(cell) {
+                let personAtIndex = peopleNearbyStaticCopy[indexPath.row]
+                
+                for var i = 0; i < FirebaseNetworkController.sharedInstance.starredStrings.count; ++i {
+               
+                    if personAtIndex.uid == FirebaseNetworkController.sharedInstance.starredStrings[i] as! String{
+                        FirebaseNetworkController.sharedInstance.starredStrings.removeAtIndex(i)
+                        FirebaseNetworkController.sharedInstance.starredPeople.removeAtIndex(i)
+                        FirebaseNetworkController.sharedInstance.updateStarredUsers()
+                    }
+                }
+            }
         }
         
     }
@@ -217,13 +239,20 @@ extension PersonListViewController : UITableViewDataSource {
         }
         
        if  let starrStrings = (FirebaseNetworkController.sharedInstance.starredStrings as? [String]) {
-            for var i = 0; i < FirebaseNetworkController.sharedInstance.starredStrings.count; ++i {
+        
+        var isStared = Bool(false)
+        for var i = 0; i < FirebaseNetworkController.sharedInstance.starredStrings.count; ++i {
                 if(person.uid == starrStrings[i] ) {
-                    cell.starButton.imageView?.image = UIImage(named: "starred")
-                } else {
-                    cell.starButton.imageView?.image = UIImage(named: "unstarred")
+                    isStared = true;
+                   
                 }
             }
+        if (isStared == true) {
+            cell.starButton.imageView?.image = UIImage(named: "starred")
+
+        } else {
+            cell.starButton.imageView?.image = UIImage(named: "unstarred")
+        }
         }
         
         cell.nameLabel.text = person.firstName + " " + person.lastName

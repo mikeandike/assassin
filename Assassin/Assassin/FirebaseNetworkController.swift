@@ -393,6 +393,16 @@ class FirebaseNetworkController: NSObject {
         }
     }
     
+    func updateStarredUsers(){
+        
+        let starredRef = getUsersRef()
+        
+        if let currentPerson = self.currentPerson{
+            starredRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starred").setValue([self.starredStrings : self.starredStrings])
+        }
+        
+    }
+    
     func loadStarredUserWithUid (uid : String) {
         
         let userRef = getUsersRef()
