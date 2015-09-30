@@ -22,9 +22,12 @@ class AppearenceController: NSObject {
     static func initializeAppearence() {
         
         UIButton.appearanceWhenContainedInInstancesOfClasses([LoginViewController.self]).backgroundColor = purpleColor
+        UIButton.appearanceWhenContainedInInstancesOfClasses([LoginViewController.self]).setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+
         UIButton.appearanceWhenContainedInInstancesOfClasses([RegisterUserViewController.self]).backgroundColor = purpleColor
+        UIButton.appearanceWhenContainedInInstancesOfClasses([RegisterUserViewController.self]).setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        
         UIBarButtonItem.appearance().tintColor = tealColor
-        UIButton.appearance().setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
 
         

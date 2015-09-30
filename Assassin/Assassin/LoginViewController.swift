@@ -35,6 +35,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.delegate = self
         loginButton.enabled = false
         warningLabel.text = ""
+        warningLabel.numberOfLines = 0
         
     }
     
@@ -192,6 +193,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             } else {
                 print("authenticate user failed")
                 self.warningLabel.text = "Login failed. Email does not exist, or password is incorrect."
+                self.boringActivityIndicator.stopAnimating()
             }
         }
     }

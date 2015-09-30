@@ -55,6 +55,8 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //self.tabBarController?.tabBar.hidden = true
+        
         // Do any additional setup after loading the view.
     }
     

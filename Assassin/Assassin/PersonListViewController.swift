@@ -28,6 +28,12 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.hidden = false
+    }
+    
     func refreshNearbyUsersTapped(){
         
         tableView.reloadData()
