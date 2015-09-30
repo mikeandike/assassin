@@ -35,7 +35,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         emailTextField.delegate = self
         passwordTextField.delegate = self
-        loginButton.enabled = false
         warningLabel.text = ""
         warningLabel.numberOfLines = 0
         
@@ -50,52 +49,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    //MARK: text field checking methods
-    
-    func textFieldDidBeginEditing(textField: UITextField) {
-        
-        warningLabel.text = ""
-    }
+    //MARK: textfield delegate - textfield checking methods
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
-        if textField == emailTextField {
-            
-            if controlTestForEmailTextField(textField, andCharacterCountGreaterThan: 4) && (string != "") || controlTestForEmailTextField(textField, andCharacterCountGreaterThan: 6) && (string == "") {
-                
-                warningLabel.text = ""
-                
-                if controlTestForPasswordTextField(passwordTextField, andCharacterCountGreaterThan: 5) {
-                    
-                    loginButton.enabled = true
-                    
-                } else {
-                    loginButton.enabled = false
-                }
-                
-            } else {
-                loginButton.enabled = false
-            }
-        }
+        warningLabel.text = ""
         
-        if textField == passwordTextField {
-            
-            if controlTestForPasswordTextField(textField, andCharacterCountGreaterThan: 3) && (string != "") || controlTestForPasswordTextField(textField, andCharacterCountGreaterThan: 5) && (string == "") {
-                
-                warningLabel.text = ""
-                
-                if controlTestForEmailTextField(emailTextField, andCharacterCountGreaterThan: 5) {
-                    
-                    loginButton.enabled = true
-                    
-                } else {
-                    loginButton.enabled = false
-                }
-                
-            } else {
-                loginButton.enabled = false
-            }
-        }
         return true
     }
     
@@ -118,23 +77,21 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         if textField == emailTextField {
             
-            if controlTestForEmailTextField(textField, andCharacterCountGreaterThan: 5) {
-                return true
+            if controlTestForEmailTextField() {
+                warningLabel.text = ""
                 
             } else {
                 warningLabel.text = "You must enter a valid email address."
-                return false
             }
         }
         
         if textField == passwordTextField {
             
-            if controlTestForPasswordTextField(textField, andCharacterCountGreaterThan: 4) {
-                return true
+            if controlTestForPasswordTextField() {
+                warningLabel.text = ""
                 
             } else {
                 warningLabel.text = "Password must be more than 4 characters."
-                return false
             }
         }
         return true
@@ -142,22 +99,22 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: text field checking control test methods
     
-    func controlTestForEmailTextField(textField: UITextField, andCharacterCountGreaterThan count: Int) -> Bool {
+    func controlTestForEmailTextField() -> Bool {
         
-        if let emailText = textField.text {
+        if let emailText = emailTextField.text {
             
-            if (emailText.containsString("@")) && (emailText.containsString(".")) && (emailText.characters.count > count) {
+            if (emailText.containsString("@")) && (emailText.containsString(".")) && (emailText.characters.count > 5) {
                 return true
             }
         }
         return false
     }
     
-    func controlTestForPasswordTextField(textField: UITextField, andCharacterCountGreaterThan count: Int) -> Bool {
+    func controlTestForPasswordTextField() -> Bool {
         
-        if let passwordText = textField.text {
+        if let passwordText = passwordTextField.text {
             
-            if (passwordText.characters.count > count) {
+            if (passwordText.characters.count > 4) {
                 return true
             }
         }
@@ -182,6 +139,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             
             warningLabel.text = "Must have Email and Password"
             
+            loginButton.enabled = true
         }
         
     }
@@ -198,6 +156,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 print("authenticate user failed")
                 self.warningLabel.text = "Login failed. Email does not exist, or password is incorrect."
                 self.boringActivityIndicator.stopAnimating()
+                
+                self.loginButton.enabled = true
             }
         }
     }
