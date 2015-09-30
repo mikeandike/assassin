@@ -189,7 +189,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     //MARK: login user
     
     func loginUser(username : String, password: String) -> Void {
-        
         FirebaseNetworkController.sharedInstance.authenticateUserWithEmailAndPassword(username, password: password) { (hasUser) -> () in
             if hasUser {
                 print("transitioning to new view")

@@ -67,9 +67,7 @@ class FirebaseNetworkController: NSObject {
     func authenticateUserWithEmailAndPassword(email : String, password: String, completion: (Bool) -> ()){
         
             let usersRef = getUsersRef()
-            
-            usersRef.authUser(email, password: password) { (error, authData) in
-                
+            usersRef.authUser(email, password: password) { (error, authData) -> Void in
                 // TODO: change to if (error) ??
                 if (error != nil) {
                     
@@ -102,10 +100,6 @@ class FirebaseNetworkController: NSObject {
                 }
                 
             }
-            
-        
-        
-        
         
     }
     

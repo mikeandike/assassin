@@ -29,6 +29,8 @@ class AppearenceController: NSObject {
         
         UIBarButtonItem.appearance().tintColor = tealColor
         UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
+        
+        UISegmentedControl.appearance().tintColor = tealColor
 
         
         if let backImage = UIImage(named: "backArrow") {

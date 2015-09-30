@@ -59,7 +59,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="loginButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xyA-YL-TmK"/>
-                                    <segue destination="wva-4V-uJA" kind="presentation" identifier="loginAndPresentTabBar" id="KRs-Xp-c5Y"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QJR-Hg-j2y">
@@ -113,6 +112,7 @@
                         <outlet property="loginButton" destination="C3b-XK-T7h" id="TPW-ko-gjj"/>
                         <outlet property="passwordTextField" destination="fRf-BD-cbR" id="wAL-rP-aHb"/>
                         <outlet property="warningLabel" destination="QJR-Hg-j2y" id="p1b-LI-m0d"/>
+                        <segue destination="wva-4V-uJA" kind="presentation" identifier="loginAndPresentTabBar" id="0fp-lw-XaF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -138,7 +138,7 @@
                                     <rect key="frame" x="0.0" y="213" width="600" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dnO-vj-6hb">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="showup" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dnO-vj-6hb">
                                             <rect key="frame" x="8" y="8" width="584" height="28"/>
                                             <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="11"/>
                                             <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -904,7 +904,7 @@
         <image name="unstarred" width="604" height="577"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="0fp-lw-XaF"/>
         <segue reference="rqN-VE-ztt"/>
-        <segue reference="KRs-Xp-c5Y"/>
     </inferredMetricsTieBreakers>
 </document>

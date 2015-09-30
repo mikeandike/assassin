@@ -34,20 +34,20 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         
             let lastRefreshedString = FirebaseNetworkController.sharedInstance.convertDateIntoString(timeAtLastLocation)
         
-            refreshFooterLabel.text = "Last refreshed at \(lastRefreshedString)"
+                refreshFooterLabel.text = "Last refreshed at \(lastRefreshedString)"
         
             } else {
         
             print("There's not a current user")
         
-            refreshFooterLabel.text = ""
+                refreshFooterLabel.text = ""
         
             }
             
             } else {
             
-            refreshFooterLabel.text = "No users nearby. Swipe down to refresh"
-            
+                refreshFooterLabel.text = "No users nearby. Swipe down to refresh"
+                
             }
         
         
