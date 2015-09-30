@@ -863,8 +863,8 @@
                                                     </userDefinedRuntimeAttributes>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="lsi-Hv-urm"/>
                                                             <exclude reference="aHr-gS-juA"/>
+                                                            <exclude reference="lsi-Hv-urm"/>
                                                         </mask>
                                                     </variation>
                                                 </imageView>
