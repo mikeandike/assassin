@@ -133,6 +133,13 @@ class LocationController: NSObject, CLLocationManagerDelegate {
             
             FirebaseNetworkController.sharedInstance.addPersonWithUIDAndLocationToPeopleNearby(key, location: location, locationOfCurrentUser: currentLocation)
             
+           
+        })
+        
+        circleQuery.observeEventType(GFEventTypeKeyExited, withBlock: { (key: String!, location: CLLocation!) in
+            
+            FirebaseNetworkController.sharedInstance.removePersonWithUIDFromPeopleNearby(key)
+            
         })
         
         //make sure that both are happening and not overriding each other

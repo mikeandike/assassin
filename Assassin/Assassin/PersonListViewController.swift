@@ -12,12 +12,26 @@ class PersonListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    let refreshUsersNearbyControl = UIRefreshControl.init()
+
     let personCellID = "personCellID"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        refreshUsersNearbyControl.backgroundColor = AppearenceController.purpleColor
+        refreshUsersNearbyControl.tintColor = UIColor.whiteColor()
+        refreshUsersNearbyControl.addTarget(self, action: "refreshNearbyUsersTapped", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.addSubview(refreshUsersNearbyControl)
+        
         // Do any additional setup after loading the view.
+    }
+    
+    func refreshNearbyUsersTapped(){
+        
+        tableView.reloadData()
+        refreshUsersNearbyControl.endRefreshing()
+        
     }
     
     
