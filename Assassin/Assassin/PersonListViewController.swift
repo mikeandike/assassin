@@ -12,18 +12,44 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var refreshFooterLabel: UILabel!
+    @IBOutlet weak var segControl: UISegmentedControl!
+    
     let refreshUsersNearbyControl = UIRefreshControl.init()
 
     let personCellID = "personCellID"
+    
+    var showingStarredUsersOnly : Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        sizeTabBar()
         
-        refreshUsersNearbyControl.backgroundColor = AppearenceController.purpleColor
-        refreshUsersNearbyControl.tintColor = UIColor.whiteColor()
-        refreshUsersNearbyControl.addTarget(self, action: "refreshNearbyUsersTapped", forControlEvents: UIControlEvents.ValueChanged)
-        tableView.addSubview(refreshUsersNearbyControl)
+        setUpRefreshControl()
+        
+            if FirebaseNetworkController.sharedInstance.peopleNearby.count >= 1 {
+        
+            if let timeAtLastLocation = FirebaseNetworkController.sharedInstance.currentPerson?.timeAtLastLocation {
+        
+            let lastRefreshedString = FirebaseNetworkController.sharedInstance.convertDateIntoString(timeAtLastLocation)
+        
+            refreshFooterLabel.text = "Last refreshed at \(lastRefreshedString)"
+        
+            } else {
+        
+            print("There's not a current user")
+        
+            refreshFooterLabel.text = ""
+        
+            }
+            
+            } else {
+            
+            refreshFooterLabel.text = "No users nearby. Swipe down to refresh"
+            
+            }
+        
         
         // Do any additional setup after loading the view.
     }
@@ -34,6 +60,15 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         self.tabBarController?.tabBar.hidden = false
     }
     
+    func setUpRefreshControl () {
+        
+        refreshUsersNearbyControl.backgroundColor = AppearenceController.purpleColor
+        refreshUsersNearbyControl.tintColor = UIColor.whiteColor()
+        refreshUsersNearbyControl.addTarget(self, action: "refreshNearbyUsersTapped", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.addSubview(refreshUsersNearbyControl)
+        
+    }
+    
     func refreshNearbyUsersTapped(){
         
         tableView.reloadData()
@@ -41,6 +76,41 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         refreshUsersNearbyControl.endRefreshing()
         
     }
+    
+    func sizeTabBar() {
+        
+       segControl.frame = CGRectMake(0, self.view.frame.size.height - 100.0, self.view.frame.size.width, 100.0)
+        
+    }
+    
+    //MARK: tab bar value changed method
+    
+    @IBAction func segControlValueChanged(sender: UISegmentedControl) {
+        
+        if sender.selectedSegmentIndex == 0 {
+            
+            showingStarredUsersOnly = false
+            
+            tableView.tableFooterView?.hidden = false
+           
+            tableView.addSubview(refreshUsersNearbyControl)
+            tableView.reloadData()
+            
+        } else {
+            
+            showingStarredUsersOnly = true
+            refreshUsersNearbyControl.removeFromSuperview()
+            
+            tableView.tableFooterView?.hidden = true
+            
+            tableView.reloadData()
+        }
+        
+    }
+    
+
+    
+   
     
     
     @IBAction func starButtonTapped(sender: UIButton) {
@@ -62,12 +132,6 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
     }
     
     //MARK: tableview delegate methods
-    
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        
-        return 44
-        
-    }
     
     // MARK: - Navigation
 
@@ -109,36 +173,19 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
 
 extension PersonListViewController : UITableViewDataSource {
     
-    func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        
-        if FirebaseNetworkController.sharedInstance.peopleNearby.count >= 1 {
-            
-            if let timeAtLastLocation = FirebaseNetworkController.sharedInstance.currentPerson?.timeAtLastLocation {
-                
-                let lastRefreshedString = FirebaseNetworkController.sharedInstance.convertDateIntoString(timeAtLastLocation)
-                
-                return "Last refreshed at \(lastRefreshedString)"
-                
-            } else {
-                
-                print("There's not a current user")
-                
-                return ""
-                
-            }
-            
-        } else {
-            
-            return "No users nearby. Swipe down to refresh"
-            
-        }
-        
-    }
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return FirebaseNetworkController.sharedInstance.peopleNearby.count
+        if showingStarredUsersOnly == false {
+        
+            return FirebaseNetworkController.sharedInstance.peopleNearby.count
+            
+        } else {
+        
+            return FirebaseNetworkController.sharedInstance.starredPeople.count
+            
+        }
     }
     
     
@@ -146,12 +193,26 @@ extension PersonListViewController : UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(personCellID, forIndexPath: indexPath) as! PersonTableViewCell
         
-        let person = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
+        
+        var person : Person!
+        
+        if showingStarredUsersOnly == false {
+            
+            person = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
+            
+        } else {
+            
+            person = FirebaseNetworkController.sharedInstance.starredPeople[indexPath.row]
+            
+        }
+        
         
         if let image = person.image {
+            
             cell.userImageView.image = image
 
         } else {
+            
             cell.userImageView.image = UIImage(named: "blankProfileGray")
         }
         
