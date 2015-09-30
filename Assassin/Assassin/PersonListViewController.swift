@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PersonListViewController: UIViewController {
+class PersonListViewController: UIViewController, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -30,6 +30,7 @@ class PersonListViewController: UIViewController {
     func refreshNearbyUsersTapped(){
         
         tableView.reloadData()
+        
         refreshUsersNearbyControl.endRefreshing()
         
     }
@@ -50,6 +51,14 @@ class PersonListViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK: tableview delegate methods
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        
+        return 44
+        
     }
     
     // MARK: - Navigation
@@ -92,10 +101,38 @@ class PersonListViewController: UIViewController {
 
 extension PersonListViewController : UITableViewDataSource {
     
+    func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        
+        if FirebaseNetworkController.sharedInstance.peopleNearby.count >= 1 {
+            
+            if let timeAtLastLocation = FirebaseNetworkController.sharedInstance.currentPerson?.timeAtLastLocation {
+                
+                let lastRefreshedString = FirebaseNetworkController.sharedInstance.convertDateIntoString(timeAtLastLocation)
+                
+                return "Last refreshed at \(lastRefreshedString)"
+                
+            } else {
+                
+                print("There's not a current user")
+                
+                return ""
+                
+            }
+            
+        } else {
+            
+            return "No users nearby. Swipe down to refresh"
+            
+        }
+        
+    }
+    
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return FirebaseNetworkController.sharedInstance.peopleNearby.count
     }
+    
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         

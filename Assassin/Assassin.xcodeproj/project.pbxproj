@@ -229,8 +229,8 @@
 		8C5324791BA8CA91001F4486 /* People Nearby List View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				93C177CE1BBB5AE400443C85 /* StarredUserDataSource.swift */,
 				2C3E7EFF1BA7733300EEC113 /* PersonListViewController.swift */,
+				93C177CE1BBB5AE400443C85 /* StarredUserDataSource.swift */,
 				2C3E7F001BA7733300EEC113 /* PersonTableViewCell.swift */,
 			);
 			name = "People Nearby List View Controller";

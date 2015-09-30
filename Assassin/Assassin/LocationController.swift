@@ -23,6 +23,8 @@ class LocationController: NSObject, CLLocationManagerDelegate {
     
     var hasLocation : Bool
     
+//    var currentlyRefreshing : Bool = false
+    
     override init () {
         
         hasPerson = false
@@ -37,6 +39,7 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         if hasPerson == true && hasLocation == true {
             
         FirebaseNetworkController.sharedInstance.currentPerson!.lastLocation = currentLocation
+        FirebaseNetworkController.sharedInstance.currentPerson!.timeAtLastLocation = currentLocation!.timestamp
             
         let person = FirebaseNetworkController.sharedInstance.currentPerson!
             
@@ -46,6 +49,8 @@ class LocationController: NSObject, CLLocationManagerDelegate {
             geoFire.setLocation(currentLocation, forKey: person.uid)
             
             print("person has been sent to firebase: person: \(person)")
+            
+            hasLocation = false
         
         }
     }
@@ -121,13 +126,23 @@ class LocationController: NSObject, CLLocationManagerDelegate {
     
     func getUIDsOfUsersAtNearbyLocation(currentLocation : CLLocation) {
         
+//        currentlyRefreshing = true
+        
         let geoFireRef = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl())
         let geoFire = GeoFire(firebaseRef: geoFireRef)
         
         let center = currentLocation;
         let circleQuery = geoFire.queryAtLocation(center, withRadius: 0.6)
+        let currentUserQuery = geoFire.queryAtLocation(center, withRadius: 500000)
+        
+//        circleQuery.observeReadyWithBlock { () -> Void in
+//            
+//           currentlyRefreshing = false
+//            
+//        }
         
         circleQuery.observeEventType(GFEventTypeKeyEntered, withBlock: { (key: String!, location: CLLocation!) in
+            
             print("Key '\(key)' entered the search area and is at location '\(location)'")
             
             
@@ -141,6 +156,28 @@ class LocationController: NSObject, CLLocationManagerDelegate {
             FirebaseNetworkController.sharedInstance.removePersonWithUIDFromPeopleNearby(key)
             
         })
+        
+        
+        if let currentPerson = FirebaseNetworkController.sharedInstance.currentPerson {
+            
+            currentUserQuery.observeEventType(GFEventTypeKeyMoved, withBlock: { (key: String!, location:CLLocation!) in
+                
+                if key == currentPerson.uid {
+                    
+                    if let lastLocation = currentPerson.lastLocation {
+                        
+                        if location.distanceFromLocation(lastLocation) > 400 {
+                            
+                            self.getLocation()
+                            
+                        }
+                        
+                    }
+                }
+                
+            })
+            
+        }
         
         //make sure that both are happening and not overriding each other
         
