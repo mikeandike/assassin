@@ -44,6 +44,7 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         
             let starredPerson = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
             FirebaseNetworkController.sharedInstance.setStarUser(starredPerson.uid)
+
         }
         
     }
@@ -147,6 +148,10 @@ extension PersonListViewController : UITableViewDataSource {
             cell.userImageView.image = UIImage(named: "blankProfileGray")
         }
         
+        if(person.uid == FirebaseNetworkController.sharedInstance.starredStrings[i]) {
+            
+        }
+        
         cell.nameLabel.text = person.firstName + " " + person.lastName
         cell.nameLabel.font = AppearenceController.bigText
     
@@ -161,3 +166,17 @@ extension PersonListViewController : UITableViewDataSource {
     
 }
 
+extension PersonListViewController : UITabBarControllerDelegate {
+    
+    @objc func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+        
+        var navController = viewController as! UINavigationController;
+            navController.
+        }
+        
+        if viewController.isKindOfClass(UINavigationController) {
+            self.tableView.reloadData()
+        }
+    }
+    
+}
