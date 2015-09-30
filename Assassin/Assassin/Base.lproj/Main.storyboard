@@ -720,17 +720,6 @@
                                     <outlet property="delegate" destination="LMT-DL-Z7S" id="9Rm-Ve-spc"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Th-IT-EwV">
-                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="yMb-LI-rIK"/>
-                                </constraints>
-                                <state key="normal" title="Register"/>
-                                <connections>
-                                    <action selector="registerButtonPressed:" destination="LMT-DL-Z7S" eventType="touchUpInside" id="hBk-jU-sGu"/>
-                                    <segue destination="wva-4V-uJA" kind="presentation" identifier="presentTabBarFromRegistration" id="dxm-pq-RBN"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jFe-36-KHl">
                                 <rect key="frame" x="20" y="337" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -778,6 +767,16 @@
                                     <constraint firstAttribute="height" constant="64" id="fDe-It-FJm"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Th-IT-EwV">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="yMb-LI-rIK"/>
+                                </constraints>
+                                <state key="normal" title="Register"/>
+                                <connections>
+                                    <action selector="registerButtonPressed:" destination="LMT-DL-Z7S" eventType="touchUpInside" id="hBk-jU-sGu"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -820,11 +819,12 @@
                         <outlet property="registerActivityIndicator" destination="8ve-gz-dQC" id="AKD-XJ-9wa"/>
                         <outlet property="registerButton" destination="9Th-IT-EwV" id="xiU-C7-H08"/>
                         <outlet property="warningLabel" destination="RTz-0C-rNf" id="vfs-C2-DsR"/>
+                        <segue destination="wva-4V-uJA" kind="presentation" identifier="presentTabBarFromRegistration" id="DnL-TV-MFf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yu2-sO-gy8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1184" y="1050"/>
+            <point key="canvasLocation" x="1305" y="1051"/>
         </scene>
         <!--Near Me-->
         <scene sceneID="yM8-0k-aKZ">
@@ -869,7 +869,7 @@
         <image name="unstarred" width="604" height="577"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0fp-lw-XaF"/>
+        <segue reference="DnL-TV-MFf"/>
         <segue reference="lFk-i4-7vQ"/>
     </inferredMetricsTieBreakers>
 </document>
