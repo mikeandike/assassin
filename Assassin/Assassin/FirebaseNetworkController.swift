@@ -13,7 +13,7 @@ import CoreLocation
 class FirebaseNetworkController: NSObject {
     
     var peopleNearby : [Person] = []
-    var currentPerson: Person?
+    var currentPerson : Person?
     var starredPeople : [Person] = []
     var starredStrings : [AnyObject] = []
     

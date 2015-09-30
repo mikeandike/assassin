@@ -18,6 +18,7 @@
 		761F04C21BBA1390003F6DA4 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761F04BC1BBA1390003F6DA4 /* TPKeyboardAvoidingScrollView.m */; settings = {ASSET_TAGS = (); }; };
 		761F04C31BBA1390003F6DA4 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761F04BE1BBA1390003F6DA4 /* TPKeyboardAvoidingTableView.m */; settings = {ASSET_TAGS = (); }; };
 		761F04C41BBA1390003F6DA4 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 761F04C01BBA1390003F6DA4 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; settings = {ASSET_TAGS = (); }; };
+		767415A21BBC662900FC688E /* RefreshFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767415A11BBC662900FC688E /* RefreshFooterView.swift */; settings = {ASSET_TAGS = (); }; };
 		76A9953B1BB4B76A0019B140 /* AppearenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A9953A1BB4B76A0019B140 /* AppearenceController.swift */; settings = {ASSET_TAGS = (); }; };
 		8C2D09031BA72FAF00155E77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D09021BA72FAF00155E77 /* AppDelegate.swift */; };
 		8C2D09081BA72FAF00155E77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C2D09061BA72FAF00155E77 /* Main.storyboard */; };
@@ -73,6 +74,7 @@
 		761F04BE1BBA1390003F6DA4 /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
 		761F04BF1BBA1390003F6DA4 /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
 		761F04C01BBA1390003F6DA4 /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
+		767415A11BBC662900FC688E /* RefreshFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshFooterView.swift; sourceTree = "<group>"; };
 		76A9953A1BB4B76A0019B140 /* AppearenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppearenceController.swift; sourceTree = "<group>"; };
 		8C2D08FF1BA72FAF00155E77 /* Assassin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assassin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C2D09021BA72FAF00155E77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				2C3E7EFF1BA7733300EEC113 /* PersonListViewController.swift */,
 				93C177CE1BBB5AE400443C85 /* StarredUserDataSource.swift */,
 				2C3E7F001BA7733300EEC113 /* PersonTableViewCell.swift */,
+				767415A11BBC662900FC688E /* RefreshFooterView.swift */,
 			);
 			name = "People Nearby List View Controller";
 			sourceTree = "<group>";
@@ -466,6 +469,7 @@
 				8C6444CB1BB1FE23004AE95D /* ContactTableViewCell.swift in Sources */,
 				761F04C21BBA1390003F6DA4 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				761F04C11BBA1390003F6DA4 /* TPKeyboardAvoidingCollectionView.m in Sources */,
+				767415A21BBC662900FC688E /* RefreshFooterView.swift in Sources */,
 				8C6444C71BB1FE12004AE95D /* MainTableViewCell.swift in Sources */,
 				93C177CF1BBB5AE400443C85 /* StarredUserDataSource.swift in Sources */,
 				2C3E7F061BA7733300EEC113 /* PersonTableViewCell.swift in Sources */,
