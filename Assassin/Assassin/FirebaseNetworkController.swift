@@ -15,7 +15,6 @@ class FirebaseNetworkController: NSObject {
     var peopleNearby : [Person] = []
     var currentPerson : Person?
     var starredPeople : [Person] = []
-    var starredStrings : [AnyObject] = []
     
     static let sharedInstance = FirebaseNetworkController()
     
@@ -88,6 +87,7 @@ class FirebaseNetworkController: NSObject {
                             NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
                             
                             self.loadStarUsers(authData.uid)
+                            
                             completion(true)
                             
                         } else {
@@ -248,12 +248,28 @@ class FirebaseNetworkController: NSObject {
         dictionary["company"] = person.company
         dictionary["bio"] = person.bio
         dictionary["purpose"] = person.purpose
-        dictionary["starredUsers"] = person.starredUsers
         dictionary["lastLocation"] = lastLocationDictionary
         dictionary["imageString"] = imageString
     
         return dictionary
         
+    }
+    
+    //MARK: save starred users UIDS
+    
+    func saveUsersUIDToCurrentPersonsStarredUsersOnFirebase (UID : String) {
+        
+        let usersRef = getUsersRef()
+        
+        if let currentPerson = self.currentPerson {
+            
+            //save the that uid to the starred users dictionary on firebase 
+            //will this add a new uid or only update an old one?
+            
+            usersRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starredUsersUIDS").updateChildValues([UID : UID])
+//            self.starredStrings.append(starUID)
+//            self.loadStarredUserWithUid(starUID)
+        }
     }
     
 
@@ -354,12 +370,16 @@ class FirebaseNetworkController: NSObject {
         
     }
     
+    //MARK: starred user methods
+    
     func loadStarUsers (uid : String) {
         
         let userRef = getUsersRef()
-        print(userRef)
+       
         userRef.childByAppendingPath(uid).childByAppendingPath("starred").observeSingleEventOfType(FEventType.Value, withBlock: {snapshot in
+            
             print(snapshot.value)
+            
             //Set snapshot.value to array of stared users
             if snapshot.value is NSNull {
                 print("value is null")
@@ -382,16 +402,7 @@ class FirebaseNetworkController: NSObject {
         
     }
    
-    func setStarUser (starUID : String) {
-        
-        let starredRef = getUsersRef()
-        
-        if let currentPerson = self.currentPerson{
-            starredRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starred").updateChildValues([starUID : starUID])
-            self.starredStrings.append(starUID)
-            self.loadStarredUserWithUid(starUID)
-        }
-    }
+    
     
     func updateStarredUsers(){
         

@@ -17,8 +17,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var boringActivityIndicator: UIActivityIndicatorView!
     
+    var hasUsersNearby : Bool = false
+    
+    var hasCurrentUser: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //register to be notified when first query of users nearby comes back
+         NSNotificationCenter.defaultCenter().addObserver(self, selector: "usersNearbyQueryFinished", name: "usersNearbyQueryFinishedNotification", object: nil)
         
         loadLoginFromDefaults()
 
@@ -48,6 +55,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             navController.navigationBarHidden = true
         }
     }
+    
+    
     
     //MARK: textfield delegate - textfield checking methods
     
@@ -144,13 +153,36 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    //MARK: users nearby query finished 
+    
+    func usersNearbyQueryFinished() {
+        
+        hasUsersNearby = true
+        
+        transitionToNextView()
+        
+        
+    }
+    
+    func currentUserArrived() {
+        
+       hasCurrentUser = true
+        
+       transitionToNextView()
+        
+    }
+    
+    
     //MARK: login user
     
     func loginUser(username : String, password: String) -> Void {
         FirebaseNetworkController.sharedInstance.authenticateUserWithEmailAndPassword(username, password: password) { (hasUser) -> () in
             if hasUser {
+    
                 print("transitioning to new view")
                 self.transitionToNextView()
+                self.boringActivityIndicator.stopAnimating()
+                
             } else {
                 print("authenticate user failed")
                 self.warningLabel.text = "Login failed. Email does not exist, or password is incorrect."
@@ -163,7 +195,26 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func transitionToNextView() -> Void {
         
-        self.performSegueWithIdentifier("loginAndPresentTabBar", sender: self)
+        
+        if hasCurrentUser == true && hasUsersNearby == true {
+            
+            self.performSegueWithIdentifier("loginAndPresentTabBar", sender: self)
+            
+        }
+        
+    }
+    
+   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    
+    //set the static copy here, right before we present the view
+    
+        if segue.identifier == "loginAndPresentTabBar" {
+            
+            let personListVC = segue.destinationViewController as! PersonListViewController
+            
+            personListVC.peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
+            
+        }
         
     }
     

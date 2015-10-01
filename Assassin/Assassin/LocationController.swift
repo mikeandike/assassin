@@ -135,11 +135,12 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         let circleQuery = geoFire.queryAtLocation(center, withRadius: 0.6)
         let currentUserQuery = geoFire.queryAtLocation(center, withRadius: 500000)
         
-//        circleQuery.observeReadyWithBlock { () -> Void in
-//            
-//           currentlyRefreshing = false
-//            
-//        }
+        circleQuery.observeReadyWithBlock { () -> Void in
+            
+            //Notification fires when main batch of users nearby comes back from query
+            NSNotificationCenter.defaultCenter().postNotificationName("usersNearbyQueryFinishedNotification", object: nil)
+            
+        }
         
         circleQuery.observeEventType(GFEventTypeKeyEntered, withBlock: { (key: String!, location: CLLocation!) in
             
