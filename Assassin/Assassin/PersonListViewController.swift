@@ -142,22 +142,28 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
             
             //remove that star yo
             
+             person.isStarredUser = false
+            
             FirebaseNetworkController.sharedInstance.deleteStarredUserWithUID(person.uid)
             
-            person.isStarredUser = false
+           
             
             
             
         } else {
             
-            FirebaseNetworkController.sharedInstance.saveUsersUIDToCurrentPersonsStarredUsers(person.uid)
+            //add that star yo
             
             person.isStarredUser = true
+            
+            FirebaseNetworkController.sharedInstance.saveUsersUIDToCurrentPersonsStarredUsers(person.uid)
+            
+            
             
         }
         
     
-        
+        tableView.reloadData()
         
         //1. check to see which seg control index is selected
         //2. get person from appropriate array

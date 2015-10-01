@@ -303,19 +303,24 @@ class FirebaseNetworkController: NSObject {
     
     //this method adds the one uid to the starredUsersUIDs array of the current user on firebase
     
-    func saveUsersUIDToCurrentPersonsStarredUsers (UID : String) {
+    func starCurrentUser (personToStar : Person) {
         
         let usersRef = getUsersRef()
         
         if let currentPerson = self.currentPerson {
             
             //add the UID to their starred UIDS
-            currentPerson.starredUsersUIDS.append(UID)
+            currentPerson.starredUsersUIDS.append(personToStar.uid)
+            
+            //add the person to the starredUsers
+            
+            starredPeople.append(personToStar)
             
             //save the that uid to the starred users dictionary on firebase
             //will this add a new uid or only update an old one?
             
-            usersRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starredUsersUIDS").updateChildValues([UID : UID])
+            //Saving a unique value as a dictionary entry with both the key and the value as the uid is the best way to save an array on Firebase according to Matt and a random blog post I read - Michelle
+            usersRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starredUsersUIDS").updateChildValues([personToStar.uid : personToStar.uid])
             //            self.starredStrings.append(starUID)
             //            self.loadStarredUserWithUid(starUID)
         }
