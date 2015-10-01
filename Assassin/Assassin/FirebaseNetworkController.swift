@@ -257,20 +257,7 @@ class FirebaseNetworkController: NSObject {
     
     //MARK: save starred users UIDS
     
-    func saveUsersUIDToCurrentPersonsStarredUsersOnFirebase (UID : String) {
-        
-        let usersRef = getUsersRef()
-        
-        if let currentPerson = self.currentPerson {
-            
-            //save the that uid to the starred users dictionary on firebase 
-            //will this add a new uid or only update an old one?
-            
-            usersRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starredUsersUIDS").updateChildValues([UID : UID])
-//            self.starredStrings.append(starUID)
-//            self.loadStarredUserWithUid(starUID)
-        }
-    }
+   
     
 
     //MARK: helper methods to convert person object into dictionary
@@ -372,6 +359,36 @@ class FirebaseNetworkController: NSObject {
     
     //MARK: starred user methods
     
+    func saveUsersUIDToCurrentPersonsStarredUsersOnFirebase (UID : String) {
+        
+        let usersRef = getUsersRef()
+        
+        if let currentPerson = self.currentPerson {
+            
+            //save the that uid to the starred users dictionary on firebase
+            //will this add a new uid or only update an old one?
+            
+            usersRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starredUsersUIDS").updateChildValues([UID : UID])
+            //            self.starredStrings.append(starUID)
+            //            self.loadStarredUserWithUid(starUID)
+        }
+    }
+    
+    func removeStarredUserWithUIDInFirebase(UID : String){
+        
+        let starredRef = getUsersRef()
+        
+        if let currentPerson = self.currentPerson{
+            print(self.starredStrings)
+            var starDictionary : [String : AnyObject] = Dictionary<String, String>()
+            for uidString in self.starredStrings {
+                starDictionary[uidString as! String] = uidString
+            }
+            starredRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starred").setValue(starDictionary)
+        }
+        
+    }
+    
     func loadStarUsers (uid : String) {
         
         let userRef = getUsersRef()
@@ -404,20 +421,7 @@ class FirebaseNetworkController: NSObject {
    
     
     
-    func updateStarredUsers(){
-        
-        let starredRef = getUsersRef()
-        
-        if let currentPerson = self.currentPerson{
-            print(self.starredStrings)
-            var starDictionary : [String : AnyObject] = Dictionary<String, String>()
-            for uidString in self.starredStrings {
-                starDictionary[uidString as! String] = uidString
-            }
-            starredRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starred").setValue(starDictionary)
-        }
-        
-    }
+   
     
     func loadStarredUserWithUid (uid : String) {
         
