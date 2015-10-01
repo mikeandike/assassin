@@ -369,7 +369,7 @@
 				TargetAttributes = {
 					8C2D08FE1BA72FAE00155E77 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = CX48SSGG62;
+						DevelopmentTeam = 6LV4CR67Q9;
 					};
 					8C2D09121BA72FAF00155E77 = {
 						CreatedOnToolsVersion = 7.0;
@@ -644,6 +644,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Assassin/Assassin-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -661,6 +662,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Assassin/Assassin-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

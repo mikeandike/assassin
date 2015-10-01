@@ -191,6 +191,7 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
                 
                 registerUserWithEmailAndPassword(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString)
                 
+                
             } else {
                 
                 warningLabel.text = "One or more items is incomplete"
