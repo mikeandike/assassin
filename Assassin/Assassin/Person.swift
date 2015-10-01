@@ -32,7 +32,7 @@ class Person: NSObject {
     //still have to figure out how to transfer images through firebase
     var image: UIImage?
     
-    var starredUsersUIDS: [String] = []
+    var starredUsersUIDS: [AnyObject] = []
     var isStarredUser : Bool
     
     init(firstName: String, lastName: String, email: String, password: String, uid: String) {
@@ -86,12 +86,7 @@ class Person: NSObject {
             self.purpose = purpose as? String
         }
         
-            
-        self.starredUsersUIDS = dictionary["starredUsersUIDS"] as! [String]
-            
-        
-        
-        
+    
         super.init()
         
         

@@ -120,6 +120,14 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
    
     @IBAction func starButtonTapped(sender: UIButton) {
         
+        //1. check to see which seg control index is selected
+        //2. get person from appropriate array
+        //3. check isStarred bool on person
+        //4. flip it
+        //5. call a method on the firebase network controller to update the other arrays accordingly
+        //6. reload / delete cell
+        
+        
 //        let cell = sender.superview!.superview! as! PersonTableViewCell
 //        
 //        if let indexPath = tableView.indexPathForCell(cell) {
@@ -241,29 +249,17 @@ extension PersonListViewController : UITableViewDataSource {
             cell.userImageView.image = UIImage(named: "blankProfileGray")
         }
         
-        if let currentUser = FirebaseNetworkController.sharedInstance.currentPerson {
+        
+        
+        if person.isStarredUser {
             
-            if  let starredUsersUIDs = (currentUser. as! [String]) {
-                
-                var isStared = Bool(false)
-                for var i = 0; i < FirebaseNetworkController.sharedInstance.starredStrings.count; ++i {
-                    if(person.uid == starrStrings[i] ) {
-                        isStared = true;
-                        
-                    }
-                }
-                if (isStared == true) {
-                    cell.starButton.imageView?.image = UIImage(named: "starred")
-                    cell.isStarred = true;
-                } else {
-                    cell.starButton.imageView?.image = UIImage(named: "unstarred")
-                    cell.isStarred = false;
-                }
-            }
+            cell.starButton.imageView?.image = UIImage(named: "starred")
+            
+        } else {
+            
+            cell.starButton.imageView?.image = UIImage(named: "unstarred")
             
         }
-        
-       
         
         cell.nameLabel.text = person.firstName + " " + person.lastName
         cell.nameLabel.font = AppearenceController.bigText

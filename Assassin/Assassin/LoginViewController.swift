@@ -20,12 +20,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     var hasUsersNearby : Bool = false
     
     var hasCurrentUser: Bool = false
+
+    var hasStarredUsers : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //register to be notified when first query of users nearby comes back
+        //register to be notified when first query of users nearby comes back and when starred users come back
          NSNotificationCenter.defaultCenter().addObserver(self, selector: "usersNearbyQueryFinished", name: "usersNearbyQueryFinishedNotification", object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "starredUsersQueryFinished", name: "starredUsersExistNotification", object: nil)
+    
         
         loadLoginFromDefaults()
 
@@ -172,6 +177,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    func starredUsersArrived() {
+
+        hasStarredUsers = true
+        
+        transitionToNextView()
+
+    }
+    
     
     //MARK: login user
     
@@ -196,9 +209,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     func transitionToNextView() -> Void {
         
         
-        if hasCurrentUser == true && hasUsersNearby == true {
+        if hasCurrentUser == true  {
+
+            if hasStarredUsers == true {
+                
+                if hasUsersNearby == true {
+                    
+                         self.performSegueWithIdentifier("loginAndPresentTabBar", sender: self)
+                    }
+
+                }
             
-            self.performSegueWithIdentifier("loginAndPresentTabBar", sender: self)
+           
             
         }
         

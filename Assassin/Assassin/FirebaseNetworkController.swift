@@ -41,7 +41,6 @@ class FirebaseNetworkController: NSObject {
     
     
     
-    
     //MARK: method to create new user
     
     func createPerson(emailString : String, passwordString: String, firstNameString: String, lastNameString: String, uid: String){
@@ -75,6 +74,9 @@ class FirebaseNetworkController: NSObject {
                     completion(false)
                     
                 } else {
+                    
+                    //start getting your starred users here
+                    loadStarredUsersForCurrentUserWithUID(authData.uid)
                     
                     let userRef = usersRef.childByAppendingPath(authData.uid)
                     
@@ -133,6 +135,9 @@ class FirebaseNetworkController: NSObject {
                         person.lastLocation = location
                     
                         self.peopleNearby.append(person)
+
+                        //TODO: add a method here checking to see if the person is on the stars array, if so mark them as starred
+                        //TODO: we have to make sure the that we have a current user and a list of starred user strings before we query users nearby for this to work
                     
                         print("peopleNearby: \(self.peopleNearby)")
                     
@@ -359,11 +364,14 @@ class FirebaseNetworkController: NSObject {
     
     //MARK: starred user methods
     
-    func saveUsersUIDToCurrentPersonsStarredUsersOnFirebase (UID : String) {
+    func saveUsersUIDToCurrentPersonsStarredUsers (UID : String) {
         
         let usersRef = getUsersRef()
         
         if let currentPerson = self.currentPerson {
+            
+            //add the UID to their starred UIDS
+            currentPerson.starredUsersUIDS.append(UID)
             
             //save the that uid to the starred users dictionary on firebase
             //will this add a new uid or only update an old one?
@@ -374,47 +382,101 @@ class FirebaseNetworkController: NSObject {
         }
     }
     
-    func removeStarredUserWithUIDInFirebase(UID : String){
+    func deleteStarredUserWithUID(UID : String){
         
-        let starredRef = getUsersRef()
+        //delete from starred people array on firebase
         
-        if let currentPerson = self.currentPerson{
-            print(self.starredStrings)
-            var starDictionary : [String : AnyObject] = Dictionary<String, String>()
-            for uidString in self.starredStrings {
-                starDictionary[uidString as! String] = uidString
+        let userToDelete = starredPeople.filter{ $0.uid == UID }.first
+        
+        if let foundUserToDelete = userToDelete {
+            
+            if let index = starredPeople.indexOf(foundUserToDelete) {
+            
+            starredPeople.removeAtIndex(index)
+                
             }
-            starredRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starred").setValue(starDictionary)
+            
         }
+        
+    
+        //delete from current users firebase array
+        if let currentUser = currentPerson {
+        
+            let UIDToDelete = currentUser.starredUsersUIDS.filter{ $0 == UID }.first
+            
+            if let foundUIDToDelete = UIDToDelete {
+                
+                if let index = currentUser.starredUsersUIDS.indexOf(foundUIDToDelete) {
+                
+                currentUser.starredUsersUIDS.removeAtIndex(index)
+                    
+                }
+                
+            }
+            
+        }
+    
+        saveCurrentUsersStarredUIDSToFirebase()
         
     }
     
-    func loadStarUsers (uid : String) {
+    func saveCurrentUsersStarredUIDSToFirebase() {
+        
+        //save that current users starred users array to firebase by deleting the only one and adding a new one
+        let starredRef = getUsersRef()
+        
+        if let currentUser = self.currentPerson{
+            
+            var starDictionary : [String : AnyObject]!
+            
+            for uidString in currentUser.starredUsersUIDS {
+                
+                starDictionary[uidString as! String] = uidString
+            }
+            
+            starredRef.childByAppendingPath(currentUser.uid).childByAppendingPath("starredUsersUIDS").setValue(starDictionary)
+            
+        }
+        
+    }
+
+    
+    func loadStarredUsersForCurrentUserWithUID(uid : String) {
         
         let userRef = getUsersRef()
-       
-        userRef.childByAppendingPath(uid).childByAppendingPath("starred").observeSingleEventOfType(FEventType.Value, withBlock: {snapshot in
+        
+        userRef.childByAppendingPath(uid).childByAppendingPath("starredUsersUIDS").observeSingleEventOfType(FEventType.Value, withBlock: {snapshot in
             
             print(snapshot.value)
             
             //Set snapshot.value to array of stared users
-            if snapshot.value is NSNull {
-                print("value is null")
-            } else {
-                if let starUserDictionary = snapshot.value      {
-
-                self.starredStrings = (starUserDictionary.allKeys)  // *** encountered an error on this line:
-                                                                    // 'fatal error: unexpectedly found nil while unwrapping an Optional value' ***
+            if let snapshotValue = snapshot.value {
                 
-                for starUID in self.starredStrings {
-                    self.loadStarredUserWithUid(starUID as! String)
-                    print("Star User Added")
+                let starredUserDictionary = snapshotValue
+                
+                    if let currentUser = self.currentPerson {
+                    
+                        currentUser.starredUsersUIDS = starredUserDictionary.allKeys
+                    
+                        for starredUID : String in currentUser.starredUsersUIDS {
+                        
+                            self.getStarredUserWithUidFromFirebase(starredUID as! String)
+                                
+                        
+                        }
+
+                        NSNotificationCenter.defaultCenter().postNotificationName("starredUsersExistNotification", object: nil)
+                    
                 }
-                }
+                
+           } else {
+             print("value is nil")
+//                
+//
             }
-            
-            }, withCancelBlock: { error in
-                print(error.description)
+//
+//            }, withCancelBlock: { error in
+//                print(error.description)
         })
         
     }
@@ -423,11 +485,13 @@ class FirebaseNetworkController: NSObject {
     
    
     
-    func loadStarredUserWithUid (uid : String) {
+    func getStarredUserWithUidFromFirebase (uid : String) {
         
         let userRef = getUsersRef()
+        
         userRef.childByAppendingPath(uid).observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
             if let personDictionary = snapshot.value {
+                
                 print(snapshot.value)
                 let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
                 

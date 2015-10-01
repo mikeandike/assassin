@@ -38,6 +38,12 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         
         if hasPerson == true && hasLocation == true {
             
+        if let currentUserLocation = currentLocation {
+                
+                getUIDsOfUsersAtNearbyLocation(currentUserLocation)
+                
+        }
+            
         FirebaseNetworkController.sharedInstance.currentPerson!.lastLocation = currentLocation
         FirebaseNetworkController.sharedInstance.currentPerson!.timeAtLastLocation = currentLocation!.timestamp
             
@@ -105,11 +111,7 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         
         locationArrived()
         
-        if let currentUserLocation = currentLocation {
         
-        getUIDsOfUsersAtNearbyLocation(currentUserLocation)
-            
-        }
         
     }
     
