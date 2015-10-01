@@ -87,6 +87,8 @@ class FirebaseNetworkController: NSObject {
                             
                             NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
                             
+                            self.removePersonWithUIDFromPeopleNearby(authData.uid)
+                            
                             self.loadStarUsers(authData.uid)
                             completion(true)
                             
@@ -107,41 +109,30 @@ class FirebaseNetworkController: NSObject {
     
     func addPersonWithUIDAndLocationToPeopleNearby(uid : String, location: CLLocation, locationOfCurrentUser: CLLocation) {
         
-        //If the location is not the location that was queried from
-        if location.coordinate.latitude != locationOfCurrentUser.coordinate.latitude || location.coordinate.longitude != locationOfCurrentUser.coordinate.longitude {
-            
-            let repeatPerson = self.peopleNearby.filter{ $0.uid == uid }.first
-
-            if let personWhoAlreadyExists = repeatPerson {
-                
-                print("This person already exists ey")
-                
-            } else {
-                
-            //The person isn't already in the array so add them
-    
-                let usersRef = getUsersRef()
-            
-                let userRef = usersRef.childByAppendingPath(uid)
-            
-                userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
-                
-                    if let personDictionary = snapshot.value {
-                    //print(snapshot.value)
-                        let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
-                    
-                        person.lastLocation = location
-                    
-                        self.peopleNearby.append(person)
-                    
-                        print("peopleNearby: \(self.peopleNearby)")
-                    
-                    }
-                });
-            
-            }
-        }
+        let usersRef = getUsersRef()
         
+        let userRef = usersRef.childByAppendingPath(uid)
+        
+        userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
+            
+            if let personDictionary = snapshot.value {
+                //print(snapshot.value)
+                let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
+                
+                person.lastLocation = location
+                
+                let repeatPerson = self.peopleNearby.filter{ $0.uid == uid }.first
+                
+                if (repeatPerson != nil) {
+                    
+                    print("This person already exists ey")
+                    
+                } else {
+                    
+                    self.peopleNearby.append(person)
+                }
+            }
+        });
     }
     
     //MARK: method to remove person from dictionary
@@ -158,7 +149,6 @@ class FirebaseNetworkController: NSObject {
                 
                 self.peopleNearby.removeAtIndex(personIndex)
                 
-                print("peopleNearby: \(self.peopleNearby)")
             }
             
         }
