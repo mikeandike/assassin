@@ -358,7 +358,7 @@ class FirebaseNetworkController: NSObject {
         
         let userRef = getUsersRef()
         print(userRef)
-        userRef.childByAppendingPath(uid).childByAppendingPath("starred").observeEventType(FEventType.Value, withBlock: {snapshot in
+        userRef.childByAppendingPath(uid).childByAppendingPath("starred").observeSingleEventOfType(FEventType.Value, withBlock: {snapshot in
             print(snapshot.value)
             //Set snapshot.value to array of stared users
             if snapshot.value is NSNull {
@@ -398,7 +398,12 @@ class FirebaseNetworkController: NSObject {
         let starredRef = getUsersRef()
         
         if let currentPerson = self.currentPerson{
-            starredRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starred").setValue([self.starredStrings : self.starredStrings])
+            print(self.starredStrings)
+            var starDictionary : [String : AnyObject] = Dictionary<String, String>()
+            for uidString in self.starredStrings {
+                starDictionary[uidString as! String] = uidString
+            }
+            starredRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starred").setValue(starDictionary)
         }
         
     }
