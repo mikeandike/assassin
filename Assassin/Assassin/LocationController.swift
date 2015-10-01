@@ -37,13 +37,7 @@ class LocationController: NSObject, CLLocationManagerDelegate {
     func sendLocationToFirebase() {
         
         if hasPerson == true && hasLocation == true {
-            
-        if let currentUserLocation = currentLocation {
-                
-                getUIDsOfUsersAtNearbyLocation(currentUserLocation)
-                
-        }
-            
+        
         FirebaseNetworkController.sharedInstance.currentPerson!.lastLocation = currentLocation
         FirebaseNetworkController.sharedInstance.currentPerson!.timeAtLastLocation = currentLocation!.timestamp
             
@@ -108,6 +102,12 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         currentLocation = locations[locations.count - 1]
         
         print("locations are: \(locations)")
+        
+        if let currentUserLocation = currentLocation {
+            
+            getUIDsOfUsersAtNearbyLocation(currentUserLocation)
+            
+        }
         
         locationArrived()
         

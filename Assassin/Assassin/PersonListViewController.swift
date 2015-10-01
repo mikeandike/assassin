@@ -78,6 +78,8 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
     
     func refreshNearbyUsersTapped(){
         
+        peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
+        
         tableView.reloadData()
         
         refreshUsersNearbyControl.endRefreshing()
@@ -120,10 +122,49 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
    
     @IBAction func starButtonTapped(sender: UIButton) {
         
+        let cell = sender.superview!.superview!
+        
+        let cellIndexPath = tableView.indexPathForCell(cell)
+        
+        var person : Person!
+        
+        if segControl.selectedSegmentIndex == 0 {
+            
+            person = peopleNearbyStaticCopy[indexPath.row]
+            
+        } else {
+            
+            person = FirebaseNetworkController.sharedInstance.starredPeople[indexPath.row]
+            
+        }
+        
+        if person.isStarredUser == true {
+            
+            //remove that star yo
+            
+            FirebaseNetworkController.sharedInstance.deleteStarredUserWithUID(person.uid)
+            
+            person.isStarredUser = false
+            
+            
+            
+        } else {
+            
+            FirebaseNetworkController.sharedInstance.saveUsersUIDToCurrentPersonsStarredUsers(person.uid)
+            
+            person.isStarredUser = true
+            
+        }
+        
+    
+        
+        
         //1. check to see which seg control index is selected
         //2. get person from appropriate array
         //3. check isStarred bool on person
         //4. flip it
+        
+        
         //5. call a method on the firebase network controller to update the other arrays accordingly
         //6. reload / delete cell
         
@@ -178,7 +219,15 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
                 
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
                 
-                let person = peopleNearbyStaticCopy[indexPath.row]
+                if segControl.selectedSegmentIndex == 0 {
+                    
+                    let person = peopleNearbyStaticCopy[indexPath.row]
+                    
+                } else {
+                    
+                    let person = FirebaseNetworkController.sharedInstance.starredPeople[indexPath.row]
+                    
+                }
                 
                     destinationVC.person = person
                     destinationVC.isCurrentUsersProfile = false
