@@ -49,82 +49,12 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    //MARK: textfield checking methods
-    
-    func textFieldDidBeginEditing(textField: UITextField) {
-        
-        warningLabel.text = ""
-    }
+    //MARK: textfield delegate - textfield checking methods
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
-        if textField == firstNameTextField || textField == lastNameTextField {
-            
-            if controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 0) && (string != "") || controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 2) && (string == "") {
-                
-                warningLabel.text = ""
-                
-                if controlTestForNamesAndPasswordTextFields(firstNameTextField, andCharacterCountGreaterThan: 1) &&
-                    controlTestForNamesAndPasswordTextFields(lastNameTextField, andCharacterCountGreaterThan: 1) &&
-                    controlTestForNamesAndPasswordTextFields(passwordTextField, andCharacterCountGreaterThan: 4) &&
-                    controlTestForConfirmPasswordTextField(confirmPasswordTextField) &&
-                    controlTestForEmailTextField(emailTextField, andCharacterCountGreaterThan: 5) {
-                    
-                    registerButton.enabled = true
-                        
-                } else {
-                    registerButton.enabled = false
-                }
-                
-            } else {
-                registerButton.enabled = false
-            }
-        }
+        warningLabel.text = ""
         
-        if textField == passwordTextField {
-            
-            if controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 3) && (string != "") || controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 5) && (string == "") {
-                
-                warningLabel.text = ""
-                
-                if controlTestForNamesAndPasswordTextFields(firstNameTextField, andCharacterCountGreaterThan: 1) &&
-                    controlTestForNamesAndPasswordTextFields(lastNameTextField, andCharacterCountGreaterThan: 1) &&
-                    controlTestForConfirmPasswordTextField(confirmPasswordTextField) &&
-                    controlTestForEmailTextField(emailTextField, andCharacterCountGreaterThan: 5) {
-                        
-                        registerButton.enabled = true
-                        
-                } else {
-                    registerButton.enabled = false
-                }
-                
-            } else {
-                registerButton.enabled = false
-            }
-        }
-        
-        if textField == emailTextField {
-            
-            if controlTestForEmailTextField(textField, andCharacterCountGreaterThan: 4) && (string != "") ||
-                controlTestForEmailTextField(textField, andCharacterCountGreaterThan: 6) && (string == "") {
-                
-                warningLabel.text = ""
-                
-                if controlTestForNamesAndPasswordTextFields(firstNameTextField, andCharacterCountGreaterThan: 1) &&
-                    controlTestForNamesAndPasswordTextFields(lastNameTextField, andCharacterCountGreaterThan: 1) &&
-                    controlTestForNamesAndPasswordTextFields(passwordTextField, andCharacterCountGreaterThan: 4) &&
-                    controlTestForConfirmPasswordTextField(confirmPasswordTextField) {
-                        
-                        registerButton.enabled = true
-                        
-                } else {
-                    registerButton.enabled = false
-                }
-                
-            } else {
-                registerButton.enabled = false
-            }
-        }
         return true
     }
     
@@ -156,52 +86,47 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         
         if textField == firstNameTextField {
             
-            if controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 1) {
-                return true
+            if controlTestForNameTextFields(textField) {
+                warningLabel.text = ""
                 
             } else {
                 warningLabel.text = "First name must be more than one letter."
-                return false
             }
         }
         if textField == lastNameTextField {
             
-            if controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 1) {
-                return true
+            if controlTestForNameTextFields(textField) {
+                warningLabel.text = ""
                 
             } else {
                 warningLabel.text = "Last name must be more than one letter."
-                return false
             }
         }
         if textField == emailTextField {
             
-            if controlTestForEmailTextField(textField, andCharacterCountGreaterThan: 5) {
-                return true
+            if controlTestForEmailTextField() {
+                warningLabel.text = ""
                 
             } else {
                 warningLabel.text = "You must enter a valid email address."
-                return false
             }
         }
         if textField == passwordTextField {
             
-            if controlTestForNamesAndPasswordTextFields(textField, andCharacterCountGreaterThan: 4) {
-                return true
+            if controlTestForPasswordTextField() {
+                warningLabel.text = ""
                 
             } else {
                 warningLabel.text = "Password must be more than four characters."
-                return false
             }
         }
         if textField == confirmPasswordTextField {
             
-            if controlTestForConfirmPasswordTextField(textField) {
-                return true
+            if controlTestForConfirmPasswordTextField() {
+                warningLabel.text = ""
                 
             } else {
                 warningLabel.text = "Passwords must match."
-                return false
             }
         }
         return true
@@ -209,31 +134,42 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: textfield control test methods
     
-    func controlTestForNamesAndPasswordTextFields(textField: UITextField, andCharacterCountGreaterThan count: Int) -> Bool {
+    func controlTestForNameTextFields(textField: UITextField) -> Bool {
         
         if let typedText = textField.text {
             
-            if typedText.characters.count > count {
+            if typedText.characters.count > 1 {
                 return true
             }
         }
         return false
     }
     
-    func controlTestForEmailTextField(textField: UITextField, andCharacterCountGreaterThan count: Int) -> Bool {
+    func controlTestForEmailTextField() -> Bool {
         
-        if let emailText = textField.text {
+        if let emailText = emailTextField.text {
             
-            if (emailText.containsString("@")) && (emailText.containsString(".")) && (emailText.characters.count > count) {
+            if (emailText.containsString("@")) && (emailText.containsString(".")) && (emailText.characters.count > 5) {
                 return true
             }
         }
         return false
     }
     
-    func controlTestForConfirmPasswordTextField(textField: UITextField) -> Bool {
+    func controlTestForPasswordTextField() -> Bool {
         
-        if let passwordText = passwordTextField.text, confirmPasswordText = textField.text {
+        if let typedText = passwordTextField.text {
+            
+            if typedText.characters.count > 4 {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func controlTestForConfirmPasswordTextField() -> Bool {
+        
+        if let passwordText = passwordTextField.text, confirmPasswordText = confirmPasswordTextField.text {
             
             if (confirmPasswordText == passwordText) {
                 registerButton.enabled = true
@@ -247,15 +183,22 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func registerButtonPressed(sender: UIButton) {
         
-        if let emailString = emailTextField.text, passwordString = passwordTextField.text, firstNameString = firstNameTextField.text, lastNameString = lastNameTextField.text {
+        if controlTestForNameTextFields(firstNameTextField) && controlTestForNameTextFields(lastNameTextField) && controlTestForEmailTextField() && controlTestForPasswordTextField() && controlTestForConfirmPasswordTextField() {
             
-            registerActivityIndicator.startAnimating()
+            if let emailString = emailTextField.text, passwordString = passwordTextField.text, firstNameString = firstNameTextField.text, lastNameString = lastNameTextField.text {
+                
+                registerActivityIndicator.startAnimating()
+                
+                registerUserWithEmailAndPassword(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString)
+                
+                
+            } else {
+                
+                warningLabel.text = "One or more items is incomplete"
+            }
 
-            registerUserWithEmailAndPassword(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString)
-            
         } else {
-            
-            warningLabel.text = "Must enter email and password"
+            warningLabel.text = "Cannot register: check your information"
         }
     }
 
