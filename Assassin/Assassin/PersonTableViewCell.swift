@@ -15,7 +15,7 @@ class PersonTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var companyLabel: UILabel!
     @IBOutlet weak var jobTitleLabel: UILabel!
-    
+    var isStarred = Bool()
     
     override func awakeFromNib() {
         super.awakeFromNib()

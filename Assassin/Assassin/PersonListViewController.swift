@@ -121,7 +121,7 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         
         let cell = sender.superview!.superview! as! PersonTableViewCell
         
-        if cell.starButton.imageView?.image == UIImage(named: "unstarred") {
+        if cell.isStarred == false {
             //If star is unstarred, add them to starred users.
             if let indexPath = tableView.indexPathForCell(cell) {
                 
@@ -133,19 +133,29 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         } else {
             //Else remove them from starred
             if let indexPath = tableView.indexPathForCell(cell) {
-                let personAtIndex = peopleNearbyStaticCopy[indexPath.row]
+      
+            var personAtIndexPath : Person!
+            if showingStarredUsersOnly == true {
+                     personAtIndexPath = FirebaseNetworkController.sharedInstance.starredPeople[indexPath.row]
+                    print(personAtIndexPath.uid)
+            } else {
+                     personAtIndexPath = peopleNearbyStaticCopy[indexPath.row]
+                print(personAtIndexPath.uid)
+
+                }
                 
                 for var i = 0; i < FirebaseNetworkController.sharedInstance.starredStrings.count; ++i {
                
-                    if personAtIndex.uid == FirebaseNetworkController.sharedInstance.starredStrings[i] as! String{
+                    if personAtIndexPath.uid == FirebaseNetworkController.sharedInstance.starredStrings[i] as! String{
                         FirebaseNetworkController.sharedInstance.starredStrings.removeAtIndex(i)
                         FirebaseNetworkController.sharedInstance.starredPeople.removeAtIndex(i)
                         FirebaseNetworkController.sharedInstance.updateStarredUsers()
                     }
                 }
             }
-        }
         
+        }
+        self.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -249,9 +259,10 @@ extension PersonListViewController : UITableViewDataSource {
             }
         if (isStared == true) {
             cell.starButton.imageView?.image = UIImage(named: "starred")
-
+            cell.isStarred = true;
         } else {
             cell.starButton.imageView?.image = UIImage(named: "unstarred")
+            cell.isStarred = false;
         }
         }
         
