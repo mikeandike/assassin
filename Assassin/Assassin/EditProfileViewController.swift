@@ -21,8 +21,9 @@ enum EditContactTypes: Int {
     
     case EditContactTypeEmail
     case EditContactTypePhone
+    case EditContactTypeBlank
     
-    static var count: Int {return EditContactTypes.EditContactTypePhone.hashValue + 1}
+    static var count: Int {return EditContactTypes.EditContactTypeBlank.hashValue + 1}
     
 }
 
@@ -256,8 +257,6 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
     }
     
     
-    
-    
     //MARK: UITableViewDelegate methods
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -472,6 +471,9 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
 
                         }
                     }
+                case .EditContactTypeBlank:
+                    
+                    break
                 }
             
             }
@@ -691,8 +693,15 @@ extension EditProfileViewController : UITableViewDataSource {
                 
                 return cell
                 
+            case .EditContactTypeBlank:
+                
+                cell.infoTextField.enabled = false
+                return cell
             }
-        
+            
+            
+            
+            
         }
     }
 }
