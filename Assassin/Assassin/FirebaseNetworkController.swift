@@ -121,6 +121,8 @@ class FirebaseNetworkController: NSObject {
                 
                 person.lastLocation = location
                 
+                //TODO: if current user, keep filtering them out
+                
                 let repeatPerson = self.peopleNearby.filter{ $0.uid == uid }.first
                 
                 if (repeatPerson != nil) {
