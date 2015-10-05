@@ -188,6 +188,8 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
                 
                 FirebaseNetworkController.sharedInstance.deleteStarredUserWithUID(person.uid)
                 
+                tableView.reloadData()
+                
                 
             } else {
                 
@@ -199,11 +201,12 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
                 
                 FirebaseNetworkController.sharedInstance.starPersonWithUID(person)
                 
+                tableView.reloadRowsAtIndexPaths([cellIndexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+
                 print("\(person.firstName) is now a starred User: \(person.isStarredUser)")
             }
             
-            tableView.reloadRowsAtIndexPaths([cellIndexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-//            tableView.reloadData()
+            
             print("tableview reloaded")
             
         

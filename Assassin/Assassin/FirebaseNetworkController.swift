@@ -127,19 +127,7 @@ class FirebaseNetworkController: NSObject {
     
     func addPersonWithUIDAndLocationToPeopleNearby(uid : String, location: CLLocation, locationOfCurrentUser: CLLocation) {
         
-        //if the person nearby is the current user
         
-        if let currentUser = currentPerson {
-            
-            if currentUser.uid == uid {
-                
-                print("person to add is current user, not adding to array")
-                
-                return
-                
-            }
-            
-        }
         
         
             let repeatPerson = self.peopleNearby.filter{ $0.uid == uid }.first
@@ -165,6 +153,22 @@ class FirebaseNetworkController: NSObject {
                         let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
                     
                         person.lastLocation = location
+                        
+                        //if the person nearby is the current user
+                        
+                        if let currentUser = self.currentPerson {
+                            
+                            print("current user first name\(currentUser.firstName)")
+                            
+                            if currentUser.uid == uid {
+                                
+                                print("person to add is current user, not adding to array")
+                                
+                                return
+                                
+                            }
+                            
+                        }
                     
                         self.peopleNearby.append(person)
 
