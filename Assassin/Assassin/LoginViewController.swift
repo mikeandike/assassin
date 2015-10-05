@@ -192,7 +192,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         FirebaseNetworkController.sharedInstance.authenticateUserWithEmailAndPassword(username, password: password) { (hasUser) -> () in
             if hasUser {
     
-                print("transitioning to new view")
+              
 //                self.transitionToNextView()
                 self.currentUserArrived()
 //                self.boringActivityIndicator.stopAnimating()
