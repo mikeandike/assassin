@@ -193,8 +193,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             if hasUser {
     
                 print("transitioning to new view")
-                self.transitionToNextView()
-                self.boringActivityIndicator.stopAnimating()
+//                self.transitionToNextView()
+                self.currentUserArrived()
+//                self.boringActivityIndicator.stopAnimating()
                 
             } else {
                 print("authenticate user failed")
