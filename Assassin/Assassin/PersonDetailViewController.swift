@@ -267,9 +267,20 @@ extension PersonDetailViewController : UITableViewDataSource {
             
             if let company = person.company {
                 
-                cell.companyLabel.text = company
-                cell.companyLabel.textColor = UIColor.blackColor()
-                cell.companyLabel.font = AppearenceController.mediumBigText
+                if company == "" {
+                  
+                    cell.companyLabel.text = "Company"
+                    cell.companyLabel.textColor = UIColor.lightGrayColor()
+
+                    
+                } else {
+                    
+                    cell.companyLabel.text = company
+                    cell.companyLabel.textColor = UIColor.blackColor()
+                    cell.companyLabel.font = AppearenceController.mediumBigText
+                    
+                }
+                
                 
             } else {
                 
