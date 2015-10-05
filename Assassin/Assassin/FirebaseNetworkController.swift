@@ -76,7 +76,7 @@ class FirebaseNetworkController: NSObject {
                 } else {
                     
                     //start getting your starred users here
-                    loadStarredUsersForCurrentUserWithUID(authData.uid)
+                    self.loadStarredUsersForCurrentUserWithUID(authData.uid)
                     
                     let userRef = usersRef.childByAppendingPath(authData.uid)
                     
@@ -88,12 +88,14 @@ class FirebaseNetworkController: NSObject {
                             
                             NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
                             
-                            self.loadStarUsers(authData.uid)
+                            self.loadStarredUsersForCurrentUserWithUID(self.currentPerson!.uid)
                             
                             completion(true)
                             
                         } else {
+                            
                             completion(false)
+                            
                         }
                        // self.loadStarredUserWithUid(authData.uid)
                     })
@@ -116,7 +118,7 @@ class FirebaseNetworkController: NSObject {
 
             if let personWhoAlreadyExists = repeatPerson {
                 
-                print("This person already exists ey")
+                print("\(personWhoAlreadyExists) already exists ey")
                 
             } else {
                 
@@ -303,7 +305,7 @@ class FirebaseNetworkController: NSObject {
     
     //this method adds the one uid to the starredUsersUIDs array of the current user on firebase
     
-    func starCurrentUser (personToStar : Person) {
+    func starPersonWithUID (personToStar : Person) {
         
         let usersRef = getUsersRef()
         
@@ -377,7 +379,7 @@ class FirebaseNetworkController: NSObject {
             
             for uidString in currentUser.starredUsersUIDS {
                 
-                starDictionary[uidString as! String] = uidString
+                starDictionary[uidString] = uidString
             }
             
             starredRef.childByAppendingPath(currentUser.uid).childByAppendingPath("starredUsersUIDS").setValue(starDictionary)
@@ -400,18 +402,32 @@ class FirebaseNetworkController: NSObject {
                 
                 let starredUserDictionary = snapshotValue
                 
-                    if let currentUser = self.currentPerson {
-                    
-                        currentUser.starredUsersUIDS = starredUserDictionary.allKeys
-                    
-                        for starredUID : String in currentUser.starredUsersUIDS {
+                if let currentUser : Person = self.currentPerson {
                         
-                            self.getStarredUserWithUidFromFirebase(starredUID as! String)
-                                
+//                        let starredUsersUIDS : [String] = starredUserDictionary.allKeys
+                    
+//                        currentUser.starredUsersUIDS = starredUsersUIDS
                         
+                        currentUser.starredUsersUIDS = []
+                    
+                    if let starredUIDS = starredUserDictionary.allKeys as? [String] {
+                        
+                        for UIDString : String in starredUIDS {
+                        
+                            currentUser.starredUsersUIDS.append(UIDString)
+                            
                         }
-
+                        
+                        for starredUID : String in currentUser.starredUsersUIDS {
+                            
+                            self.getStarredUserWithUidFromFirebase(starredUID)
+                            
+                            
+                        }
+                        
                         NSNotificationCenter.defaultCenter().postNotificationName("starredUsersExistNotification", object: nil)
+                        
+                    }
                     
                 }
                 

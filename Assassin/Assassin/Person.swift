@@ -58,6 +58,8 @@ class Person: NSObject {
         
         self.uid = dictionary["uid"] as! String
         
+        self.isStarredUser = false
+        
         if let phoneNumber = dictionary["phoneNumber"] {
             
             self.phoneNumber = phoneNumber as? String
