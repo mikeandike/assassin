@@ -31,6 +31,8 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         
         //tests
         
+       
+        
         print("FNC STARRED PEOPLE : \(FirebaseNetworkController.sharedInstance.starredPeople)")
         
         if let currentUser = FirebaseNetworkController.sharedInstance.currentPerson {
@@ -46,6 +48,11 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
             setStarsForStarredUsers()
         
             peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
+        
+         print("VIEW LOADED WITH STATIC PEOPLE NEARBY\(peopleNearbyStaticCopy)")
+        print(peopleNearbyStaticCopy[0].uid)
+        print(peopleNearbyStaticCopy[1].uid)
+        
         
             if FirebaseNetworkController.sharedInstance.peopleNearby.count >= 1 {
                 
