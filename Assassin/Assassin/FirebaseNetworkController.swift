@@ -375,7 +375,7 @@ class FirebaseNetworkController: NSObject {
         
         if let currentUser = self.currentPerson{
             
-            var starDictionary : [String : AnyObject]!
+            var starDictionary : [String : AnyObject] = Dictionary<String, String>()
             
             for uidString in currentUser.starredUsersUIDS {
                 
@@ -400,21 +400,25 @@ class FirebaseNetworkController: NSObject {
             //Set snapshot.value to array of stared users
             if let snapshotValue = snapshot.value {
                 
-                let starredUserDictionary = snapshotValue
+                let starredUserDictionary  = snapshotValue
                 
                 if let currentUser : Person = self.currentPerson {
                         
 //                        let starredUsersUIDS : [String] = starredUserDictionary.allKeys
                     
 //                        currentUser.starredUsersUIDS = starredUsersUIDS
-                        
-                        currentUser.starredUsersUIDS = []
                     
-                    if let starredUIDS = starredUserDictionary.allKeys as? [String] {
+                    if let starredUserDictAllKeys = starredUserDictionary.allKeys {
                         
-                        for UIDString : String in starredUIDS {
+                        print(starredUserDictAllKeys)
                         
-                            currentUser.starredUsersUIDS.append(UIDString)
+                        for key in starredUserDictAllKeys {
+                            
+                            if let UIDString = key as? String {
+                        
+                                currentUser.starredUsersUIDS.append(UIDString)
+                                
+                            }
                             
                         }
                         
@@ -426,6 +430,14 @@ class FirebaseNetworkController: NSObject {
                         }
                         
                         NSNotificationCenter.defaultCenter().postNotificationName("starredUsersExistNotification", object: nil)
+                        
+                    
+                    
+                    } else {
+                        
+                        print("no keys")
+                        
+                       NSNotificationCenter.defaultCenter().postNotificationName("starredUsersExistNotification", object: nil)
                         
                     }
                     

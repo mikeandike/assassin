@@ -29,7 +29,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         //register to be notified when first query of users nearby comes back and when starred users come back
          NSNotificationCenter.defaultCenter().addObserver(self, selector: "usersNearbyQueryFinished", name: "usersNearbyQueryFinishedNotification", object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "starredUsersQueryFinished", name: "starredUsersExistNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "starredUsersArrived", name: "starredUsersExistNotification", object: nil)
     
         
         loadLoginFromDefaults()
@@ -233,9 +233,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
         if segue.identifier == "loginAndPresentTabBar" {
             
-            let personListVC = segue.destinationViewController as! PersonListViewController
+            if let personListVC = segue.destinationViewController as? PersonListViewController {
             
             personListVC.peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
+                
+            }
             
         }
         

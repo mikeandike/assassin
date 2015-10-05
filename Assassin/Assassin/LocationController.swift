@@ -91,7 +91,7 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         } else {
             
             //alert or something that 'location services are unavailable' or whatever we want to say/do
-            print("location services are unavailable, or whatever")
+            print("location services are unavailable")
         }
     }
     
