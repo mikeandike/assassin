@@ -178,8 +178,15 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
                 print("\(person.firstName) was tapped on")
                 
             } else {
-                
+                                
                 person = FirebaseNetworkController.sharedInstance.starredPeople[cellIndexPath.row]
+                
+                let nearbyUserToUnstar = peopleNearbyStaticCopy.filter{ $0.uid == person.uid }.first
+                
+                if let foundNearbyUserToUnstar = nearbyUserToUnstar {
+                    
+                    foundNearbyUserToUnstar.isStarredUser = false
+                }
                 
                 print("\(person.firstName) was tapped on")
                 
