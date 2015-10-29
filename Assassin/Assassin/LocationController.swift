@@ -27,6 +27,8 @@ class LocationController: NSObject, CLLocationManagerDelegate {
     
     override init () {
         
+        // I think we need to take these 2 Bools out of the init and set default values on the variables
+        // and maybe take the register for Notifications out, too, if there's somewhere else to put it?
         hasPerson = false
         hasLocation = false
         super.init()
@@ -42,11 +44,14 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         FirebaseNetworkController.sharedInstance.currentPerson!.timeAtLastLocation = currentLocation!.timestamp
             
         let person = FirebaseNetworkController.sharedInstance.currentPerson!
-            
+        
+        //maybe would be nice to put an extension path here for geofire locations
         let geoFireRef = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl())
         let geoFire = GeoFire(firebaseRef: geoFireRef)
             
             geoFire.setLocation(currentLocation, forKey: person.uid)
+            
+            // maybe we should save the user's own location to firebase in this method, otherwise it's only saving/updating when they save their profile
             
             hasLocation = false
         
@@ -132,8 +137,8 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         let geoFire = GeoFire(firebaseRef: geoFireRef)
         
         let center = currentLocation;
-        let circleQuery = geoFire.queryAtLocation(center, withRadius: 0.6)
-        let currentUserQuery = geoFire.queryAtLocation(center, withRadius: 500000)
+        let circleQuery = geoFire.queryAtLocation(center, withRadius: 0.05)
+        let currentUserQuery = geoFire.queryAtLocation(center, withRadius: 0.05)
         
         circleQuery.observeReadyWithBlock { () -> Void in
             
@@ -158,16 +163,16 @@ class LocationController: NSObject, CLLocationManagerDelegate {
             
         })
         
-        
+        // should this be in its own method?
         if let currentPerson = FirebaseNetworkController.sharedInstance.currentPerson {
             
-            currentUserQuery.observeEventType(GFEventTypeKeyMoved, withBlock: { (key: String!, location:CLLocation!) in
+            currentUserQuery.observeEventType(GFEventTypeKeyMoved, withBlock: { (key: String!, location:CLLocation!) in //change to GFEventTypeKeyExited ?
                 
                 if key == currentPerson.uid {
                     
                     if let lastLocation = currentPerson.lastLocation {
                         
-                        if location.distanceFromLocation(lastLocation) > 400 {
+                        if location.distanceFromLocation(lastLocation) > 100 {
                             
                             self.getLocation()
                             

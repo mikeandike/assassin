@@ -45,13 +45,11 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         
         setUpRefreshControl()
         
-            setStarsForStarredUsers()
-        
             peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
         
          print("VIEW LOADED WITH STATIC PEOPLE NEARBY\(peopleNearbyStaticCopy)")
-        print(peopleNearbyStaticCopy[0].uid)
-        print(peopleNearbyStaticCopy[1].uid)
+        //print(peopleNearbyStaticCopy[0].uid)
+        //print(peopleNearbyStaticCopy[1].uid)
         
         
             if FirebaseNetworkController.sharedInstance.peopleNearby.count >= 1 {
@@ -84,6 +82,8 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         super.viewWillAppear(animated)
         
         self.tabBarController?.tabBar.hidden = false
+        
+        setStarsForStarredUsers()
     }
     
     func setStarsForStarredUsers(){
@@ -96,9 +96,7 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
                 
                 if let foundStarredPerson = starredPerson {
                     
-                    var personToStar = foundStarredPerson
-                    
-                    personToStar.isStarredUser = true
+                    foundStarredPerson.isStarredUser = true
                     
                 }
                 

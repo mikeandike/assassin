@@ -19,14 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let userDefaultsDefaults = ["savedLogin" : ["", ""]]
         NSUserDefaults.standardUserDefaults().registerDefaults(userDefaultsDefaults)
-        
-//        NSDictionary *userDefaultsDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
-//            [NSNumber numberWithBool:NO], @"SomeKey",
-//            @"FooBar", @"AnotherKey",
-//            [NSNumber numberWithInt:0], @"NumberKey",
-//            nil];
-//        [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
-        
+                
         return true
     }
 

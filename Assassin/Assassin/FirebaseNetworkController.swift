@@ -133,6 +133,8 @@ class FirebaseNetworkController: NSObject {
         
         userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
             
+            
+            // we get an error here because we sometimes (i think) still go into this even if the snapshot.value is null
             if let personDictionary = snapshot.value {
                 //print(snapshot.value)
                 let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
@@ -377,7 +379,7 @@ class FirebaseNetworkController: NSObject {
     
     func deleteStarredUserWithUID(UID : String){
         
-        //delete from starred people array on firebase
+        //delete from starred people array on firebase network controller
         
         let userToDelete = starredPeople.filter{ $0.uid == UID }.first
         
@@ -444,7 +446,7 @@ class FirebaseNetworkController: NSObject {
             
             //            print(snapshot.value)
             
-            //Set snapshot.value to array of stared users
+            //Set snapshot.value to array of starred users
             if let snapshotValue = snapshot.value {
                 
                 let starredUserDictionary  = snapshotValue
