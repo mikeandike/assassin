@@ -23,23 +23,16 @@ class FirebaseNetworkController: NSObject {
     func getBaseUrl() -> String {
         
         let baseURL : String = "https://assassindevmtn.firebaseio.com"
-        
         return baseURL
     }
     
     func getUsersRef() -> Firebase {
         
         let baseString = getBaseUrl() as String
-        
         let usersRefString = baseString + "/users"
-        
         let usersRef = Firebase(url: usersRefString)
-        
         return usersRef
-        
     }
-    
-    
     
     //MARK: method to create new user
     
@@ -54,10 +47,6 @@ class FirebaseNetworkController: NSObject {
         createPersonDictionaryOnFireBase(personDictionary)
         
         NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
-        
-        
-        
-        
     }
     
     //MARK: method to authenticate user
@@ -70,11 +59,9 @@ class FirebaseNetworkController: NSObject {
             if (error != nil) {
                 
                 print(error.localizedDescription)
-                
                 completion(false)
                 
             } else {
-                
                 //if the person logging in is in the peopleNearbyArray, remove them
                 
                 let selfInPeopleNearby = self.peopleNearby.filter{$0.uid == authData.uid}.first
@@ -84,15 +71,8 @@ class FirebaseNetworkController: NSObject {
                     if let index = self.peopleNearby.indexOf(foundSelf) {
                         
                         self.peopleNearby.removeAtIndex(index)
-                        
-                        print("(self)\(foundSelf.firstName) was found in the peopleNearby index, but removed")
-                        
                     }
-                    
                 }
-                
-                //start getting your starred users here
-                //                    self.loadStarredUsersForCurrentUserWithUID(authData.uid)
                 
                 let userRef = usersRef.childByAppendingPath(authData.uid)
                 
@@ -109,18 +89,11 @@ class FirebaseNetworkController: NSObject {
                         completion(true)
                         
                     } else {
-                        
                         completion(false)
-                        
                     }
-                    // self.loadStarredUserWithUid(authData.uid)
                 })
-                
-                
             }
-            
         }
-        
     }
     
     //MARK: Add nearby user to array of people nearby
@@ -128,15 +101,13 @@ class FirebaseNetworkController: NSObject {
     func addPersonWithUIDAndLocationToPeopleNearby(uid : String, location: CLLocation, locationOfCurrentUser: CLLocation) {
         
         let usersRef = getUsersRef()
-        
         let userRef = usersRef.childByAppendingPath(uid)
         
         userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
             
-            
             // we get an error here because we sometimes (i think) still go into this even if the snapshot.value is null
             if let personDictionary = snapshot.value {
-                //print(snapshot.value)
+                
                 let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
                 
                 person.lastLocation = location
@@ -145,44 +116,21 @@ class FirebaseNetworkController: NSObject {
                 
                 //If the person to add doesn't already exist in the people nearby array
                 
-                if let personWhoAlreadyExists = repeatPerson {
-                    
-                    print("\(personWhoAlreadyExists.firstName) already exists in array, not adding to array")
-                    
+                if repeatPerson != nil {
                     return
-                    
                 }
                 
                 //if the person nearby is the current user
                 
                 if let currentUser = self.currentPerson {
                     
-                    print("current user first name\(currentUser.firstName)")
-                    
                     if currentUser.uid == uid {
-                        
-                        print("person to add is current user, not adding to array")
-                        
                         return
-                        
                     }
-                    
                 }
-                
                 self.peopleNearby.append(person)
-                
-                //TODO: add a method here checking to see if the person is on the stars array, if so mark them as starred
-                //TODO: we have to make sure the that we have a current user and a list of starred user strings before we query users nearby for this to work
-                
-                print(" \(person.firstName) was added to people nearby array. their location is \(person.lastLocation)")
-                
             }
-            
         });
-        
-        
-        
-        
     }
     
     //MARK: method to remove person from dictionary
@@ -198,15 +146,9 @@ class FirebaseNetworkController: NSObject {
             if let personIndex = index {
                 
                 self.peopleNearby.removeAtIndex(personIndex)
-                
-                
             }
-            
         }
-        
     }
-    
-    
     
     //MARK: create person Dictionary in Firebase
     
@@ -228,9 +170,7 @@ class FirebaseNetworkController: NSObject {
         let personDictionary = convertPersonIntoDictionary(person)
         
         updatePersonDictionaryInFirebase(personDictionary)
-        
     }
-    
     
     //MARK: update person Dictionary in Firebase
     
@@ -243,15 +183,11 @@ class FirebaseNetworkController: NSObject {
         let userRef = usersRef.childByAppendingPath(uidString)
         
         userRef.updateChildValues(dictionary)
-        
     }
-    
-    
     
     //MARK: convert person object into dictionary
     
     func convertPersonIntoDictionary(person: Person) -> [String : AnyObject] {
-        
         
         var lastLocationDictionary = Dictionary<String, AnyObject>()
         
@@ -260,9 +196,7 @@ class FirebaseNetworkController: NSObject {
             lastLocationDictionary = saveLocationIntoDictionary(lastLocation)
             
         } else {
-            
             print("person.lastLocation is null")
-            
         }
         
         var imageString = "no image"
@@ -272,9 +206,7 @@ class FirebaseNetworkController: NSObject {
             imageString = convertImagetoString(image)
             
         } else {
-            
             print("person.image is null")
-            
         }
         
         var dictionary = Dictionary<String, AnyObject>()
@@ -293,13 +225,7 @@ class FirebaseNetworkController: NSObject {
         dictionary["imageString"] = imageString
         
         return dictionary
-        
     }
-    
-    //MARK: save starred users UIDS
-    
-    
-    
     
     //MARK: helper methods to convert person object into dictionary
     
@@ -315,25 +241,16 @@ class FirebaseNetworkController: NSObject {
         locationDictionary["latitude"] = lastLocation.coordinate.latitude
         
         return locationDictionary
-        
     }
-    
-    
     
     func convertImagetoString(personImage: UIImage) -> String {
         
         if let imageData = UIImageJPEGRepresentation(personImage, 0.9) {
             
             return imageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-            
         }
-        
         return "no image"
-        
     }
-    
-    
-    
     
     //MARK: starred user methods
     
@@ -345,13 +262,10 @@ class FirebaseNetworkController: NSObject {
             
             let existingStarredUser = currentUser.starredUsersUIDS.filter{$0 == personToStar.uid}.first
             
-            if let foundExistingStarredUser = existingStarredUser {
+            if existingStarredUser != nil {
                 
                 return
-                
             }
-            
-            
         }
         
         let usersRef = getUsersRef()
@@ -361,19 +275,9 @@ class FirebaseNetworkController: NSObject {
             //add the UID to their starred UIDS
             currentPerson.starredUsersUIDS.append(personToStar.uid)
             
-            print("CURRENTPERSON.STARREDUSERSUIDS : \(currentPerson.starredUsersUIDS)")
-            
-            //You don't need to add this person to starredPeople, because Firebase will recognize that a change was made on the server and call load starredUsers again
-            
-            // starredPeople.append(personToStar)
-            
-            //print("\(personToStar.firstName) was added to starredPeople")
-            //print("\(starredPeople[0].firstName) is the first person in the starredPeople array")
-            
-            //Saving a unique value as a dictionary entry with both the key and the value as the uid is the best way to save an array on Firebase
+            //don't need to add this person to starredPeople, because Firebase will observe a change made on the user, which calls load starredUsers again
             
             usersRef.childByAppendingPath(currentPerson.uid).childByAppendingPath("starredUsersUIDS").updateChildValues([personToStar.uid : personToStar.uid])
-            
         }
     }
     
@@ -388,11 +292,8 @@ class FirebaseNetworkController: NSObject {
             if let index = starredPeople.indexOf(foundUserToDelete) {
                 
                 starredPeople.removeAtIndex(index)
-                
             }
-            
         }
-        
         
         //delete from current users starred users uids array
         if let currentUser = currentPerson {
@@ -404,23 +305,16 @@ class FirebaseNetworkController: NSObject {
                 if let index = currentUser.starredUsersUIDS.indexOf(foundUIDToDelete) {
                     
                     currentUser.starredUsersUIDS.removeAtIndex(index)
-                    
                 }
-                
             }
-            
         }
-        
         //delete from current users firebase array by overwriting it with updated local array
         saveCurrentUsersStarredUIDSToFirebase()
-        
     }
     
-    // this method deletes the current starredUsersUIDS array for the current user and resaves the entire array
     
     func saveCurrentUsersStarredUIDSToFirebase() {
         
-        //save that current users starred users array to firebase by deleting the only one and adding a new one
         let starredRef = getUsersRef()
         
         if let currentUser = self.currentPerson{
@@ -431,13 +325,9 @@ class FirebaseNetworkController: NSObject {
                 
                 starDictionary[uidString] = uidString
             }
-            
             starredRef.childByAppendingPath(currentUser.uid).childByAppendingPath("starredUsersUIDS").setValue(starDictionary)
-            
         }
-        
     }
-    
     
     func loadStarredUsersForCurrentUserWithUID(uid : String) {
         
@@ -445,83 +335,52 @@ class FirebaseNetworkController: NSObject {
         
         userRef.childByAppendingPath(uid).childByAppendingPath("starredUsersUIDS").observeSingleEventOfType(FEventType.Value, withBlock: {snapshot in
             
-            //            print(snapshot.value)
-            
-            //Set snapshot.value to array of starred users
             if let snapshotValue = snapshot.value {
                 
                 let starredUserDictionary  = snapshotValue
                 
                 if let currentUser : Person = self.currentPerson {
                     
-                    //                        let starredUsersUIDS : [String] = starredUserDictionary.allKeys
-                    
-                    //                        currentUser.starredUsersUIDS = starredUsersUIDS
-                    
                     if let starredUserDictAllKeys = starredUserDictionary.allKeys {
-                        
-                        print(starredUserDictAllKeys)
                         
                         for key in starredUserDictAllKeys {
                             
                             if let UIDString = key as? String {
                                 
                                 currentUser.starredUsersUIDS.append(UIDString)
-                                
                             }
-                            
                         }
                         
                         for starredUID : String in currentUser.starredUsersUIDS {
                             
                             self.getStarredUserWithUidFromFirebase(starredUID)
-                            
-                            
                         }
                         
                         NSNotificationCenter.defaultCenter().postNotificationName("starredUsersExistNotification", object: nil)
                         
-                        
-                        
                     } else {
-                        
                         print("no keys")
                         
                         NSNotificationCenter.defaultCenter().postNotificationName("starredUsersExistNotification", object: nil)
-                        
                     }
                     
                 }
                 
             } else {
                 print("value is nil")
-                //
-                //
             }
-            //
-            //            }, withCancelBlock: { error in
-            //                print(error.description)
         })
         
     }
-    
-    
-    
-    
     
     func getStarredUserWithUidFromFirebase (uid : String) {
         
         //check to prevent duplicates
         let existingStarredUser = starredPeople.filter{$0.uid == uid}.first
         
-        if let foundExistingStarredUser = existingStarredUser {
-            
+        if existingStarredUser != nil {
             return
-            
         }
-        
-        
-        
         
         let userRef = getUsersRef()
         
@@ -529,34 +388,21 @@ class FirebaseNetworkController: NSObject {
             
             if let personDictionary = snapshot.value {
                 
-                //                print(snapshot.value)
                 let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
                 
                 person.isStarredUser = true
                 
                 self.starredPeople.append(person)
-                
-                print("\(person.firstName) added to FNC starredPeople")
-                
-                
-                
             }
-            
         })
-        
     }
-    
-    
     
     //MARK: Convert person.timestamp into useable timestring
     
     func convertDateIntoString(date : NSDate) -> String {
         
         let currentCalendar = NSCalendar.currentCalendar()
-        
         let dateComponents = currentCalendar.components([NSCalendarUnit.Minute, NSCalendarUnit.Hour], fromDate: date)
-        
-        
         let dateFormatter = NSDateFormatter.init()
         
         var minuteString = ""
@@ -566,9 +412,7 @@ class FirebaseNetworkController: NSObject {
             minuteString = "0\(dateComponents.minute)"
             
         } else {
-            
             minuteString = "\(dateComponents.minute)"
-            
         }
         
         var hourString = ""
@@ -584,33 +428,26 @@ class FirebaseNetworkController: NSObject {
                 
             } else {
                 //its 1pm or later
-                
                 hourString = "\(dateComponents.hour - 12)"
                 AMPMString = dateFormatter.PMSymbol
-                
             }
             
         } else {
             //its the am
-            
             if dateComponents.hour == 0 {
                 
                 hourString = "12"
                 AMPMString = dateFormatter.AMSymbol
                 
             } else {
-                
                 hourString = "\(dateComponents.hour)"
                 AMPMString = dateFormatter.AMSymbol
             }
-            
         }
         
         let timeString = "\(hourString):\(minuteString)\(AMPMString)"
         
-        
         return timeString
-        
     }
-    
 }
+

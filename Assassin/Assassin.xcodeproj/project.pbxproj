@@ -12,7 +12,6 @@
 		2C3E7F051BA7733300EEC113 /* PersonListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7EFF1BA7733300EEC113 /* PersonListViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		2C3E7F061BA7733300EEC113 /* PersonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7F001BA7733300EEC113 /* PersonTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		2C3E7F071BA7733300EEC113 /* RegisterUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7F011BA7733300EEC113 /* RegisterUserViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		2C3E7F081BA7733300EEC113 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7F021BA7733300EEC113 /* SettingsViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		2C3E7F0B1BA7790600EEC113 /* PersonDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7F0A1BA7790600EEC113 /* PersonDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		761F04C11BBA1390003F6DA4 /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761F04BA1BBA1390003F6DA4 /* TPKeyboardAvoidingCollectionView.m */; settings = {ASSET_TAGS = (); }; };
 		761F04C21BBA1390003F6DA4 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761F04BC1BBA1390003F6DA4 /* TPKeyboardAvoidingScrollView.m */; settings = {ASSET_TAGS = (); }; };
@@ -61,7 +60,6 @@
 		2C3E7EFF1BA7733300EEC113 /* PersonListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonListViewController.swift; sourceTree = "<group>"; };
 		2C3E7F001BA7733300EEC113 /* PersonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonTableViewCell.swift; sourceTree = "<group>"; };
 		2C3E7F011BA7733300EEC113 /* RegisterUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterUserViewController.swift; sourceTree = "<group>"; };
-		2C3E7F021BA7733300EEC113 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2C3E7F0A1BA7790600EEC113 /* PersonDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailViewController.swift; sourceTree = "<group>"; };
 		5B9980DEC71A816C7FEB2BD3 /* Pods-Assassin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assassin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Assassin/Pods-Assassin.debug.xcconfig"; sourceTree = "<group>"; };
 		761F04B81BBA138F003F6DA4 /* Assassin-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Assassin-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -247,14 +245,6 @@
 			name = "Person Detail / Profile View Controller";
 			sourceTree = "<group>";
 		};
-		8C53247B1BA8CACA001F4486 /* Settings View Controller */ = {
-			isa = PBXGroup;
-			children = (
-				2C3E7F021BA7733300EEC113 /* SettingsViewController.swift */,
-			);
-			name = "Settings View Controller";
-			sourceTree = "<group>";
-		};
 		8C53247C1BA8CAE2001F4486 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -262,7 +252,6 @@
 				8C5324791BA8CA91001F4486 /* People Nearby List View Controller */,
 				8C53247A1BA8CAB9001F4486 /* Person Detail / Profile View Controller */,
 				8C62F46A1BB3094E0005F95D /* Edit Profile View Controller */,
-				8C53247B1BA8CACA001F4486 /* Settings View Controller */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -473,7 +462,6 @@
 				8C62F4721BB30D290005F95D /* TextFieldTableViewCell.swift in Sources */,
 				8C5324771BA8B477001F4486 /* FirebaseNetworkController.swift in Sources */,
 				2C3E7F041BA7733300EEC113 /* LoginViewController.swift in Sources */,
-				2C3E7F081BA7733300EEC113 /* SettingsViewController.swift in Sources */,
 				761F04C31BBA1390003F6DA4 /* TPKeyboardAvoidingTableView.m in Sources */,
 				8C2D09031BA72FAF00155E77 /* AppDelegate.swift in Sources */,
 				8C5324831BA8D174001F4486 /* Person.swift in Sources */,

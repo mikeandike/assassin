@@ -20,23 +20,22 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     var hasUsersNearby : Bool = false
     
     var hasCurrentUser: Bool = false
-
+    
     var hasStarredUsers : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //register to be notified when first query of users nearby comes back and when starred users come back
-         NSNotificationCenter.defaultCenter().addObserver(self, selector: "usersNearbyQueryFinished", name: "usersNearbyQueryFinishedNotification", object: nil)
-
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "usersNearbyQueryFinished", name: "usersNearbyQueryFinishedNotification", object: nil)
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "starredUsersArrived", name: "starredUsersExistNotification", object: nil)
-    
         
         loadLoginFromDefaults()
-
+        
         // Do any additional setup after loading the view.
         
-        //go ahead and start getting location
+        //start getting location
         
         LocationController.sharedInstance.getLocation()
         
@@ -49,7 +48,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.delegate = self
         warningLabel.text = ""
         warningLabel.numberOfLines = 0
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -61,14 +59,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
-    
     //MARK: textfield delegate - textfield checking methods
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
         warningLabel.text = ""
-        
         return true
     }
     
@@ -140,68 +135,52 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func loginButtonTapped(sender: AnyObject) {
         
         saveLoginToDefaults()
-        
         loginButton.enabled = false
         
         if let emailString = emailTextField.text, passwordString = passwordTextField.text {
             
             boringActivityIndicator.startAnimating()
-            
             loginUser(emailString, password: passwordString)
             
         } else {
-            
             warningLabel.text = "Must have Email and Password"
-            
             loginButton.enabled = true
         }
-        
     }
     
-    //MARK: users nearby query finished 
+    //MARK: users nearby query finished
     
     func usersNearbyQueryFinished() {
         
         hasUsersNearby = true
-        
         transitionToNextView()
-        
-        
     }
     
     func currentUserArrived() {
         
-       hasCurrentUser = true
-        
-       transitionToNextView()
-        
+        hasCurrentUser = true
+        transitionToNextView()
     }
     
     func starredUsersArrived() {
-
-        hasStarredUsers = true
         
+        hasStarredUsers = true
         transitionToNextView()
-
     }
-    
     
     //MARK: login user
     
     func loginUser(username : String, password: String) -> Void {
+        
         FirebaseNetworkController.sharedInstance.authenticateUserWithEmailAndPassword(username, password: password) { (hasUser) -> () in
+            
             if hasUser {
-    
-              
-//                self.transitionToNextView()
                 self.currentUserArrived()
-//                self.boringActivityIndicator.stopAnimating()
                 
             } else {
                 print("authenticate user failed")
                 self.warningLabel.text = "Login failed. Email does not exist, or password is incorrect."
                 self.boringActivityIndicator.stopAnimating()
-                
                 self.loginButton.enabled = true
             }
         }
@@ -209,47 +188,31 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func transitionToNextView() -> Void {
         
-        
-        if hasCurrentUser == true  {
-
-            if hasStarredUsers == true {
-                
-                if hasUsersNearby == true {
-                    
-                         self.performSegueWithIdentifier("loginAndPresentTabBar", sender: self)
-                    }
-
-                }
+        if hasCurrentUser == true && hasStarredUsers == true && hasUsersNearby == true {
             
-           
-            
+            self.performSegueWithIdentifier("loginAndPresentTabBar", sender: self)
         }
-        
     }
     
-   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    
-    //set the static copy here, right before we present the view
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        //set the static copy here, right before we present the view
+        
         if segue.identifier == "loginAndPresentTabBar" {
             
             if let personListVC = segue.destinationViewController as? PersonListViewController {
-            
-            personListVC.peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
                 
+                personListVC.peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
             }
-            
         }
-        
     }
     
     //MARK: get location methods
     
     func getLocation() {
-       
+        
         let locationController = LocationController()
         locationController.getLocation()
-        
     }
     
     //MARK: remember credentials - NSUserDefaults methods
@@ -280,8 +243,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func loadLoginFromDefaults() {
         
-        
-        
         if let loginArray = NSUserDefaults.standardUserDefaults().stringArrayForKey("savedLogin") {
             
             emailTextField.text = loginArray[0]
@@ -289,23 +250,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
     //MARK: memory warning method
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+

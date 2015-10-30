@@ -8,16 +8,8 @@
 
 import UIKit
 
-//protocol TextViewTableViewCellDelegate {
-//    
-//    func textOnTextViewCellEntered(sender : TextViewTableViewCell)
-//    
-//}
 
 class TextViewTableViewCell: UITableViewCell {
-
-//    var delegate : TextViewTableViewCellDelegate?
-    
     
     @IBOutlet weak var purposeTextView: UITextView!
     @IBOutlet weak var characterCountLabel: UILabel!
@@ -26,20 +18,10 @@ class TextViewTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-    
-//    func textViewDidEndEditing(textView: UITextView) {
-//        
-//        if let textViewCellDelegate = delegate {
-//            
-//            textViewCellDelegate.textOnTextViewCellEntered(self)
-//            
-//        }
-//    }
-
 }

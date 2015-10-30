@@ -11,7 +11,6 @@ import Firebase
 
 class RegisterUserViewController: UIViewController, UITextFieldDelegate {
     
-    
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
@@ -28,7 +27,6 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         
         AppearenceController.initializeAppearence()
         warningLabel.textColor = AppearenceController.tealColor
-        
         
         // Do any additional setup after loading the view.
         
@@ -54,7 +52,6 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
         warningLabel.text = ""
-        
         return true
     }
     
@@ -178,7 +175,7 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         }
         return false
     }
-
+    
     //MARK: register button method
     
     @IBAction func registerButtonPressed(sender: UIButton) {
@@ -191,17 +188,15 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
                 
                 registerUserWithEmailAndPassword(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString)
                 
-                
             } else {
-                
                 warningLabel.text = "One or more items is incomplete"
             }
-
+            
         } else {
             warningLabel.text = "Cannot register: check your information"
         }
     }
-
+    
     //MARK: register user on firebase method
     
     func registerUserWithEmailAndPassword(emailString: String, passwordString: String, firstNameString: String, lastNameString: String) -> Void {
@@ -211,49 +206,31 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         usersRef.createUser(emailString as String, password: passwordString as String, withValueCompletionBlock: { error, result in
             
             if error != nil {
-                
                 self.warningLabel.text = "Error registering user"
                 
             } else {
-                
                 let uid = result["uid"] as? String
-                print("Created user account with uid: \(uid)")
                 
                 if let uid = uid {
-                
-                FirebaseNetworkController.sharedInstance.createPerson(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString, uid: uid)
-             
-                self.transitionToNextView()
-                
+                    
+                    FirebaseNetworkController.sharedInstance.createPerson(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString, uid: uid)
+                    self.transitionToNextView()
                 }
             }
         })
-        
     }
     
     //MARK: segue method
     
     func transitionToNextView() -> Void {
         
-      self.performSegueWithIdentifier("presentTabBarFromRegistration", sender: self)
-        
+        self.performSegueWithIdentifier("presentTabBarFromRegistration", sender: self)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
