@@ -394,7 +394,7 @@ class FirebaseNetworkController: NSObject {
         }
         
         
-        //delete from current users firebase array
+        //delete from current users starred users uids array
         if let currentUser = currentPerson {
             
             let UIDToDelete = currentUser.starredUsersUIDS.filter{ $0 == UID }.first
@@ -411,6 +411,7 @@ class FirebaseNetworkController: NSObject {
             
         }
         
+        //delete from current users firebase array by overwriting it with updated local array
         saveCurrentUsersStarredUIDSToFirebase()
         
     }
@@ -525,6 +526,7 @@ class FirebaseNetworkController: NSObject {
         let userRef = getUsersRef()
         
         userRef.childByAppendingPath(uid).observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
+            
             if let personDictionary = snapshot.value {
                 
                 //                print(snapshot.value)

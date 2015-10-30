@@ -202,7 +202,6 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
                 
                 tableView.reloadData()
                 
-                
             } else {
                 
                 print("\(person.firstName) was NOT a starred User at time of tap")
@@ -217,7 +216,6 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
 
                 print("\(person.firstName) is now a starred User: \(person.isStarredUser)")
             }
-            
             
             print("tableview reloaded")
             
@@ -329,7 +327,7 @@ extension PersonListViewController : UITableViewDataSource {
         
         if person.isStarredUser == true {
             
-            cell.starButton.imageView?.image = UIImage(named: "starred")
+            cell.starButton.setBackgroundImage(UIImage(named:"starred"), forState: .Normal)
             print("\(person.firstName) is starred")
             
             if let currentUser = FirebaseNetworkController.sharedInstance.currentPerson {
@@ -341,7 +339,7 @@ extension PersonListViewController : UITableViewDataSource {
             
         } else {
             
-            cell.starButton.imageView?.image = UIImage(named: "unstarred")
+            cell.starButton.setBackgroundImage(UIImage(named: "unstarred"), forState: .Normal)
             print("\(person.firstName) is unstarred")
             
         }
