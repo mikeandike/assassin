@@ -33,12 +33,12 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var profileTableView: UITableView!
     @IBOutlet weak var editButton: UIBarButtonItem!
     
-    var person : Person!
+    var person: Person!
     
-    var purposeTextViewHeight : CGFloat = 48.0
-    var bioTextViewHeight : CGFloat = 48.0
+    var purposeTextViewHeight: CGFloat = 48.0
+    var bioTextViewHeight: CGFloat = 48.0
     
-    var isCurrentUsersProfile : Bool = false
+    var isCurrentUsersProfile = false
     
     let mainCellID = "mainCellID"
     let purposeCellID = "purposeCellID"
@@ -47,9 +47,7 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.tabBarController?.tabBar.hidden = true
-        
+                
         // Do any additional setup after loading the view.
         if isCurrentUsersProfile == false {
             editButton.tintColor = UIColor.clearColor()
@@ -78,6 +76,7 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
             let editProfileVC = segue.destinationViewController as! EditProfileViewController
             editProfileVC.purposeTextViewHeight = purposeTextViewHeight
             editProfileVC.bioTextViewHeight = bioTextViewHeight
+            editProfileVC.person = self.person
         }
     }
     
@@ -121,15 +120,9 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
             
             return CGFloat(1)
             
-        case .ProfileInformationTypePurposeCell:
-            
-            return CGFloat(25)
-            
-        case .ProfileInformationTypeBioCell:
-            
-            return CGFloat(25)
-            
-        case .ProfileInformationTypeContactCell:
+        case .ProfileInformationTypePurposeCell,
+             .ProfileInformationTypeBioCell,
+             .ProfileInformationTypeContactCell:
             
             return CGFloat(25)
         }
@@ -153,15 +146,9 @@ extension PersonDetailViewController : UITableViewDataSource {
         
         switch ProfileInformationTypes(rawValue: section)! {
             
-        case .ProfileInformationTypeMainCell:
-            
-            return 1
-            
-        case .ProfileInformationTypePurposeCell:
-            
-            return 1
-            
-        case .ProfileInformationTypeBioCell:
+        case .ProfileInformationTypeMainCell,
+             .ProfileInformationTypePurposeCell,
+             .ProfileInformationTypeBioCell:
             
             return 1
             

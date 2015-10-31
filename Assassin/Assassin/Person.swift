@@ -114,14 +114,14 @@ class Person: NSObject {
         
         location = CLLocation.init(latitude: latitude, longitude: longitude)
         
+        self.lastLocation = location
+
         if let secondsSince1970 = locationDictionary["timestamp"] as? NSTimeInterval {
             
             let timestamp = NSDate.init(timeIntervalSince1970: secondsSince1970)
             
             self.timeAtLastLocation = timestamp
         }
-        
-        self.lastLocation = location
     }
     
     

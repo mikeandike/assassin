@@ -43,9 +43,9 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var viewLengthLabel: UILabel!
     
-    var person = FirebaseNetworkController.sharedInstance.currentPerson! //TODO: need to find a better way of doing this
-    var purposeTextViewHeight : CGFloat = 48.0
-    var bioTextViewHeight : CGFloat = 48.0
+    var person: Person!
+    var purposeTextViewHeight: CGFloat = 48.0
+    var bioTextViewHeight: CGFloat = 48.0
     
     let namePhotoCellID = "namePhotoCellID"
     let textFieldCellID = "textFieldCellID"
@@ -53,8 +53,6 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //self.tabBarController?.tabBar.hidden = true
         
         // Do any additional setup after loading the view.
     }
@@ -64,12 +62,10 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
         super.viewWillAppear(animated)
         
         if let purposeString = person.purpose {
-            
             purposeTextViewHeight = AppearenceController.getHeightOfTextWithFont(purposeString, font: UIFont.systemFontOfSize(17), view: self.view)
         }
         
         if let bioString = person.bio {
-            
             bioTextViewHeight = AppearenceController.getHeightOfTextWithFont(bioString, font: UIFont.systemFontOfSize(17), view: self.view)
         }
     }
@@ -106,11 +102,9 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
             
             switch EditProfileInformationSectionTypes(rawValue: indexPath.section)! {
                 
-            case .EditProfileInformationSectionTypeNamePhoto:
-                
-                break
-                
-            case .EditProfileInformationSectionTypeJob:
+            case .EditProfileInformationSectionTypeNamePhoto,
+                 .EditProfileInformationSectionTypeJob,
+                 .EditProfileInformationSectionTypeContact:
                 
                 break
                 
@@ -133,10 +127,6 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
                 
                 tableView.beginUpdates()
                 tableView.endUpdates()
-                
-            case .EditProfileInformationSectionTypeContact:
-                
-                break
             }
         }
     }
@@ -146,7 +136,6 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
         let cell = textView.superview!.superview! as! TextViewTableViewCell
         
         let textViewCharacterCount = textView.text.characters.count
-        
         let characterCountString = "\(140 - textViewCharacterCount)"
         
         cell.characterCountLabel.text = characterCountString
@@ -154,6 +143,7 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         
+        //???
         if text.characters.count == 0 {
             
             if textView.text.characters.count != 0 {
@@ -179,11 +169,9 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
             
             switch EditProfileInformationSectionTypes(rawValue: indexPath.section)! {
                 
-            case .EditProfileInformationSectionTypeNamePhoto:
-                
-                break
-                
-            case .EditProfileInformationSectionTypeJob:
+            case .EditProfileInformationSectionTypeNamePhoto,
+                 .EditProfileInformationSectionTypeJob,
+                 .EditProfileInformationSectionTypeContact:
                 
                 break
                 
@@ -198,10 +186,6 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
                 bioTextViewHeight = AppearenceController.getHeightOfTextWithFont(textView.text, font: AppearenceController.mediumSmallText, view: textView.superview!)
                 
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-                
-            case .EditProfileInformationSectionTypeContact:
-                
-                break
             }
         }
     }
@@ -216,7 +200,8 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
             
             return 130.0
             
-        case .EditProfileInformationSectionTypeJob:
+        case .EditProfileInformationSectionTypeJob,
+             .EditProfileInformationSectionTypeContact:
             
             return 48.0
             
@@ -227,10 +212,6 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
         case .EditProfileInformationSectionTypeBio:
             
             return bioTextViewHeight
-            
-        case .EditProfileInformationSectionTypeContact:
-            
-            return 48.0
         }
     }
     
@@ -295,7 +276,7 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
     
     func textFieldDidEndEditing(textField: UITextField) {
         
-        updateTemporaryPersonWithText(textField)
+        updatePersonWithText(textField)
     }
     
     func updatePersonWithTextView(textView : UITextView) {
@@ -306,10 +287,9 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
             
             switch EditProfileInformationSectionTypes(rawValue: indexPath.section)! {
                 
-            case .EditProfileInformationSectionTypeNamePhoto:
-                break
-                
-            case .EditProfileInformationSectionTypeJob:
+            case .EditProfileInformationSectionTypeNamePhoto,
+                 .EditProfileInformationSectionTypeJob,
+                 .EditProfileInformationSectionTypeContact:
                 break
                 
             case .EditProfileInformationSectionTypePurpose:
@@ -319,14 +299,11 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
             case .EditProfileInformationSectionTypeBio:
                 
                 person.bio = cell.purposeTextView.text
-                
-            case .EditProfileInformationSectionTypeContact:
-                break
             }
         }
     }
     
-    func updateTemporaryPersonWithText(textField : UITextField) {
+    func updatePersonWithText(textField : UITextField) {
         
         let cell = textField.superview!.superview! as! UITableViewCell
         
@@ -370,11 +347,8 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
                     person.jobTitle = textFieldCell.infoTextField.text
                 }
                 
-            case .EditProfileInformationSectionTypePurpose:
-                
-                break
-                
-            case .EditProfileInformationSectionTypeBio:
+            case .EditProfileInformationSectionTypePurpose,
+                 .EditProfileInformationSectionTypeBio:
                 
                 break
                 
@@ -397,6 +371,10 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
                         
                         if textFieldText.characters.count > 5 && textFieldText.containsString("@") && textFieldText.containsString(".") {
                             person.email = textFieldText
+                            
+                            //TODO: - alert that asks if user wants to set this new email as new email login,
+                            //if yes, handle the nsuserdefaults and the change login for firebase
+                            //in no, do nothing
                         }
                     }
                 case .EditContactTypeBlank:
@@ -453,21 +431,15 @@ extension EditProfileViewController : UITableViewDataSource {
         
         switch EditProfileInformationSectionTypes(rawValue: section)! {
             
-        case .EditProfileInformationSectionTypeNamePhoto:
+        case .EditProfileInformationSectionTypeNamePhoto,
+             .EditProfileInformationSectionTypePurpose,
+             .EditProfileInformationSectionTypeBio:
             
             return 1
             
         case .EditProfileInformationSectionTypeJob:
             
             return EditJobTypes.count
-            
-        case .EditProfileInformationSectionTypePurpose:
-            
-            return 1
-            
-        case .EditProfileInformationSectionTypeBio:
-            
-            return 1
             
         case .EditProfileInformationSectionTypeContact:
             
@@ -539,6 +511,11 @@ extension EditProfileViewController : UITableViewDataSource {
                 cell.purposeTextView.text = purpose
                 cell.purposeTextView.textColor = UIColor.blackColor()
                 
+                let textViewCharacterCount = cell.purposeTextView.text.characters.count
+                let characterCountString = "\(140 - textViewCharacterCount)"
+                
+                cell.characterCountLabel.text = characterCountString
+                
             } else {
                 cell.purposeTextView.text = "Here to..."
                 cell.purposeTextView.textColor = UIColor.lightGrayColor()
@@ -554,6 +531,11 @@ extension EditProfileViewController : UITableViewDataSource {
                 
                 cell.purposeTextView.text = bio
                 cell.purposeTextView.textColor = UIColor.blackColor()
+                
+                let textViewCharacterCount = cell.purposeTextView.text.characters.count
+                let characterCountString = "\(140 - textViewCharacterCount)"
+                
+                cell.characterCountLabel.text = characterCountString
                 
             } else {
                 cell.purposeTextView.text = "Bio"

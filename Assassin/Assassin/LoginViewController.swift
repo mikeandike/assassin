@@ -15,13 +15,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var boringActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var loginAttemptActivityIndicator: UIActivityIndicatorView!
     
-    var hasUsersNearby : Bool = false
+    var hasUsersNearby = false
     
-    var hasCurrentUser: Bool = false
+    var hasCurrentUser = false
     
-    var hasStarredUsers : Bool = false
+    var hasStarredUsers = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,15 +69,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
+        textField.resignFirstResponder()
+
         if textField == emailTextField {
             
-            textField.resignFirstResponder()
             passwordTextField.becomeFirstResponder()
-        }
-        
-        if textField == passwordTextField {
-            
-            textField.resignFirstResponder()
         }
         return true
     }
@@ -139,7 +135,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         if let emailString = emailTextField.text, passwordString = passwordTextField.text {
             
-            boringActivityIndicator.startAnimating()
+            loginAttemptActivityIndicator.startAnimating()
             loginUser(emailString, password: passwordString)
             
         } else {
@@ -179,8 +175,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 
             } else {
                 print("authenticate user failed")
-                self.warningLabel.text = "Login failed. Email does not exist, or password is incorrect."
-                self.boringActivityIndicator.stopAnimating()
+                self.warningLabel.text = "Login failed. Email or password may be wrong. Please try again."
+                self.loginAttemptActivityIndicator.stopAnimating()
                 self.loginButton.enabled = true
             }
         }
@@ -190,15 +186,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         if hasCurrentUser == true && hasStarredUsers == true && hasUsersNearby == true {
             
-            self.performSegueWithIdentifier("loginAndPresentTabBar", sender: self)
+            self.performSegueWithIdentifier("loginAndPresentPeople", sender: self)
         }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        
         //set the static copy here, right before we present the view
         
-        if segue.identifier == "loginAndPresentTabBar" {
+        if segue.identifier == "loginAndPresentPeople" {
             
             if let personListVC = segue.destinationViewController as? PersonListViewController {
                 
@@ -206,15 +204,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-    
-    //MARK: get location methods
-    
-    func getLocation() {
         
-        let locationController = LocationController()
-        locationController.getLocation()
-    }
-    
     //MARK: remember credentials - NSUserDefaults methods
     
     func saveLoginToDefaults() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="2fJ-rJ-DWx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="2fJ-rJ-DWx">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -115,12 +115,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="zgZ-QK-HmF"/>
                     <connections>
-                        <outlet property="boringActivityIndicator" destination="pzx-KP-iwh" id="2Kr-sz-tbS"/>
                         <outlet property="emailTextField" destination="b1I-5X-Vv1" id="8vC-2v-cUe"/>
+                        <outlet property="loginAttemptActivityIndicator" destination="pzx-KP-iwh" id="es4-Cx-5WI"/>
                         <outlet property="loginButton" destination="C3b-XK-T7h" id="TPW-ko-gjj"/>
                         <outlet property="passwordTextField" destination="fRf-BD-cbR" id="wAL-rP-aHb"/>
                         <outlet property="warningLabel" destination="QJR-Hg-j2y" id="p1b-LI-m0d"/>
-                        <segue destination="wva-4V-uJA" kind="presentation" identifier="loginAndPresentTabBar" id="0fp-lw-XaF"/>
+                        <segue destination="wva-4V-uJA" kind="presentation" identifier="loginAndPresentPeople" id="0fp-lw-XaF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -870,7 +870,7 @@
                         <outlet property="registerActivityIndicator" destination="8ve-gz-dQC" id="AKD-XJ-9wa"/>
                         <outlet property="registerButton" destination="9Th-IT-EwV" id="xiU-C7-H08"/>
                         <outlet property="warningLabel" destination="RTz-0C-rNf" id="vfs-C2-DsR"/>
-                        <segue destination="wva-4V-uJA" kind="presentation" identifier="presentTabBarFromRegistration" id="DnL-TV-MFf"/>
+                        <segue destination="wva-4V-uJA" kind="presentation" identifier="presentPeopleFromRegistration" id="DnL-TV-MFf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yu2-sO-gy8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -921,7 +921,7 @@
         <image name="Icon" width="1300" height="1300"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0fp-lw-XaF"/>
         <segue reference="lFk-i4-7vQ"/>
+        <segue reference="DnL-TV-MFf"/>
     </inferredMetricsTieBreakers>
 </document>

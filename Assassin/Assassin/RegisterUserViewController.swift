@@ -57,24 +57,19 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
+        textField.resignFirstResponder()
+
         if textField == firstNameTextField {
-            textField.resignFirstResponder()
             lastNameTextField.becomeFirstResponder()
         }
         if textField == lastNameTextField {
-            textField.resignFirstResponder()
             emailTextField.becomeFirstResponder()
         }
         if textField == emailTextField {
-            textField.resignFirstResponder()
             passwordTextField.becomeFirstResponder()
         }
         if textField == passwordTextField {
-            textField.resignFirstResponder()
             confirmPasswordTextField.becomeFirstResponder()
-        }
-        if textField == confirmPasswordTextField {
-            textField.resignFirstResponder()
         }
         return true
     }
@@ -189,11 +184,11 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
                 registerUserWithEmailAndPassword(emailString, passwordString: passwordString, firstNameString: firstNameString, lastNameString: lastNameString)
                 
             } else {
-                warningLabel.text = "One or more items is incomplete"
+                warningLabel.text = "One or more items is incomplete. Please check and try again."
             }
             
         } else {
-            warningLabel.text = "Cannot register: check your information"
+            warningLabel.text = "Cannot register: please check your information and try again."
         }
     }
     
@@ -224,7 +219,7 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
     
     func transitionToNextView() -> Void {
         
-        self.performSegueWithIdentifier("presentTabBarFromRegistration", sender: self)
+        self.performSegueWithIdentifier("presentPeopleFromRegistration", sender: self)
     }
     
     override func didReceiveMemoryWarning() {

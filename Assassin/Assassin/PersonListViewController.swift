@@ -17,13 +17,13 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
     let refreshUsersNearbyControl = UIRefreshControl.init()
     let personCellID = "personCellID"
     var peopleNearbyStaticCopy : [Person] = []
-    var showingStarredUsersOnly : Bool = false
+    var showingStarredUsersOnly = false
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sizeTabBar()
+        sizeSegControl()
         setUpRefreshControl()
         peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
         
@@ -36,7 +36,7 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
                 refreshFooterLabel.text = "Last refreshed at \(lastRefreshedString)"
                 
             } else {
-                print("There's not a current user")
+                print("There's not a current user, or no 'time at last location' has been set for user yet.")
                 
                 refreshFooterLabel.text = ""
             }
@@ -50,7 +50,6 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.tabBar.hidden = false
         setStarsForStarredUsers()
     }
     
@@ -90,7 +89,7 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         refreshFooterLabel.text = "Last refreshed at \(lastRefreshedString)"
     }
     
-    func sizeTabBar() {
+    func sizeSegControl() {
         
         segControl.frame = CGRectMake(0, self.view.frame.size.height - 100.0, self.view.frame.size.width, 100.0)
     }

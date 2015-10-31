@@ -70,6 +70,7 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         if CLLocationManager.locationServicesEnabled() {
             
             locationManager = CLLocationManager()
+            //present alert explaining why we need location
             locationManager.requestWhenInUseAuthorization()
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.delegate = self
@@ -104,12 +105,10 @@ class LocationController: NSObject, CLLocationManagerDelegate {
     
     func getUIDsOfUsersAtNearbyLocation(currentLocation : CLLocation) {
         
-        let geoFireRef = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl())
-        let geoFire = GeoFire(firebaseRef: geoFireRef)
+        let fireRef = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl())
+        let geoFireRef = GeoFire(firebaseRef: fireRef)
         
-        let center = currentLocation;
-        let circleQuery = geoFire.queryAtLocation(center, withRadius: 0.05)
-        let currentUserQuery = geoFire.queryAtLocation(center, withRadius: 0.05)
+        let circleQuery = geoFireRef.queryAtLocation(currentLocation, withRadius: 0.05)
         
         circleQuery.observeReadyWithBlock { () -> Void in
             
@@ -125,25 +124,16 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         circleQuery.observeEventType(GFEventTypeKeyExited, withBlock: { (key: String!, location: CLLocation!) in
             
             FirebaseNetworkController.sharedInstance.removePersonWithUIDFromPeopleNearby(key)
-        })
-        
-        // should this be in its own method?
-        if let currentPerson = FirebaseNetworkController.sharedInstance.currentPerson {
             
-            currentUserQuery.observeEventType(GFEventTypeKeyMoved, withBlock: { (key: String!, location:CLLocation!) in //change to GFEventTypeKeyExited ?
-                
+            // should this be in its own method?
+            // next three lines, gets user's location again if they've moved out of the area
+            if let currentPerson = FirebaseNetworkController.sharedInstance.currentPerson {
+
                 if key == currentPerson.uid {
-                    
-                    if let lastLocation = currentPerson.lastLocation {
-                        
-                        if location.distanceFromLocation(lastLocation) > 100 {
-                            
-                            self.getLocation()
-                        }
-                    }
+                    self.getLocation()
                 }
-            })
-        }
+            }
+        })
     }
     
 }

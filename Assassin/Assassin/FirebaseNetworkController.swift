@@ -12,8 +12,8 @@ import CoreLocation
 
 class FirebaseNetworkController: NSObject {
     
-    var peopleNearby : [Person] = []
     var currentPerson : Person?
+    var peopleNearby : [Person] = []
     var starredPeople : [Person] = []
     
     static let sharedInstance = FirebaseNetworkController()
@@ -270,7 +270,7 @@ class FirebaseNetworkController: NSObject {
         
         let usersRef = getUsersRef()
         
-        if let currentPerson = self.currentPerson {
+        if let currentPerson = currentPerson {
             
             //add the UID to their starred UIDS
             currentPerson.starredUsersUIDS.append(personToStar.uid)
@@ -281,11 +281,11 @@ class FirebaseNetworkController: NSObject {
         }
     }
     
-    func deleteStarredUserWithUID(UID : String){
+    func deleteStarredUserWithUID(uid : String){
         
         //delete from starred people array on firebase network controller
         
-        let userToDelete = starredPeople.filter{ $0.uid == UID }.first
+        let userToDelete = starredPeople.filter{ $0.uid == uid }.first
         
         if let foundUserToDelete = userToDelete {
             
@@ -298,20 +298,14 @@ class FirebaseNetworkController: NSObject {
         //delete from current users starred users uids array
         if let currentUser = currentPerson {
             
-            let UIDToDelete = currentUser.starredUsersUIDS.filter{ $0 == UID }.first
-            
-            if let foundUIDToDelete = UIDToDelete {
+            if let index = currentUser.starredUsersUIDS.indexOf(uid) {
                 
-                if let index = currentUser.starredUsersUIDS.indexOf(foundUIDToDelete) {
-                    
-                    currentUser.starredUsersUIDS.removeAtIndex(index)
-                }
+                currentUser.starredUsersUIDS.removeAtIndex(index)
             }
         }
         //delete from current users firebase array by overwriting it with updated local array
         saveCurrentUsersStarredUIDSToFirebase()
     }
-    
     
     func saveCurrentUsersStarredUIDSToFirebase() {
         
@@ -339,7 +333,7 @@ class FirebaseNetworkController: NSObject {
                 
                 let starredUserDictionary  = snapshotValue
                 
-                if let currentUser : Person = self.currentPerson {
+                if let currentUser = self.currentPerson {
                     
                     if let starredUserDictAllKeys = starredUserDictionary.allKeys {
                         
@@ -351,7 +345,7 @@ class FirebaseNetworkController: NSObject {
                             }
                         }
                         
-                        for starredUID : String in currentUser.starredUsersUIDS {
+                        for starredUID in currentUser.starredUsersUIDS {
                             
                             self.getStarredUserWithUidFromFirebase(starredUID)
                         }
@@ -388,7 +382,7 @@ class FirebaseNetworkController: NSObject {
             
             if let personDictionary = snapshot.value {
                 
-                let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
+                let person = Person.init(dictionary: personDictionary as! [String : AnyObject])
                 
                 person.isStarredUser = true
                 
@@ -445,7 +439,7 @@ class FirebaseNetworkController: NSObject {
             }
         }
         
-        let timeString = "\(hourString):\(minuteString)\(AMPMString)"
+        let timeString = "\(hourString):\(minuteString) \(AMPMString)"
         
         return timeString
     }
