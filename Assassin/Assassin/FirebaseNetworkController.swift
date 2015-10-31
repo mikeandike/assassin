@@ -108,7 +108,7 @@ class FirebaseNetworkController: NSObject {
             // we get an error here because we sometimes (i think) still go into this even if the snapshot.value is null
             if let personDictionary = snapshot.value {
                 
-                let person : Person = Person.init(dictionary: personDictionary as! [String : AnyObject])
+                let person = Person.init(dictionary: personDictionary as! [String : AnyObject])
                 
                 person.lastLocation = location
                 
