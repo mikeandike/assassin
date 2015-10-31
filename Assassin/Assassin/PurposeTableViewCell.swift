@@ -9,7 +9,6 @@
 import UIKit
 
 class PurposeTableViewCell: UITableViewCell {
-
     
     @IBOutlet weak var purposeLabel: UILabel!
     
@@ -17,11 +16,10 @@ class PurposeTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-
 }

@@ -10,70 +10,57 @@ import Foundation
 import CoreLocation
 import Firebase
 
-
 class LocationController: NSObject, CLLocationManagerDelegate {
     
     static let sharedInstance = LocationController()
-
+    
     var currentLocation: CLLocation?
-    
-    var locationManager:CLLocationManager!
-    
-    var hasPerson : Bool
-    
-    var hasLocation : Bool
-    
-//    var currentlyRefreshing : Bool = false
+    var locationManager: CLLocationManager!
+    var hasPerson : Bool = false
+    var hasLocation : Bool = false
     
     override init () {
-        
-        hasPerson = false
-        hasLocation = false
         super.init()
-        registerForNotifications()
         
+        registerForNotifications()
     }
     
     func sendLocationToFirebase() {
         
         if hasPerson == true && hasLocation == true {
             
-        FirebaseNetworkController.sharedInstance.currentPerson!.lastLocation = currentLocation
-        FirebaseNetworkController.sharedInstance.currentPerson!.timeAtLastLocation = currentLocation!.timestamp
+            FirebaseNetworkController.sharedInstance.currentPerson!.lastLocation = currentLocation
+            FirebaseNetworkController.sharedInstance.currentPerson!.timeAtLastLocation = currentLocation!.timestamp
             
-        let person = FirebaseNetworkController.sharedInstance.currentPerson!
+            let person = FirebaseNetworkController.sharedInstance.currentPerson!
             
-        let geoFireRef = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl())
-        let geoFire = GeoFire(firebaseRef: geoFireRef)
+            //maybe would be nice to put an extension path here for geofire locations
+            let geoFireRef = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl())
+            let geoFire = GeoFire(firebaseRef: geoFireRef)
             
             geoFire.setLocation(currentLocation, forKey: person.uid)
             
-            print("person has been sent to firebase: person: \(person)")
+            // maybe we should save the user's own location to firebase in this method, otherwise it's only saving/updating when they save their profile
             
             hasLocation = false
-        
         }
     }
     
     func personArrived() {
-       
+        
         hasPerson = true
-        
         sendLocationToFirebase()
-        
     }
     
     func locationArrived() {
         
         hasLocation = true
-        
         sendLocationToFirebase()
     }
     
     func registerForNotifications() {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "personArrived", name: "userExistsNotification", object: nil)
-        
     }
     
     //MARK: get location method
@@ -83,37 +70,30 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         if CLLocationManager.locationServicesEnabled() {
             
             locationManager = CLLocationManager()
+            //present alert explaining why we need location
             locationManager.requestWhenInUseAuthorization()
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.delegate = self
             locationManager.requestLocation()
             
         } else {
-            
             //alert or something that 'location services are unavailable' or whatever we want to say/do
-            print("location services are unavailable, or whatever")
+            print("location services are unavailable")
         }
     }
     
-//MARK: - CLLocationManagerDelegate Methods
+    //MARK: - CLLocationManagerDelegate Methods
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         currentLocation = locations[locations.count - 1]
         
-        print("locations are: \(locations)")
-        
-        locationArrived()
-        
         if let currentUserLocation = currentLocation {
-        
-        getUIDsOfUsersAtNearbyLocation(currentUserLocation)
             
+            getUIDsOfUsersAtNearbyLocation(currentUserLocation)
         }
-        
+        locationArrived()
     }
-    
-    
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         
@@ -121,69 +101,40 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         print("unable to get location error: \(error.localizedDescription)")
     }
     
-    
-//MARK: - query locations of Nearby Users
+    //MARK: - query locations of Nearby Users
     
     func getUIDsOfUsersAtNearbyLocation(currentLocation : CLLocation) {
         
-//        currentlyRefreshing = true
+        let fireRef = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl())
+        let geoFireRef = GeoFire(firebaseRef: fireRef)
         
-        let geoFireRef = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl())
-        let geoFire = GeoFire(firebaseRef: geoFireRef)
+        let circleQuery = geoFireRef.queryAtLocation(currentLocation, withRadius: 0.05)
         
-        let center = currentLocation;
-        let circleQuery = geoFire.queryAtLocation(center, withRadius: 0.6)
-        let currentUserQuery = geoFire.queryAtLocation(center, withRadius: 500000)
-        
-//        circleQuery.observeReadyWithBlock { () -> Void in
-//            
-//           currentlyRefreshing = false
-//            
-//        }
+        circleQuery.observeReadyWithBlock { () -> Void in
+            
+            //Notification fires when main batch of users nearby comes back from query
+            NSNotificationCenter.defaultCenter().postNotificationName("usersNearbyQueryFinishedNotification", object: nil)
+        }
         
         circleQuery.observeEventType(GFEventTypeKeyEntered, withBlock: { (key: String!, location: CLLocation!) in
             
-            print("Key '\(key)' entered the search area and is at location '\(location)'")
-            
-            
             FirebaseNetworkController.sharedInstance.addPersonWithUIDAndLocationToPeopleNearby(key, location: location, locationOfCurrentUser: currentLocation)
-            
-           
         })
         
         circleQuery.observeEventType(GFEventTypeKeyExited, withBlock: { (key: String!, location: CLLocation!) in
             
             FirebaseNetworkController.sharedInstance.removePersonWithUIDFromPeopleNearby(key)
             
-        })
-        
-        
-        if let currentPerson = FirebaseNetworkController.sharedInstance.currentPerson {
-            
-            currentUserQuery.observeEventType(GFEventTypeKeyMoved, withBlock: { (key: String!, location:CLLocation!) in
-                
+            // should this be in its own method?
+            // next three lines, gets user's location again if they've moved out of the area
+            if let currentPerson = FirebaseNetworkController.sharedInstance.currentPerson {
+
                 if key == currentPerson.uid {
-                    
-                    if let lastLocation = currentPerson.lastLocation {
-                        
-                        if location.distanceFromLocation(lastLocation) > 400 {
-                            
-                            self.getLocation()
-                            
-                        }
-                        
-                    }
+                    self.getLocation()
                 }
-                
-            })
-            
-        }
-        
-        //make sure that both are happening and not overriding each other
-        
-       
-        
+            }
+        })
     }
     
-    
 }
+

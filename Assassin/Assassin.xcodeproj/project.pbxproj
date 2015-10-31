@@ -12,7 +12,6 @@
 		2C3E7F051BA7733300EEC113 /* PersonListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7EFF1BA7733300EEC113 /* PersonListViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		2C3E7F061BA7733300EEC113 /* PersonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7F001BA7733300EEC113 /* PersonTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		2C3E7F071BA7733300EEC113 /* RegisterUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7F011BA7733300EEC113 /* RegisterUserViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		2C3E7F081BA7733300EEC113 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7F021BA7733300EEC113 /* SettingsViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		2C3E7F0B1BA7790600EEC113 /* PersonDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E7F0A1BA7790600EEC113 /* PersonDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		761F04C11BBA1390003F6DA4 /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761F04BA1BBA1390003F6DA4 /* TPKeyboardAvoidingCollectionView.m */; settings = {ASSET_TAGS = (); }; };
 		761F04C21BBA1390003F6DA4 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761F04BC1BBA1390003F6DA4 /* TPKeyboardAvoidingScrollView.m */; settings = {ASSET_TAGS = (); }; };
@@ -35,7 +34,6 @@
 		8C6444C71BB1FE12004AE95D /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6444C61BB1FE12004AE95D /* MainTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		8C6444C91BB1FE1B004AE95D /* PurposeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6444C81BB1FE1B004AE95D /* PurposeTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		8C6444CB1BB1FE23004AE95D /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6444CA1BB1FE23004AE95D /* ContactTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		93C177CF1BBB5AE400443C85 /* StarredUserDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C177CE1BBB5AE400443C85 /* StarredUserDataSource.swift */; settings = {ASSET_TAGS = (); }; };
 		C25D826A85762A5AEF9D8DBE /* libPods-Assassin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A6D7C956A135243BE7CCB1 /* libPods-Assassin.a */; };
 /* End PBXBuildFile section */
 
@@ -62,7 +60,6 @@
 		2C3E7EFF1BA7733300EEC113 /* PersonListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonListViewController.swift; sourceTree = "<group>"; };
 		2C3E7F001BA7733300EEC113 /* PersonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonTableViewCell.swift; sourceTree = "<group>"; };
 		2C3E7F011BA7733300EEC113 /* RegisterUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterUserViewController.swift; sourceTree = "<group>"; };
-		2C3E7F021BA7733300EEC113 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2C3E7F0A1BA7790600EEC113 /* PersonDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailViewController.swift; sourceTree = "<group>"; };
 		5B9980DEC71A816C7FEB2BD3 /* Pods-Assassin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assassin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Assassin/Pods-Assassin.debug.xcconfig"; sourceTree = "<group>"; };
 		761F04B81BBA138F003F6DA4 /* Assassin-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Assassin-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -98,7 +95,6 @@
 		8C6444C81BB1FE1B004AE95D /* PurposeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurposeTableViewCell.swift; sourceTree = "<group>"; };
 		8C6444CA1BB1FE23004AE95D /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		8C99C3151BB09E39002FA83F /* Assassin-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Assassin-Bridging-Header.h"; sourceTree = "<group>"; };
-		93C177CE1BBB5AE400443C85 /* StarredUserDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StarredUserDataSource.swift; path = ../StarredUserDataSource.swift; sourceTree = "<group>"; };
 		9FC6555B544C2CADE5999B6D /* Pods-Assassin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assassin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Assassin/Pods-Assassin.release.xcconfig"; sourceTree = "<group>"; };
 		A9A6D7C956A135243BE7CCB1 /* libPods-Assassin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Assassin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -232,7 +228,6 @@
 			isa = PBXGroup;
 			children = (
 				2C3E7EFF1BA7733300EEC113 /* PersonListViewController.swift */,
-				93C177CE1BBB5AE400443C85 /* StarredUserDataSource.swift */,
 				2C3E7F001BA7733300EEC113 /* PersonTableViewCell.swift */,
 				767415A11BBC662900FC688E /* RefreshFooterView.swift */,
 			);
@@ -250,14 +245,6 @@
 			name = "Person Detail / Profile View Controller";
 			sourceTree = "<group>";
 		};
-		8C53247B1BA8CACA001F4486 /* Settings View Controller */ = {
-			isa = PBXGroup;
-			children = (
-				2C3E7F021BA7733300EEC113 /* SettingsViewController.swift */,
-			);
-			name = "Settings View Controller";
-			sourceTree = "<group>";
-		};
 		8C53247C1BA8CAE2001F4486 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -265,7 +252,6 @@
 				8C5324791BA8CA91001F4486 /* People Nearby List View Controller */,
 				8C53247A1BA8CAB9001F4486 /* Person Detail / Profile View Controller */,
 				8C62F46A1BB3094E0005F95D /* Edit Profile View Controller */,
-				8C53247B1BA8CACA001F4486 /* Settings View Controller */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -369,7 +355,7 @@
 				TargetAttributes = {
 					8C2D08FE1BA72FAE00155E77 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = 6LV4CR67Q9;
+						DevelopmentTeam = Y7NU24T95U;
 					};
 					8C2D09121BA72FAF00155E77 = {
 						CreatedOnToolsVersion = 7.0;
@@ -471,13 +457,11 @@
 				761F04C11BBA1390003F6DA4 /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				767415A21BBC662900FC688E /* RefreshFooterView.swift in Sources */,
 				8C6444C71BB1FE12004AE95D /* MainTableViewCell.swift in Sources */,
-				93C177CF1BBB5AE400443C85 /* StarredUserDataSource.swift in Sources */,
 				2C3E7F061BA7733300EEC113 /* PersonTableViewCell.swift in Sources */,
 				761F04C41BBA1390003F6DA4 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				8C62F4721BB30D290005F95D /* TextFieldTableViewCell.swift in Sources */,
 				8C5324771BA8B477001F4486 /* FirebaseNetworkController.swift in Sources */,
 				2C3E7F041BA7733300EEC113 /* LoginViewController.swift in Sources */,
-				2C3E7F081BA7733300EEC113 /* SettingsViewController.swift in Sources */,
 				761F04C31BBA1390003F6DA4 /* TPKeyboardAvoidingTableView.m in Sources */,
 				8C2D09031BA72FAF00155E77 /* AppDelegate.swift in Sources */,
 				8C5324831BA8D174001F4486 /* Person.swift in Sources */,

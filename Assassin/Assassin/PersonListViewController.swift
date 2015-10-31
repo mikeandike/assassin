@@ -11,57 +11,62 @@ import UIKit
 class PersonListViewController: UIViewController, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var refreshFooterLabel: UILabel!
     @IBOutlet weak var segControl: UISegmentedControl!
     
-    var peopleNearbyStaticCopy : [Person] = []
-    
     let refreshUsersNearbyControl = UIRefreshControl.init()
-
     let personCellID = "personCellID"
+    var peopleNearbyStaticCopy : [Person] = []
+    var showingStarredUsersOnly = false
     
-    var showingStarredUsersOnly : Bool = false
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sizeTabBar()
-        
+        sizeSegControl()
         setUpRefreshControl()
+        peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
         
-            if FirebaseNetworkController.sharedInstance.peopleNearby.count >= 1 {
-                
-            peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
-        
+        if FirebaseNetworkController.sharedInstance.peopleNearby.count >= 1 {
+            
             if let timeAtLastLocation = FirebaseNetworkController.sharedInstance.currentPerson?.timeAtLastLocation {
-        
-            let lastRefreshedString = FirebaseNetworkController.sharedInstance.convertDateIntoString(timeAtLastLocation)
-        
-                refreshFooterLabel.text = "Last refreshed at \(lastRefreshedString)"
-        
-            } else {
-        
-            print("There's not a current user")
-        
-                refreshFooterLabel.text = ""
-        
-            }
-            
-            } else {
-            
-                refreshFooterLabel.text = "No users nearby. Swipe down to refresh"
                 
+                let lastRefreshedString = FirebaseNetworkController.sharedInstance.convertDateIntoString(timeAtLastLocation)
+                
+                refreshFooterLabel.text = "Last refreshed at \(lastRefreshedString)"
+                
+            } else {
+                print("There's not a current user, or no 'time at last location' has been set for user yet.")
+                
+                refreshFooterLabel.text = ""
             }
-        
-        
+            
+        } else {
+            refreshFooterLabel.text = "No users nearby. Swipe down to refresh"
+        }
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.tabBar.hidden = false
+        setStarsForStarredUsers()
+    }
+    
+    func setStarsForStarredUsers(){
+        
+        if let currentUser = FirebaseNetworkController.sharedInstance.currentPerson {
+            
+            for starredUID in currentUser.starredUsersUIDS {
+                
+                let starredPerson = FirebaseNetworkController.sharedInstance.peopleNearby.filter{$0.uid == starredUID}.first
+                
+                if let foundStarredPerson = starredPerson {
+                    
+                    foundStarredPerson.isStarredUser = true
+                }
+            }
+        }
     }
     
     func setUpRefreshControl () {
@@ -70,21 +75,23 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         refreshUsersNearbyControl.tintColor = UIColor.whiteColor()
         refreshUsersNearbyControl.addTarget(self, action: "refreshNearbyUsersTapped", forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshUsersNearbyControl)
-        
     }
     
     func refreshNearbyUsersTapped(){
+        
+        peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
         
         tableView.reloadData()
         
         refreshUsersNearbyControl.endRefreshing()
         
+        let lastRefreshedString = FirebaseNetworkController.sharedInstance.convertDateIntoString(NSDate())
+        refreshFooterLabel.text = "Last refreshed at \(lastRefreshedString)"
     }
     
-    func sizeTabBar() {
+    func sizeSegControl() {
         
-       segControl.frame = CGRectMake(0, self.view.frame.size.height - 100.0, self.view.frame.size.width, 100.0)
-        
+        segControl.frame = CGRectMake(0, self.view.frame.size.height - 100.0, self.view.frame.size.width, 100.0)
     }
     
     //MARK: tab bar value changed method
@@ -94,79 +101,66 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         if sender.selectedSegmentIndex == 0 {
             
             showingStarredUsersOnly = false
-            
             tableView.tableFooterView?.hidden = false
-           
             tableView.addSubview(refreshUsersNearbyControl)
             tableView.reloadData()
             
         } else {
-            
             showingStarredUsersOnly = true
             refreshUsersNearbyControl.removeFromSuperview()
-            
             tableView.tableFooterView?.hidden = true
-            
             tableView.reloadData()
         }
-        
     }
     
-
-    
-   
-    
+    //MARK: star button tapped method
     
     @IBAction func starButtonTapped(sender: UIButton) {
         
-        let cell = sender.superview!.superview! as! PersonTableViewCell
+        let cell = sender.superview!.superview! as! UITableViewCell  //can't we use tags on buttons or something?
         
-        if cell.isStarred == false {
-            //If star is unstarred, add them to starred users.
-            if let indexPath = tableView.indexPathForCell(cell) {
+        if let cellIndexPath = tableView.indexPathForCell(cell) {
+            
+            var person : Person!
+            
+            if segControl.selectedSegmentIndex == 0 {
                 
-                let starredPerson = peopleNearbyStaticCopy[indexPath.row]
-                FirebaseNetworkController.sharedInstance.starredStrings.append(starredPerson.uid)
-                FirebaseNetworkController.sharedInstance.setStarUser(starredPerson.uid)
-                self.tableView.reloadData()
-            }
-        } else {
-            //Else remove them from starred
-            if let indexPath = tableView.indexPathForCell(cell) {
-      
-            var personAtIndexPath : Person!
-            if showingStarredUsersOnly == true {
-                     personAtIndexPath = FirebaseNetworkController.sharedInstance.starredPeople[indexPath.row]
-                    print(personAtIndexPath.uid)
+                person = peopleNearbyStaticCopy[cellIndexPath.row]
+                
             } else {
-                     personAtIndexPath = peopleNearbyStaticCopy[indexPath.row]
-                print(personAtIndexPath.uid)
-
-                }
+                person = FirebaseNetworkController.sharedInstance.starredPeople[cellIndexPath.row]
                 
-                for var i = 0; i < FirebaseNetworkController.sharedInstance.starredStrings.count; ++i {
-               
-                    if personAtIndexPath.uid == FirebaseNetworkController.sharedInstance.starredStrings[i] as! String{
-                        FirebaseNetworkController.sharedInstance.starredStrings.removeAtIndex(i)
-                        FirebaseNetworkController.sharedInstance.starredPeople.removeAtIndex(i)
-                        FirebaseNetworkController.sharedInstance.updateStarredUsers()
-                    }
+                let nearbyUserToUnstar = peopleNearbyStaticCopy.filter{ $0.uid == person.uid }.first
+                
+                if let foundNearbyUserToUnstar = nearbyUserToUnstar {
+                    
+                    foundNearbyUserToUnstar.isStarredUser = false
                 }
             }
-        
+            
+            
+            if person.isStarredUser == true {
+                
+                person.isStarredUser = false
+                FirebaseNetworkController.sharedInstance.deleteStarredUserWithUID(person.uid)
+                tableView.reloadData()
+                
+            } else {
+                //add that star, yo!
+                person.isStarredUser = true
+                FirebaseNetworkController.sharedInstance.starPersonWithUID(person)
+                tableView.reloadRowsAtIndexPaths([cellIndexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            }
         }
-        self.tableView.reloadData()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    //MARK: tableview delegate methods
-    
     // MARK: - Navigation
-
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "presentDetailViewFromCell" {
@@ -177,11 +171,18 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
                 
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
                 
-        
-                let person = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
+                let person : Person!
                 
-                    destinationVC.person = person
-                    destinationVC.isCurrentUsersProfile = false
+                if segControl.selectedSegmentIndex == 0 {
+                    
+                    person = peopleNearbyStaticCopy[indexPath.row]
+                    
+                } else {
+                    person = FirebaseNetworkController.sharedInstance.starredPeople[indexPath.row]
+                }
+                
+                destinationVC.person = person
+                destinationVC.isCurrentUsersProfile = false
             }
             
         } else if segue.identifier == "presentCurrentUserProfile" {
@@ -192,105 +193,62 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
                 
                 destinationVC.person = person
                 destinationVC.isCurrentUsersProfile = true
-                
             }
-            
         }
-        
     }
-        
 }
 
-
-
 extension PersonListViewController : UITableViewDataSource {
-    
-    
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if showingStarredUsersOnly == false {
-        
-            return FirebaseNetworkController.sharedInstance.peopleNearby.count
+            return peopleNearbyStaticCopy.count
             
         } else {
-        
             return FirebaseNetworkController.sharedInstance.starredPeople.count
-            
         }
     }
-    
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(personCellID, forIndexPath: indexPath) as! PersonTableViewCell
         
-        
         var person : Person!
         
         if showingStarredUsersOnly == false {
             
-            person = FirebaseNetworkController.sharedInstance.peopleNearby[indexPath.row]
+            //use the static copy if we're showing everyone nearby
+            person = peopleNearbyStaticCopy[indexPath.row]
             
         } else {
-            
+            //else show the starred people
             person = FirebaseNetworkController.sharedInstance.starredPeople[indexPath.row]
-            
         }
         
-        
         if let image = person.image {
-            
             cell.userImageView.image = image
-
-        } else {
             
+        } else {
             cell.userImageView.image = UIImage(named: "blankProfileGray")
         }
         
-       if  let starrStrings = (FirebaseNetworkController.sharedInstance.starredStrings as? [String]) {
-        
-        var isStared = Bool(false)
-        for var i = 0; i < FirebaseNetworkController.sharedInstance.starredStrings.count; ++i {
-                if(person.uid == starrStrings[i] ) {
-                    isStared = true;
-                   
-                }
-            }
-        if (isStared == true) {
-            cell.starButton.imageView?.image = UIImage(named: "starred")
-            cell.isStarred = true;
+        if person.isStarredUser == true {
+            cell.starButton.setBackgroundImage(UIImage(named:"starred"), forState: .Normal)
+            
         } else {
-            cell.starButton.imageView?.image = UIImage(named: "unstarred")
-            cell.isStarred = false;
-        }
+            cell.starButton.setBackgroundImage(UIImage(named: "unstarred"), forState: .Normal)
         }
         
         cell.nameLabel.text = person.firstName + " " + person.lastName
         cell.nameLabel.font = AppearenceController.bigText
-    
         cell.companyLabel.text = person.company
         cell.companyLabel.font = AppearenceController.mediumBigText
         cell.jobTitleLabel.text = person.jobTitle
         cell.jobTitleLabel.font = AppearenceController.mediumSmallText
-        
         
         return cell
     }
     
 }
 
-//extension PersonListViewController : UITabBarControllerDelegate {
-//    
-//    @objc func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
-//        
-//////        var navController = viewController as! UINavigationController;
-//////            navController.
-//////        }
-//////        
-//////        if viewController.isKindOfClass(UINavigationController) {
-////            self.tableView.reloadData()
-//////        }
-//////    }
-//    
-//}
