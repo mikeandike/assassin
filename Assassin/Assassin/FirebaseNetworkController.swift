@@ -112,23 +112,30 @@ class FirebaseNetworkController: NSObject {
                 
                 person.lastLocation = location
                 
-                let repeatPerson = self.peopleNearby.filter{ $0.uid == uid }.first
+                let existingPerson = self.peopleNearby.filter{ $0.uid == uid }.first
                 
-                //If the person to add doesn't already exist in the people nearby array
+                //If the person to add already exists in the people nearby array, update them
                 
-                if repeatPerson != nil {
-                    return
-                }
-                
-                //if the person nearby is the current user
-                
-                if let currentUser = self.currentPerson {
+                if let confirmedExistingPerson = existingPerson {
                     
-                    if currentUser.uid == uid {
-                        return
+                    if let index = self.peopleNearby.indexOf(confirmedExistingPerson) {
+                        
+                        self.peopleNearby[index] = person
                     }
+                } else {
+                    
+                    //if the person nearby is the current user
+                    
+                    if let currentUser = self.currentPerson {
+                        
+                        if currentUser.uid == uid {
+                            return
+                        }
+                    }
+                    //otherwise, add them
+                    
+                    self.peopleNearby.append(person)
                 }
-                self.peopleNearby.append(person)
             }
         });
     }
@@ -335,6 +342,8 @@ class FirebaseNetworkController: NSObject {
                 
                 if let currentUser = self.currentPerson {
                     
+                    currentUser.starredUsersUIDS = []
+                    
                     if let starredUserDictAllKeys = starredUserDictionary.allKeys {
                         
                         for key in starredUserDictAllKeys {
@@ -369,12 +378,14 @@ class FirebaseNetworkController: NSObject {
     
     func getStarredUserWithUidFromFirebase (uid : String) {
         
-        //check to prevent duplicates
-        let existingStarredUser = starredPeople.filter{$0.uid == uid}.first
-        
-        if existingStarredUser != nil {
-            return
-        }
+        //we realy shouldn't need this here:
+//        //check to prevent duplicates
+//        let existingStarredUser = starredPeople.filter{$0.uid == uid}.first
+//        
+//        if existingStarredUser != nil {
+//            //***replace old with new***
+//            return
+//        }
         
         let userRef = getUsersRef()
         
@@ -386,7 +397,19 @@ class FirebaseNetworkController: NSObject {
                 
                 person.isStarredUser = true
                 
-                self.starredPeople.append(person)
+                //If the person to add doesn't already exist in the people nearby array
+                let existingPerson = self.starredPeople.filter{ $0.uid == uid }.first
+                
+                if let confirmedExistingPerson = existingPerson {
+                    
+                    if let index = self.starredPeople.indexOf(confirmedExistingPerson) {
+                        
+                        self.starredPeople[index] = person
+                    }
+                } else {
+                    
+                    self.starredPeople.append(person)
+                }
             }
         })
     }

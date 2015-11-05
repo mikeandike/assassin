@@ -130,6 +130,7 @@ class LocationController: NSObject, CLLocationManagerDelegate {
             if let currentPerson = FirebaseNetworkController.sharedInstance.currentPerson {
 
                 if key == currentPerson.uid {
+                    FirebaseNetworkController.sharedInstance.peopleNearby = []
                     self.getLocation()
                 }
             }

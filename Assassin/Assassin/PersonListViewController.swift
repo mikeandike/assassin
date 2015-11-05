@@ -79,6 +79,7 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
     
     func refreshNearbyUsersTapped(){
         
+        setStarsForStarredUsers()
         peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
         
         tableView.reloadData()
