@@ -120,6 +120,8 @@ class FirebaseNetworkController: NSObject {
                     
                     if let index = self.peopleNearby.indexOf(confirmedExistingPerson) {
                         
+                        person.isStarredUser = confirmedExistingPerson.isStarredUser
+                        
                         self.peopleNearby[index] = person
                     }
                 } else {
