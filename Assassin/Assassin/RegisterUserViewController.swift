@@ -36,6 +36,8 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.delegate = self
         confirmPasswordTextField.delegate = self
         warningLabel.text = ""
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentLocationUnavailableAlert", name: "locationUnavailable", object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -45,6 +47,21 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
             
             navController.navigationBarHidden = false
         }
+    }
+    
+    func presentLocationUnavailableAlert(notification: NSNotification) {
+        
+        var message = ""
+        if let messageString = notification.object as? String {
+            message = messageString
+        } else {
+            message = "error with location services"
+        }
+        
+        let locationServicesAlert = UIAlertController(title: "Attention:", message: message, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        locationServicesAlert.addAction(okAction)
+        presentViewController(locationServicesAlert, animated: true, completion: nil)
     }
     
     //MARK: textfield delegate - textfield checking methods

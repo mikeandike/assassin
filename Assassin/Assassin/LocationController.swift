@@ -29,18 +29,16 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         
         if hasPerson == true && hasLocation == true {
             
-            FirebaseNetworkController.sharedInstance.currentPerson!.lastLocation = currentLocation
-            FirebaseNetworkController.sharedInstance.currentPerson!.timeAtLastLocation = currentLocation!.timestamp
+            guard let location = currentLocation else { print("something went horribly wrong"); return }
+            FirebaseNetworkController.sharedInstance.currentPerson!.lastLocation = location
+            FirebaseNetworkController.sharedInstance.currentPerson!.timeAtLastLocation = location.timestamp
             
             let person = FirebaseNetworkController.sharedInstance.currentPerson!
-            
-            //maybe would be nice to put an extension path here for geofire locations
-            let geoFireRef = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl())
-            let geoFire = GeoFire(firebaseRef: geoFireRef)
+            let geoFire = FirebaseNetworkController.sharedInstance.geoFire()
             
             geoFire.setLocation(currentLocation, forKey: person.uid)
-            
-            // maybe we should save the user's own location to firebase in this method, otherwise it's only saving/updating when they save their profile
+            let locationDict = FirebaseNetworkController.sharedInstance.saveLocationIntoDictionary(location)
+            FirebaseNetworkController.sharedInstance.getUsersRef().childByAppendingPath(person.uid).childByAppendingPath("lastLocation").setValue(locationDict)
             
             hasLocation = false
         }
@@ -70,15 +68,13 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         if CLLocationManager.locationServicesEnabled() {
             
             locationManager = CLLocationManager()
-            //present alert explaining why we need location
             locationManager.requestWhenInUseAuthorization()
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.delegate = self
             locationManager.requestLocation()
             
         } else {
-            //alert or something that 'location services are unavailable' or whatever we want to say/do
-            print("location services are unavailable")
+            NSNotificationCenter.defaultCenter().postNotificationName("locationUnavailable", object: "Your device's location services are not turned on,\ror are otherwise unavailable.")
         }
     }
     
@@ -97,8 +93,7 @@ class LocationController: NSObject, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         
-        //message to user about 'unable to get location'
-        print("unable to get location error: \(error.localizedDescription)")
+        NSNotificationCenter.defaultCenter().postNotificationName("locationUnavailable", object: "unable to get location error: \(error.localizedDescription)")
     }
     
     //MARK: - query locations of Nearby Users
@@ -118,6 +113,8 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         
         circleQuery.observeEventType(GFEventTypeKeyEntered, withBlock: { (key: String!, location: CLLocation!) in
             
+            // *** here is where we filter for time??? ***
+            
             FirebaseNetworkController.sharedInstance.addPersonWithUIDAndLocationToPeopleNearby(key, location: location, locationOfCurrentUser: currentLocation)
         })
         
@@ -125,7 +122,6 @@ class LocationController: NSObject, CLLocationManagerDelegate {
             
             FirebaseNetworkController.sharedInstance.removePersonWithUIDFromPeopleNearby(key)
             
-            // should this be in its own method?
             // next three lines, gets user's location again if they've moved out of the area
             if let currentPerson = FirebaseNetworkController.sharedInstance.currentPerson {
 

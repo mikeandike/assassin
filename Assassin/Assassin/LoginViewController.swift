@@ -31,13 +31,25 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "starredUsersArrived", name: "starredUsersExistNotification", object: nil)
         
-        loadLoginFromDefaults()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentLocationUnavailableAlert", name: "locationUnavailable", object: nil)
+        
+        loadLogin()
         
         // Do any additional setup after loading the view.
         
-        //start getting location
-        
-        LocationController.sharedInstance.getLocation()
+        if CLLocationManager.authorizationStatus() == .NotDetermined {
+            
+            let locationServicesExplanationAlert = UIAlertController(title: "Allowing Location Services", message: "IntroScope only works if you enable location services. It does not track or save or share your location. It uses your location to show you other users near you, but it only uses your location while you have the app running. You can change this setting at any time in your device's Settings.", preferredStyle: .Alert)
+            let okAction = UIAlertAction(title: "Next", style: .Default, handler: { (nextAction) -> Void in
+                
+                LocationController.sharedInstance.getLocation()
+            })
+            locationServicesExplanationAlert.addAction(okAction)
+            presentViewController(locationServicesExplanationAlert, animated: true, completion: nil)
+            
+        } else if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse || CLLocationManager.authorizationStatus() == .AuthorizedAlways {
+            LocationController.sharedInstance.getLocation()
+        }
         
         //Appearence related activities
         
@@ -57,6 +69,21 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             
             navController.navigationBarHidden = true
         }
+    }
+    
+    func presentLocationUnavailableAlert(notification: NSNotification) {
+        
+        var message = ""
+        if let messageString = notification.object as? String {
+            message = messageString
+        } else {
+            message = "error with location services"
+        }
+        
+        let locationServicesAlert = UIAlertController(title: "Attention:", message: message, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        locationServicesAlert.addAction(okAction)
+        presentViewController(locationServicesAlert, animated: true, completion: nil)
     }
     
     //MARK: textfield delegate - textfield checking methods
@@ -130,7 +157,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func loginButtonTapped(sender: AnyObject) {
         
-        saveLoginToDefaults()
+        saveLogin()
         loginButton.enabled = false
         
         if let emailString = emailTextField.text, passwordString = passwordTextField.text {
@@ -207,37 +234,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     //MARK: remember credentials - NSUserDefaults methods
     
-    func saveLoginToDefaults() {
+    func saveLogin() {
         
-        var loginArray = [String]()
-        
-        if let emailToSave = emailTextField.text {
-            
-            loginArray.insert(emailToSave, atIndex: 0)
-            
-        } else {
-            loginArray.insert("", atIndex: 0)
-        }
-        
-        if let passwordToSave = passwordTextField.text {
-            
-            loginArray.insert(passwordToSave, atIndex: 1)
-            
-        } else {
-            loginArray.insert("", atIndex: 1)
-        }
-        
-        NSUserDefaults.standardUserDefaults().setObject(loginArray, forKey: "savedLogin")
-        NSUserDefaults.standardUserDefaults().synchronize()
+        FirebaseNetworkController.sharedInstance.saveLoginToUserDefaults(emailTextField.text, password: passwordTextField.text)
     }
     
-    func loadLoginFromDefaults() {
+    func loadLogin() {
         
-        if let loginArray = NSUserDefaults.standardUserDefaults().stringArrayForKey("savedLogin") {
-            
+        let loginArray = FirebaseNetworkController.sharedInstance.fetchLoginFromUserDefaults()
             emailTextField.text = loginArray[0]
             passwordTextField.text = loginArray[1]
-        }
     }
     
     //MARK: memory warning method

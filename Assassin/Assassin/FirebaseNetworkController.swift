@@ -34,6 +34,12 @@ class FirebaseNetworkController: NSObject {
         return usersRef
     }
     
+    func geoFire() -> GeoFire {
+        
+        let geoFireRef = Firebase(url: getBaseUrl())
+        return GeoFire(firebaseRef: geoFireRef)
+    }
+    
     //MARK: method to create new user
     
     func createPerson(emailString : String, passwordString: String, firstNameString: String, lastNameString: String, uid: String){
@@ -55,9 +61,8 @@ class FirebaseNetworkController: NSObject {
         
         let usersRef = getUsersRef()
         usersRef.authUser(email, password: password) { (error, authData) -> Void in
-            // TODO: change to if (error) ??
+            
             if (error != nil) {
-                
                 print(error.localizedDescription)
                 completion(false)
                 
@@ -96,6 +101,50 @@ class FirebaseNetworkController: NSObject {
         }
     }
     
+    func updateFirebaseLoginEmail(oldEmail: String, newEmail: String, completion: (Bool) -> ()) {
+        
+        guard let currentUser = currentPerson else { completion(false); return }
+        getUsersRef().changeEmailForUser(oldEmail, password: currentUser.password, toNewEmail: newEmail) { (error) -> Void in
+            if error != nil {
+                print(error.description)
+                completion(false)
+            } else {
+                completion(true)
+            }
+        }
+    }
+    
+    func saveLoginToUserDefaults(email: String?, password: String?) {
+        
+        var loginArray: [String] = []
+        
+        if let emailToSave = email {
+            loginArray.insert(emailToSave, atIndex: 0)
+            
+        } else {
+            loginArray.insert("", atIndex: 0)
+        }
+        
+        if let passwordToSave = password {
+            loginArray.insert(passwordToSave, atIndex: 1)
+            
+        } else {
+            loginArray.insert("", atIndex: 1)
+        }
+        
+        NSUserDefaults.standardUserDefaults().setObject(loginArray, forKey: "savedLogin")
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    func fetchLoginFromUserDefaults() -> [String] {
+        
+        if let loginArray = NSUserDefaults.standardUserDefaults().stringArrayForKey("savedLogin") {
+            return loginArray
+        } else {
+            return []
+        }
+    }
+    
     //MARK: Add nearby user to array of people nearby
     
     func addPersonWithUIDAndLocationToPeopleNearby(uid : String, location: CLLocation, locationOfCurrentUser: CLLocation) {
@@ -105,7 +154,7 @@ class FirebaseNetworkController: NSObject {
         
         userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
             
-            // we get an error here because we sometimes (i think) still go into this even if the snapshot.value is null
+            //*** we get an error here because we sometimes (i think) still go into this even if the snapshot.value is null???
             if let personDictionary = snapshot.value {
                 
                 let person = Person.init(dictionary: personDictionary as! [String : AnyObject])

@@ -118,7 +118,8 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
     
     @IBAction func starButtonTapped(sender: UIButton) {
         
-        let cell = sender.superview!.superview! as! UITableViewCell  //can't we use tags on buttons or something?
+        //TODO: - This really needs to be changed to a delegate
+        let cell = sender.superview!.superview! as! UITableViewCell
         
         if let cellIndexPath = tableView.indexPathForCell(cell) {
             

@@ -143,19 +143,11 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         
-        //???
-        if text.characters.count == 0 {
-            
-            if textView.text.characters.count != 0 {
-                
-                return true
-            }
-            
-        } else if textView.text.characters.count > 140 {
+        // if we're typing, and textview hits its limit...
+        if text.characters.count != 0 && textView.text.characters.count > 140 {
             
             return false
         }
-        
         return true
     }
     
@@ -315,20 +307,34 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
                 
                 let namePhotoCell = cell as! NamePhotoTableViewCell
                 
-                if let firstNameText = namePhotoCell.firstNameTextField.text {
+                if let firstNameText = namePhotoCell.firstNameTextField.text, let lastNameText = namePhotoCell.lastNameTextField.text {
                     
                     //prevents from saving first or last names with 0 or 1 letter:
-                    //should we also have a warning pop up and/or prevent them from leaving the screen?
+                    var nameMessage = ""
+                    var canUpdateName = true
                     
                     if firstNameText.characters.count > 1 {
                         person.firstName = firstNameText
+                    } else {
+                        nameMessage += "first name "
+                        canUpdateName = false
                     }
-                }
-                
-                if let lastNameText = namePhotoCell.lastNameTextField.text {
                     
                     if lastNameText.characters.count > 1 {
                         person.lastName = lastNameText
+                    } else {
+                        nameMessage += "last name "
+                        canUpdateName = false
+                    }
+                    
+                    if canUpdateName == false {
+                        let message = "Changes to " + nameMessage + "will not be saved:\rNames must have more than one letter."
+                        
+                        let fyiAlert = UIAlertController(title: "FYI:", message: message, preferredStyle: .Alert)
+                        let continueAction = UIAlertAction(title: "Continue", style: .Default, handler: nil)
+                        fyiAlert.addAction(continueAction)
+                        
+                        presentViewController(fyiAlert, animated: true, completion: nil)
                     }
                 }
                 
@@ -367,14 +373,43 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
                     if let textFieldText = textFieldCell.infoTextField.text {
                         
                         //only saves email if it passes email test (the one we've been using)
-                        //again, like with names, should we have a warning and/or prevent screen from popping?
                         
                         if textFieldText.characters.count > 5 && textFieldText.containsString("@") && textFieldText.containsString(".") {
-                            person.email = textFieldText
                             
-                            //TODO: - alert that asks if user wants to set this new email as new email login,
-                            //if yes, handle the nsuserdefaults and the change login for firebase
-                            //in no, do nothing
+                            // alert that asks if user wants to set this new email as new email login, also
+                            let emailChangeAlert = UIAlertController(title: "New Email for your profile:", message: "Do you wish to change your LOGIN to this email, also?", preferredStyle: .Alert)
+                            
+                            let bothAction = UIAlertAction(title: "Login also", style: .Destructive, handler: { (loginAction) -> Void in
+                                
+                                FirebaseNetworkController.sharedInstance.updateFirebaseLoginEmail(self.person.email, newEmail: textFieldText, completion: { (updated) -> () in
+                                    if updated {
+                                        FirebaseNetworkController.sharedInstance.saveLoginToUserDefaults(textFieldText, password: self.person.password)
+                                        self.person.email = textFieldText
+                                    } else {
+                                        let emailFailAlert = UIAlertController(title: nil, message: "Changes not made:\rThere was an error updating your email.", preferredStyle: .Alert)
+                                        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                                        emailFailAlert.addAction(okAction)
+                                        self.presentViewController(emailFailAlert, animated: true, completion: nil)
+                                    }
+                                })
+                            })
+                            let profileOnlyAction = UIAlertAction(title: "Profile only", style: .Default, handler: { (profileAction) -> Void in
+                                self.person.email = textFieldText
+                            })
+                            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+                            
+                            emailChangeAlert.addAction(bothAction)
+                            emailChangeAlert.addAction(profileOnlyAction)
+                            emailChangeAlert.addAction(cancelAction)
+                            
+                            presentViewController(emailChangeAlert, animated: true, completion: nil)
+                            
+                        } else {
+                            let emailFYIAlert = UIAlertController(title: "FYI:", message: "Changes to email will not be saved:\rPlease make sure email is correct, and try again.", preferredStyle: .Alert)
+                            let continueAction = UIAlertAction(title: "Continue", style: .Default, handler: nil)
+                            emailFYIAlert.addAction(continueAction)
+                            
+                            presentViewController(emailFYIAlert, animated: true, completion: nil)
                         }
                     }
                 case .EditContactTypeBlank:
