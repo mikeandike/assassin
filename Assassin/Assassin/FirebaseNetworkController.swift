@@ -36,7 +36,7 @@ class FirebaseNetworkController: NSObject {
     
     func geoFire() -> GeoFire {
         
-        let geoFireRef = Firebase(url: getBaseUrl())
+        let geoFireRef = Firebase(url: getBaseUrl()).childByAppendingPath("geofire")
         return GeoFire(firebaseRef: geoFireRef)
     }
     
@@ -85,13 +85,17 @@ class FirebaseNetworkController: NSObject {
                     
                     if let personDictionary = snapshot.value {
                         
+                        let testPerson = self.currentPerson
+                        
                         self.currentPerson = Person.init(dictionary: personDictionary as! [String : AnyObject])
                         
                         NSNotificationCenter.defaultCenter().postNotificationName("userExistsNotification", object: nil)
                         
                         self.loadStarredUsersForCurrentUserWithUID(self.currentPerson!.uid)
                         
-                        completion(true)
+                        if testPerson == nil {
+                            completion(true)
+                        }
                         
                     } else {
                         completion(false)
@@ -154,16 +158,23 @@ class FirebaseNetworkController: NSObject {
         
         userRef.observeEventType(FEventType.Value, withBlock: { (snapshot) -> Void in
             
-            //*** we get an error here because we sometimes (i think) still go into this even if the snapshot.value is null???
+            guard !(snapshot.value is NSNull) else { print("if there is a uid for this location, there should be a person here"); return}
+            
             if let personDictionary = snapshot.value {
                 
                 let person = Person.init(dictionary: personDictionary as! [String : AnyObject])
                 
+                //If the timestamp of the person to add has expired (older than 3 hours), do not add them
+                
+                guard person.timeAtLastLocation?.timeIntervalSinceNow > -10800 else {return}
+                
+                // Synchronize location property and data
+                
                 person.lastLocation = location
                 
-                let existingPerson = self.peopleNearby.filter{ $0.uid == uid }.first
-                
                 //If the person to add already exists in the people nearby array, update them
+                
+                let existingPerson = self.peopleNearby.filter{ $0.uid == uid }.first
                 
                 if let confirmedExistingPerson = existingPerson {
                     
@@ -191,21 +202,21 @@ class FirebaseNetworkController: NSObject {
         });
     }
     
+    //MARK: remove nearby people older than 3 hours method
+    
+    func removeExpiredPeopleFromPeopleNearby() {
+        
+        let peopleNearbyFilteredForTime = self.peopleNearby.filter({$0.timeAtLastLocation?.timeIntervalSinceNow > -10800})
+        self.peopleNearby = peopleNearbyFilteredForTime
+    }
+    
     //MARK: method to remove person from dictionary
     
     func removePersonWithUIDFromPeopleNearby(uid : String) {
         
-        let foundPerson = self.peopleNearby.filter{ $0.uid == uid }.first
+        let peopleNearbyWithoutPerson = self.peopleNearby.filter{ $0.uid != uid }
         
-        if let person = foundPerson {
-            
-            let index = self.peopleNearby.indexOf(person)
-            
-            if let personIndex = index {
-                
-                self.peopleNearby.removeAtIndex(personIndex)
-            }
-        }
+        self.peopleNearby = peopleNearbyWithoutPerson
     }
     
     //MARK: create person Dictionary in Firebase
@@ -308,6 +319,18 @@ class FirebaseNetworkController: NSObject {
             return imageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
         }
         return "no image"
+    }
+    
+    //MARK: update location timestamp method
+    
+    func updateLocationTimestamp() {
+        
+        guard let currentUser = FirebaseNetworkController.sharedInstance.currentPerson else {print("Why don't we have a current user?"); return}
+        let now = NSDate()
+        let timeStamp = now.timeIntervalSince1970
+        
+        currentUser.timeAtLastLocation = now
+        FirebaseNetworkController.sharedInstance.getUsersRef().childByAppendingPath(currentUser.uid).childByAppendingPath("lastLocation/timestamp").setValue(timeStamp)
     }
     
     //MARK: starred user methods

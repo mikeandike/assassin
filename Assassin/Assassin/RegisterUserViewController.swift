@@ -37,7 +37,8 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         confirmPasswordTextField.delegate = self
         warningLabel.text = ""
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentLocationUnavailableAlert", name: "locationUnavailable", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentLocationUnavailableAlert:", name: "locationUnavailable", object: nil)
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -237,6 +238,11 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
     func transitionToNextView() -> Void {
         
         self.performSegueWithIdentifier("presentPeopleFromRegistration", sender: self)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func didReceiveMemoryWarning() {

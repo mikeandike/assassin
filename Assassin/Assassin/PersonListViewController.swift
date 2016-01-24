@@ -25,7 +25,6 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
         
         sizeSegControl()
         setUpRefreshControl()
-        peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
         
         if FirebaseNetworkController.sharedInstance.peopleNearby.count >= 1 {
             
@@ -50,7 +49,11 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        FirebaseNetworkController.sharedInstance.removeExpiredPeopleFromPeopleNearby()
         setStarsForStarredUsers()
+        peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
+        
+        FirebaseNetworkController.sharedInstance.updateLocationTimestamp()
     }
     
     func setStarsForStarredUsers(){
@@ -79,9 +82,11 @@ class PersonListViewController: UIViewController, UITableViewDelegate {
     
     func refreshNearbyUsersTapped(){
         
+        FirebaseNetworkController.sharedInstance.removeExpiredPeopleFromPeopleNearby()
         setStarsForStarredUsers()
         peopleNearbyStaticCopy = FirebaseNetworkController.sharedInstance.peopleNearby
-        
+        FirebaseNetworkController.sharedInstance.updateLocationTimestamp()
+
         tableView.reloadData()
         
         refreshUsersNearbyControl.endRefreshing()

@@ -68,6 +68,8 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
         if let bioString = person.bio {
             bioTextViewHeight = AppearenceController.getHeightOfTextWithFont(bioString, font: UIFont.systemFontOfSize(17), view: self.view)
         }
+        
+        FirebaseNetworkController.sharedInstance.updateLocationTimestamp()
     }
     
     override func didReceiveMemoryWarning() {

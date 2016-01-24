@@ -31,7 +31,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "starredUsersArrived", name: "starredUsersExistNotification", object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentLocationUnavailableAlert", name: "locationUnavailable", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentLocationUnavailableAlert:", name: "locationUnavailable", object: nil)
         
         loadLogin()
         
@@ -73,6 +73,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func presentLocationUnavailableAlert(notification: NSNotification) {
         
+        self.loginAttemptActivityIndicator.stopAnimating()
+
         var message = ""
         if let messageString = notification.object as? String {
             message = messageString

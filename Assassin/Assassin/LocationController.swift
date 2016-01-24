@@ -100,8 +100,7 @@ class LocationController: NSObject, CLLocationManagerDelegate {
     
     func getUIDsOfUsersAtNearbyLocation(currentLocation : CLLocation) {
         
-        let fireRef = Firebase(url: FirebaseNetworkController.sharedInstance.getBaseUrl())
-        let geoFireRef = GeoFire(firebaseRef: fireRef)
+        let geoFireRef = FirebaseNetworkController.sharedInstance.geoFire()
         
         let circleQuery = geoFireRef.queryAtLocation(currentLocation, withRadius: 0.05)
         
@@ -112,8 +111,6 @@ class LocationController: NSObject, CLLocationManagerDelegate {
         }
         
         circleQuery.observeEventType(GFEventTypeKeyEntered, withBlock: { (key: String!, location: CLLocation!) in
-            
-            // *** here is where we filter for time??? ***
             
             FirebaseNetworkController.sharedInstance.addPersonWithUIDAndLocationToPeopleNearby(key, location: location, locationOfCurrentUser: currentLocation)
         })

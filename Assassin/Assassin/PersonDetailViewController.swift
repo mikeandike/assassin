@@ -63,6 +63,7 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
         super.viewWillAppear(animated)
         
         self.profileTableView.reloadData()
+        FirebaseNetworkController.sharedInstance.updateLocationTimestamp()
     }
     
     //MARK: prepare for segue
@@ -82,7 +83,7 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
     
     //MARK: tableview delegate methods
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         switch ProfileInformationTypes(rawValue: indexPath.section)! {
             
@@ -108,6 +109,18 @@ class PersonDetailViewController: UIViewController, UITableViewDelegate {
             
         case .ProfileInformationTypeContactCell:
             
+            return 48
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        switch ProfileInformationTypes(rawValue: indexPath.section)! {
+        case .ProfileInformationTypeMainCell:
+            return 281
+        case .ProfileInformationTypePurposeCell, .ProfileInformationTypeBioCell:
+            return UITableViewAutomaticDimension
+        case .ProfileInformationTypeContactCell:
             return 48
         }
     }
