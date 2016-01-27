@@ -217,6 +217,7 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
         let photoActionSheet = UIAlertController.init(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
         let cameraRollAction = UIAlertAction.init(title: "From Library", style: UIAlertActionStyle.Default) { (action) -> Void in
+            imagePickerController.allowsEditing = true
             imagePickerController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
             self.presentViewController(imagePickerController, animated: true, completion: nil)
         }
@@ -247,6 +248,10 @@ class EditProfileViewController: UIViewController, UITableViewDelegate, UITextVi
         }
         
         photoActionSheet.addAction(takePictureAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        
+        photoActionSheet.addAction(cancelAction)
         
         presentViewController(photoActionSheet, animated: true, completion: nil)
     }

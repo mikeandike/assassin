@@ -18,6 +18,7 @@ class NamePhotoTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        imageButton.imageView?.contentMode = .ScaleAspectFill
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
